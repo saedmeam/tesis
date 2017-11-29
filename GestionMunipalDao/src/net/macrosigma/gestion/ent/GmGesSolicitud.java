@@ -37,7 +37,7 @@ public class GmGesSolicitud extends EntityBase {
 
 	@ManyToOne
 	@JoinColumn(name = "sol_id_tipo_solicitud")
-	private GmSegUsuario solTipoSolicitud;
+	private GmParParametros solTipoSolicitud;
 
 	@OneToMany(mappedBy = "solReqDoc")
 	private List<GmGesSolicitudRequisitoDocumento> solReqDoc;
@@ -66,11 +66,11 @@ public class GmGesSolicitud extends EntityBase {
 		this.solCarrera = solCarrera;
 	}
 
-	public GmSegUsuario getSolTipoSolicitud() {
+	public GmParParametros getSolTipoSolicitud() {
 		return solTipoSolicitud;
 	}
 
-	public void setSolTipoSolicitud(GmSegUsuario solTipoSolicitud) {
+	public void setSolTipoSolicitud(GmParParametros solTipoSolicitud) {
 		this.solTipoSolicitud = solTipoSolicitud;
 	}
 
