@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+	<persistence-unit name="GestionMunipalDao">
+		<non-jta-data-source>java:jboss/municipio</non-jta-data-source>
+		<class>net.macrosigma.gestion.ent.GmGesFoto</class>
+		<class>net.macrosigma.gestion.ent.GmGesPreguntaFrecuente</class>
+		<class>net.macrosigma.gestion.ent.GmGesPreguntasUsuario</class>
+		<class>net.macrosigma.gestion.ent.GmGesSolicitud</class>
+		<class>net.macrosigma.gestion.ent.GmGesSolicitudRequisitoDocumento</class>
+		<class>net.macrosigma.parametro.ent.GmParParametros</class>
+		<class>net.macrosigma.parametro.ent.GmParPolitSeguridadBean</class>
+		<class>net.macrosigma.seguridad.ent.GmSegAcciones</class>
+		<class>net.macrosigma.seguridad.ent.GmSegMenu</class>
+		<class>net.macrosigma.seguridad.ent.GmSegRol</class>
+		<class>net.macrosigma.seguridad.ent.GmSegRolMenu</class>
+		<class>net.macrosigma.seguridad.ent.GmSegRolMenuAccion</class>
+		<class>net.macrosigma.seguridad.ent.GmSegRolUsuario</class>
+		<class>net.macrosigma.seguridad.ent.GmSegUsuario</class>
+		<class>net.macrosigma.util.ent.EntityBase</class>
+		<class>net.macrosigma.util.ent.GmHistorialAcceso</class>
+		<class>net.macrosigma.ws.regciv.GmUsuarioServiciosWs</class>
+		<class>net.macrosigma.ws.regciv.GmWebserviceDato</class>
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+			<property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
+			<property name="hibernate.connection.autocommit" value="true" />
+			<property name="hibernate.transaction.flush_before_completion"
+				value="true" />
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.format_sql" value="false" />
+			<property name="hibernate.use_sql_comments" value="false" />
+			<property name="hibernate.hbm2ddl.auto" value="update" /> 
+		</properties>
+	</persistence-unit>
+</persistence>
