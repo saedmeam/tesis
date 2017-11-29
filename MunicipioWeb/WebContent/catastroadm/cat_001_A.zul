@@ -100,8 +100,8 @@
 										</listcell>
 										<listcell>
 											<a
-												label="@load(each.imagenPath)" image="/img/delete.png"
-												onClick="@command('downloadFile',obj=each)" ">
+												label="@load(each.nombreImagen)"
+												onClick="@command('downloadFile',obj=each)">
 											</a>
 										</listcell>
 									</listitem>
@@ -142,8 +142,12 @@
 
 
 
+
+
 				
 				<![CDATA[ seleccione la carrera ]]>
+				
+				
 				
 				
 				
@@ -190,8 +194,12 @@
 
 
 
+
+
 				
 				<![CDATA[ seleccione la solicitud ]]>
+				
+				
 				
 				
 				

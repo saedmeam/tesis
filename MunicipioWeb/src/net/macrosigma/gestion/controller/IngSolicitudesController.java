@@ -2,13 +2,12 @@ package net.macrosigma.gestion.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.macrosigma.gestion.dao.GeneralUtilsDao;
-import net.macrosigma.gestion.dao.GmGesPreguntaFrecuenteDao;
-import net.macrosigma.gestion.ent.GmGesPreguntaFrecuente;
+import net.macrosigma.gestion.dao.GmGesSolicitudDao;
+import net.macrosigma.gestion.dao.GmGesSolicitudRequisitoDocumentoDao;
 import net.macrosigma.gestion.ent.GmGesSolicitud;
 import net.macrosigma.gestion.ent.GmGesSolicitudRequisitoDocumento;
 import net.macrosigma.parametro.dao.GmParParametroDao;
@@ -31,19 +30,20 @@ import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Combobox;
+import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Listbox;
-import org.zkoss.zul.Textbox;
 
 public class IngSolicitudesController extends BaseController {
 
-	@Wire
-	Textbox txtpreg;
 	String tipop;
+
+	@Wire
+	Combobox cmbdesc, cmbtiposolicitud;
 	@Wire
 	Listbox lbxreqsol;
 
-	GmGesPreguntaFrecuente interes = new GmGesPreguntaFrecuente();
-	GmGesPreguntaFrecuenteDao intDao = new GmGesPreguntaFrecuenteDao();
+	GmGesSolicitudDao intDao = new GmGesSolicitudDao();
 	GmSegUsuario usu = (GmSegUsuario) Sessions.getCurrent().getAttribute(
 			"usuario");
 	List<GmParParametros> listparCarrera = new ArrayList<GmParParametros>();
@@ -123,29 +123,13 @@ public class IngSolicitudesController extends BaseController {
 		this.parSolSel = parSolSel;
 	}
 
-	public GmGesPreguntaFrecuenteDao getIntDao() {
-		return intDao;
-	}
-
-	public void setIntDao(GmGesPreguntaFrecuenteDao intDao) {
-		this.intDao = intDao;
-	}
-
-	public GmGesPreguntaFrecuente getInteres() {
-		return interes;
-	}
-
-	public void setInteres(GmGesPreguntaFrecuente interes) {
-		this.interes = interes;
-	}
-
 	@AfterCompose
 	public void init(@ContextParam(ContextType.VIEW) Component view) {
 		Selectors.wireComponents(view, this, false);
 		tipop = ((String) Sessions.getCurrent().getAttribute("tip_op"));
 		if (tipop == "M") {
-			interes = ((GmGesPreguntaFrecuente) Sessions.getCurrent()
-					.getAttribute("cod_int"));
+			sol = ((GmGesSolicitud) Sessions.getCurrent().getAttribute(
+					"cod_int"));
 		}
 		cargaCombo();
 		BindUtils.postNotifyChange(null, null, IngSolicitudesController.this,
@@ -182,106 +166,132 @@ public class IngSolicitudesController extends BaseController {
 				"listparReqSol");
 	}
 
+	public String concat(String... a) {
+		String returnString = "";
+		for (int i = 0; i < a.length; i++) {
+			returnString = returnString + a[i];
+		}
+		return returnString;
+	}
+
 	@Command
 	public void createUsuario() {
 		// campos para validar los si estan vacio
 
-		if (txtpreg.getValue() == null) {
-			txtpreg.setErrorMessage("campo obligatorio");
+		if (cmbdesc.getValue() == null) {
+			cmbdesc.setErrorMessage("campo obligatorio");
 			return;
 		}
-		interes.setEstado("ACT");
+
+		if (cmbtiposolicitud.getValue() == null) {
+			cmbtiposolicitud.setErrorMessage("campo obligatorio");
+			return;
+		}
+		String reqfal = null;
+		boolean b = false;
+		for (int i = 0; i < listparReqSol.size(); i++) {
+			if (listparReqSol.get(i).getNombreImagen() == null) {
+				reqfal = "Debe Ingresar todos los requisitos, falta. "
+						+ listparReqSol.get(i).getSolReqTipSol().getParDes();
+				b = true;
+				break;
+
+			}
+		}
+		if (b) {
+			Messagebox.show(reqfal);
+			return;
+		}
+		sol.setEstado("ACT");
 		if (tipop == "M")
-			intDao.actualizar(interes);
+			intDao.actualizar(sol);
 		else
-			intDao.crear(interes);
+			intDao.crear(sol);
+		for (int i = 0; i < listparReqSol.size(); i++) {
+			listparReqSol.get(i).setSolReqDoc(sol);
+			GmGesSolicitudRequisitoDocumentoDao reqSolDao = new GmGesSolicitudRequisitoDocumentoDao();
+			reqSolDao.crear(listparReqSol.get(i));
+		}
 		limpiar();
-		Messagebox.show("Pregunta Frecuente Ingresada");
+		Messagebox.show("Solicitud Ingresada");
+
+		BindUtils.postNotifyChange(null, null, IngSolicitudesController.this,
+				"sol");
+
+		BindUtils.postNotifyChange(null, null, IngSolicitudesController.this,
+				"listparReqSol");
 
 	}
 
 	public void limpiar() {
-		interes = new GmGesPreguntaFrecuente();
-		txtpreg.setValue("");
+		listparReqSol = new ArrayList<>();
+		sol = new GmGesSolicitud();
+		BindUtils.postNotifyChange(null, null, IngSolicitudesController.this,
+				"sol");
 
+		BindUtils.postNotifyChange(null, null, IngSolicitudesController.this,
+				"listparReqSol");
 	}
 
 	@Command
-	public void downloadFile(@BindingParam("obj") GmGesSolicitudRequisitoDocumento parSel){
-//		try {
-//			File file = new File(parSel.getCarpeta()+ parSel.getNombreImagen());
-//			URLConnection conn = new URL(url).openConnection();
-//			conn.connect();
-//			System.out.println("\nempezando descarga: \n");
-//			System.out.println(">> URL: " + url);
-//			System.out.println(">> Nombre: " + name);
-//			System.out.println(">> tamaño: " + conn.getContentLength() + " bytes");
-//			
-//			InputStream in = conn.getInputStream();
-//			OutputStream out = new FileOutputStream(file);
-//			Mediante un bucle vamos leyendo del InputStream y vamos escribiendo en el OutputStream. Vamos leyendo de a un byte por vez y los escribe en un archivo. El -1 significa que se llego al final.
-//
-//			int b = 0;
-//			while (b != -1) {
-//			  b = in.read();
-//			  if (b != -1)
-//			    out.write(b);
-//			}
-//			
-//			out.close();
-//			in.close();
-//
-//		 ...
-//		} catch (MalformedURLException e) {
-//		  System.out.println("la url: " + url + " no es valida!");
-//		} catch (IOException e) {
-//		  e.printStackTrace();
-//		}
+	public void downloadFile(
+			@BindingParam("obj") GmGesSolicitudRequisitoDocumento parSel) {
+		File archivo = new File(parSel.getImagenPath());
+		try {
+			Filedownload.save(archivo, null);
+		} catch (Exception e) {
+			Messagebox.show("Error descargando archivo "
+					+ parSel.getImagenPath());
+			e.printStackTrace();
+		}
 	}
-//	asd
 
 	@Command
 	public void uploadFile(
 			@ContextParam(ContextType.TRIGGER_EVENT) UploadEvent event,
 			@BindingParam("obj") GmGesSolicitudRequisitoDocumento parSel) {
-		media = event.getMedia();
-		media.getStreamData();
-		try {
+		if (parCarreraSel.getPar_id() != null) {
+			media = event.getMedia();
+			media.getStreamData();
+			try {
 
-			parSel.setImagen(IOUtils.toByteArray(media.getStreamData()));
-			String pathProyecto = RutaFileEnum.RUTA_PROYECTO_DEPLOYED
-					.getDescripcion();
-			// String pathImagenTemp = RutaFileEnum.RUTA_IMAGEN_TEMPORAL
-			// .getDescripcion();
-			imgdao.creaRuta(parSel.getSolReqTipSol().getPar_id(), pathProyecto
-					+ File.separatorChar);
-			String ruta = imgdao.guardaImagenTemporal(parSel.getImagen(),
-					pathProyecto, parSel.getSolReqTipSol().getPar_id(),
-					media.getName());
-			cont++;
-			parSel.setNombreImagen(media.getName());
-			// this.fot = fot;
-			parSel.setCarpeta(ruta);
-			parSel.setImagenPath(ruta + "/" + media.getName());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		// if (listFot != null) {
-		// for (int i = 0; i < listFot.size(); i++) {
-		// listFotClon.add(listFot.get(i));
-		// listFot.remove(0);
-		// }
-		// }
-		// listFot.add(fot);
-		for (int i = 0; i < listparReqSol.size(); i++) {
-			if (parSel.getSolReqTipSol() == listparReqSol.get(i)
-					.getSolReqTipSol()) {
-				listparReqSol.set(i, parSel);
+				parSel.setImagen(IOUtils.toByteArray(media.getStreamData()));
+				String pathProyecto = RutaFileEnum.RUTA_PROYECTO_DEPLOYED
+						.getDescripcion();
+				// String pathImagenTemp = RutaFileEnum.RUTA_IMAGEN_TEMPORAL
+				// .getDescripcion();
+
+				String nombre = usu.getUsuario() + parCarreraSel.getPar_id()
+						+ parSolSel.getPar_id()
+						+ parSel.getSolReqTipSol().getPar_id() + "."
+						+ media.getFormat();
+				imgdao.creaRuta(parSel.getSolReqTipSol().getPar_id(),
+						pathProyecto + File.separatorChar);
+				String ruta = imgdao.guardaImagenTemporal(parSel.getImagen(),
+						pathProyecto, parSel.getSolReqTipSol().getPar_id(),
+						nombre);
+				cont++;
+
+				parSel.setNombreImagen(nombre);
+				// this.fot = fot;
+				parSel.setCarpeta(ruta);
+				parSel.setImagenPath(ruta + "/" + nombre);
+
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
+
+			for (int i = 0; i < listparReqSol.size(); i++) {
+				if (parSel.getSolReqTipSol() == listparReqSol.get(i)
+						.getSolReqTipSol()) {
+					listparReqSol.set(i, parSel);
+				}
+			}
+		} else {
+			cmbdesc.setErrorMessage("Debe Seleccionar la Carrera a la que Pertenece el estudiante antes de cargar un documento");
+			return;
 		}
-		// Messagebox.show("Debe Ingresar un código de Ganado");
 		BindUtils.postNotifyChange(null, null, IngSolicitudesController.this,
 				"listparReqSol");
 	}
-
 }
