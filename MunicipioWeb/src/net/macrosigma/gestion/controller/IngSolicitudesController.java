@@ -208,35 +208,35 @@ public class IngSolicitudesController extends BaseController {
 
 	@Command
 	public void downloadFile(@BindingParam("obj") GmGesSolicitudRequisitoDocumento parSel){
-		try {
-			File file = new File(parSel.getCarpeta()+ parSel.getNombreImagen());
-			URLConnection conn = new URL(url).openConnection();
-			conn.connect();
-			System.out.println("\nempezando descarga: \n");
-			System.out.println(">> URL: " + url);
-			System.out.println(">> Nombre: " + name);
-			System.out.println(">> tamaño: " + conn.getContentLength() + " bytes");
-			
-			InputStream in = conn.getInputStream();
-			OutputStream out = new FileOutputStream(file);
-			Mediante un bucle vamos leyendo del InputStream y vamos escribiendo en el OutputStream. Vamos leyendo de a un byte por vez y los escribe en un archivo. El -1 significa que se llego al final.
-
-			int b = 0;
-			while (b != -1) {
-			  b = in.read();
-			  if (b != -1)
-			    out.write(b);
-			}
-			
-			out.close();
-			in.close();
-
-		 ...
-		} catch (MalformedURLException e) {
-		  System.out.println("la url: " + url + " no es valida!");
-		} catch (IOException e) {
-		  e.printStackTrace();
-		}
+//		try {
+//			File file = new File(parSel.getCarpeta()+ parSel.getNombreImagen());
+//			URLConnection conn = new URL(url).openConnection();
+//			conn.connect();
+//			System.out.println("\nempezando descarga: \n");
+//			System.out.println(">> URL: " + url);
+//			System.out.println(">> Nombre: " + name);
+//			System.out.println(">> tamaño: " + conn.getContentLength() + " bytes");
+//			
+//			InputStream in = conn.getInputStream();
+//			OutputStream out = new FileOutputStream(file);
+//			Mediante un bucle vamos leyendo del InputStream y vamos escribiendo en el OutputStream. Vamos leyendo de a un byte por vez y los escribe en un archivo. El -1 significa que se llego al final.
+//
+//			int b = 0;
+//			while (b != -1) {
+//			  b = in.read();
+//			  if (b != -1)
+//			    out.write(b);
+//			}
+//			
+//			out.close();
+//			in.close();
+//
+//		 ...
+//		} catch (MalformedURLException e) {
+//		  System.out.println("la url: " + url + " no es valida!");
+//		} catch (IOException e) {
+//		  e.printStackTrace();
+//		}
 	}
 
 	@Command
