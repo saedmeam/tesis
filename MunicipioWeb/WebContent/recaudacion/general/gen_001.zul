@@ -1,0 +1,67 @@
+<?page title="Catastro" contentType="text/html;charset=UTF-8"?>
+<?init class="net.macrosigma.general.Validador"?>
+<?link href="/css/main.css" rel="stylesheet" type="text/css"?>
+<zk>
+	<window title="Mantenimiento_Cuadrar Caja [gen__001]"
+		border="normal" height="98%" closable="true"
+		apply="org.zkoss.bind.BindComposer" id="winmantcuadrcaj"
+		viewModel="@id('vm') @init('net.macrosigma.recaudacion.controller.MantenimientoCortController')">
+		<toolbar>
+			<toolbarbutton id="tbbnuevo" label="Nuevo"
+				onClick="@command('nuevo')" image="/img/nuevo.png" />
+			<toolbarbutton id="tbbmodificar" label="Modificar"
+				image="/img/edit.png" onClick="@command('modificar')" />
+		</toolbar>
+		<groupbox>
+			<caption label="Criterio Búsqueda" />
+			<grid>
+				<columns>
+					<column width="24%" />
+					<column width="14%" />
+					<column width="24%" />
+				</columns>
+				<rows>
+					<row>
+						<label style="color:black">
+							Tipo de Búsqueda:
+						</label>
+						<bandbox id="txtbusqueda" instant="true"
+							onOpen="@command('listaCor')" />
+
+					</row>
+				</rows>
+			</grid>
+		</groupbox>
+		<separator height="5px"></separator>
+		<!-- paginar  -->
+		<listbox mold="paging" pageSize="5" sclass="tablas"
+			selectedItem="@bind(vm.corselect)" model="@load(vm.listaCor)"
+			emptyMessage="no existen datos" id="lstPaginar">
+
+			<listhead>
+				<listheader label="Cajero" />
+				<listheader label="Inicio Caja" />
+				<listheader label="Venta Mañana" />
+				<listheader label="Venta Tarde" />
+				<listheader label="Total Venta" />
+				<listheader label="Faltante" />
+				<listheader label="Total" />
+				<listheader label="Observacion" width="20%" />
+			</listhead>
+			<template name="model">
+				<listitem>
+					<listcell label="@load(each.corCajero)"></listcell>
+					<listcell label="@load(each.corIntcaj)"></listcell>
+					<listcell label="@load(each.corIntvema)"></listcell>
+					<listcell label="@load(each.corIntveta)"></listcell>
+					<listcell label="@load(each.corIntto)"></listcell>
+					<listcell label="@load(each.corIntfal)"></listcell>
+					<listcell label="@load(each.corInttot)"></listcell>
+					<listcell label="@load(each.cortxtobs)"></listcell>
+				</listitem>
+			</template>
+		</listbox>
+
+
+	</window>
+</zk>

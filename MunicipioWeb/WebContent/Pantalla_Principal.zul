@@ -1,0 +1,266 @@
+<?page title=".:Gestion Municipal:." contentType="text/html;charset=UTF-8"?>
+<?link href="/css/main.css" rel="stylesheet" type="text/css"?>
+<?init class="net.macrosigma.general.Validador"?>
+<?forward uri="/Login.zul" if="${sessionScope.usuario==null}"?>
+<zk xmlns:w="http://www.zkoss.org/2005/zk/client">
+	<div align="center" height="100%">
+		<window width="100%" height="100%" 
+			apply="org.zkoss.bind.BindComposer" id="winPrincipal"
+			viewModel="@id('vm') @init('net.macrosigma.util.controller.PantallaPrincipalController')">
+			<borderlayout>
+				<north border="none">
+					<div>
+						<div>
+							<div>
+								<div class="panel1">
+									<grid>
+										<columns>
+											<column width="20%"></column>
+											<column width="20%"></column>
+											<column width="17%"></column>
+											<column width="1%"></column>
+											<column width="18%"></column>
+											<column width="1%"></column>
+											<column width="12%"></column>
+											<column width="1%"></column>
+											<column width="10%"></column>
+										</columns>
+										<rows>
+											<row>
+												<cell>
+													<image
+														src="img/logo_macrosigma.png" top="10px">
+													</image>
+												</cell>
+												<cell></cell>
+												<cell align="center">
+													<image
+														src="img/logo_del_sistema.png">
+													</image>
+												</cell>
+												<cell>
+													<image
+														src="img/fondo4.png" height="40px">
+													</image>
+												</cell>
+												<cell align="center">
+													<div
+														sclass="welcome">
+
+														<image
+															src="img/personal.png" sclass="home-user-icon"
+															height="20px">
+														</image>
+														<label
+															value="BIENVENIDO: ${vm.usu.usuUsuario}"
+															style="font-weight: bold;">
+														</label>
+													</div>
+												</cell>
+												<cell>
+													<image
+														src="img/fondo4.png" height="40px">
+													</image>
+												</cell>
+												<cell align="center">
+													<div
+														sclass="nav-collapse menu-top">
+														<div
+															align="center">
+															<a
+																onClick="@command('cambioClave')"
+																image="img/cambio_clave.png" label=" CAMBIO DE CLAVE"
+																style="color: black">
+															</a>
+														</div>
+													</div>
+												</cell>
+												<cell>
+													<image
+														src="img/fondo4.png" height="40px">
+													</image>
+												</cell>
+												<cell align="center">
+													<div
+														sclass="nav-collapse menu-top">
+														<a
+															onClick="@command('doLogoff')" image="img/logout.png"
+															label=" CERRAR SESIÓN" style="color: black">
+														</a>
+													</div>
+												</cell>
+											</row>
+										</rows>
+									</grid>
+								</div>
+								<div class="panel2">
+									<div class="menu_princ">
+										<label id="lbNombreModulo"
+											style="font-weight: bold;" value="MENU PRINCIPAL">
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</north>
+				<center border="none" autoscroll="true">
+					<div width="100%">
+						<separator height="30px"></separator>
+						<grid>
+							<columns>
+								<column width="20%"></column>
+								<column width="20%"></column>
+								<column width="20%"></column>
+								<column width="20%"></column>
+								<column width="20%"></column>
+							</columns>
+							<rows id="rowsMenu">
+								<!-- <row>
+									<cell align="center"
+										class="sobremenu" height="250px">
+										<button id="aMenu1" class="menu"
+											tooltiptext="Gestion Catastro"
+											onClick="@command('loadSubmenu', idMenu = 1)"
+											image="img/catastro.png" autodisable="+self" width="100%"
+											height="100%" orient="vertical" label="GESTION CATASTRO"
+											style="font-weight:bold;font-size:14pt;">
+										</button>
+									</cell>
+									<cell align="center"
+										class="sobremenu" height="250px">
+										<button id="aMenu2" class="menu"
+											tooltiptext="Recaudaciones"
+											onClick="@command('loadSubmenu', idMenu = 2)"
+											image="img/money.png" autodisable="+self" width="100%"
+											height="100%" orient="vertical" label="RECAUDACIONES"
+											style="font-weight:bold;font-size:14pt;">
+										</button>
+									</cell>
+									<cell align="center"
+										class="sobremenu" height="250px">
+										<button id="aMenu3" class="menu"
+											tooltiptext="Reporte e Indicadores"
+											onClick="@command('loadSubmenu', idMenu = 3)"
+											image="img/report.png" autodisable="+self" width="100%"
+											height="100%" orient="vertical"
+											label="REPORTES E INDICADORES"
+											style="font-weight:bold;font-size:14pt;">
+										</button>
+									</cell>
+									<cell align="center"
+										class="sobremenu" height="250px">
+										<button id="aMenu4" class="menu"
+											tooltiptext="Seguridades"
+											onClick="@command('loadSubmenu', idMenu = 4)"
+											image="img/security.png" autodisable="+self" width="100%"
+											height="100%" orient="vertical" label="SEGURIDADES"
+											style="font-weight:bold;font-size:14pt;">
+										</button>
+									</cell>
+									<cell align="center"
+										class="sobremenu" height="250px">
+										<button id="aMenu5" class="menu"
+											tooltiptext="Tramites"
+											onClick="@command('loadSubmenu', idMenu = 5)"
+											image="img/tramites.png" autodisable="+self" width="100%"
+											height="100%" orient="vertical" label="TRAMITES"
+											style="font-weight:bold;font-size:14pt;">
+										</button>
+									</cell>
+								</row>
+								<row></row>
+								<row class="menu">
+									<cell align="center"
+										class="sobremenu" height="250px">
+										<button id="aMenu6" class="menu"
+											tooltiptext="Ayuda"
+											onClick="@command('loadSubmenu', idMenu = 6)"
+											image="img/parametro.png" autodisable="+self" width="100%"
+											height="100%" orient="vertical" label="PARAMETROS"
+											style="font-weight:bold;font-size:14pt;">
+										</button>
+									</cell>
+									<cell align="center"
+										class="sobremenu" height="250px">
+										<button id="aMenu7" class="menu"
+											tooltiptext="Ayuda"
+											onClick="@command('loadSubmenu', idMenu = 7)"
+											image="img/help.png" autodisable="+self" width="100%"
+											height="100%" orient="vertical" label="?"
+											style="font-weight:bold;font-size:14pt;">
+										</button>
+									</cell>
+									<cell align="center"
+										class="sobremenu" height="250px">
+										<button id="aMenu8" class="menu"
+											tooltiptext="Ayuda"
+											onClick="@command('loadSubmenu', idMenu = 8)"
+											image="img/help.png" autodisable="+self" width="100%"
+											height="100%" orient="vertical" label="?"
+											style="font-weight:bold;font-size:14pt;">
+										</button>
+									</cell>
+									<cell align="center"
+										class="sobremenu" height="250px">
+										<button id="aMenu9" class="menu"
+											tooltiptext="Ayuda"
+											onClick="@command('loadSubmenu', idMenu = 9)"
+											image="img/help.png" autodisable="+self" width="100%"
+											height="100%" orient="vertical" label="?"
+											style="font-weight:bold;font-size:14pt;">
+										</button>
+									</cell>
+									<cell align="center"
+										class="sobremenu" height="250px">
+										<button id="aMenu10"
+											class="menu" tooltiptext="Ayuda"
+											onClick="@command('loadSubmenu', idMenu = 10)"
+											image="img/help.png" autodisable="+self" width="100%"
+											height="100%" orient="vertical" label="?"
+											style="font-weight:bold;font-size:14pt;">
+										</button>
+									</cell>
+								</row> -->
+							</rows>
+						</grid>
+					</div>
+				</center>
+				<south border="none">
+					<grid>
+						<rows>
+							<row>
+								<cell>
+									<div align="left">
+										<label
+											value=" Copyright © Macrosigma S.A 2014-2015"
+											style="font-size:12px">
+										</label>
+									</div>
+								</cell>
+								<cell>
+									<div align="right">
+										<image
+											src="img/mini_balzar.png">
+										</image>
+										<label
+											value="Todos los derechos reservados  .:Ilustre Municipalidad de Balzar:. "
+											style="font-size:12px">
+										</label>
+										<image src="img/ecuador.jpg">
+										</image>
+									</div>
+								</cell>
+							</row>
+						</rows>
+					</grid>
+				</south>
+			</borderlayout>
+		</window>
+	</div>
+	<zscript>
+	void redireccionar() {
+		Executions.sendRedirect("/Login/Menu.zul");
+	}
+</zscript>
+</zk>

@@ -1,0 +1,64 @@
+<?page title="Reportes" contentType="text/html;charset=UTF-8"?>
+<?init class="net.macrosigma.general.Validador"?>
+<zk>
+	<window title="Reporte Proyección [rep_003]"
+		border="normal" height="98%" closable="true">
+		<toolbar>
+			<toolbarbutton id="tbsalir" label="Salir"
+				image="/img/sal.png" />
+		</toolbar>
+		<groupbox>
+			<caption label="Proyección" />
+			<grid>
+				<columns>
+					<column width="25%" />
+					<column width="25%" />
+					<column width="25%" />
+					<column width="25%" />
+
+				</columns>
+				<rows>
+					<row>
+						<label>Proyecciones</label>
+						<combobox id="cmbprovincia" width="60%"
+							readonly="true">
+							<comboitem value="1" label="año" />
+						</combobox>
+						
+						<textbox id="txtsector" width="60%" />
+						
+						<cell>
+							<space width="10px" height="10px"></space>
+							<button id="btnbuscar" label="Buscar"
+								image="/img/buscar.png" />
+						</cell>
+						
+					</row>
+					<row>
+						<div>
+						<space />
+							<image sclass="user-icon"
+								src="/img/estadistica.png">
+							</image>
+
+						</div>
+					</row>
+
+					<row>
+						<separator height="10px"></separator>
+						<separator height="10px"></separator>
+
+					</row>
+					<row>
+						<cell>
+							<space width="10px" height="10px"></space>
+							<button id="btnimprimirr" label="Imprimir"
+								image="/img/imprimir.png" />
+						</cell>
+					</row>
+
+				</rows>
+			</grid>
+		</groupbox>
+	</window>
+</zk>

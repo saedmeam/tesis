@@ -1,0 +1,146 @@
+<?page title="Cobro Certificado" contentType="text/html;charset=UTF-8"?>
+<?init class="net.macrosigma.general.Validador"?>
+<zk>
+	<window title="Cobro de Certificado [cer_001]" border="normal"
+		height="98%" closable="true" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('net.macrosigma.recaudacion.controller.CertificadoController')">
+		<grid>
+			<columns>
+				<column width="25%" />
+				<column width="25%" />
+				<column width="25%" />
+				<column width="15%" />
+				<column width="10%" />
+			</columns>
+			<rows>
+				<row>
+					<label value="Tipo Predio" style="color:black" />
+					<combobox id="cmbtippredio1" readonly="true">
+						<comboitem value="1" label="Urbano" />
+						<comboitem value="2" label="Rural" />
+					</combobox>
+
+				</row>
+				<row>
+					<cell colspan="5">
+						<div id="divcodpred">
+							<groupbox>
+								<caption>Datos Propietario</caption>
+								<grid>
+									<columns>
+										<column width="20%" />
+										<column width="20%" />
+										<column width="20%" />
+									</columns>
+									<rows>
+										<row>
+											<label value="Cédula:"
+												style="color:black" />
+											<textbox id="txtid"
+												width="98%" />
+											<label value="Apellidos:"
+												style="color:black" />
+											<textbox id="txtape"
+												width="60%" />
+										</row>
+									</rows>
+								</grid>
+							</groupbox>
+						</div>
+						<div id="divprop">
+							<groupbox>
+								<caption>Búsqueda Propietario</caption>
+								<grid>
+									<columns>
+										<column width="20%" />
+										<column width="20%" />
+										<column width="20%" />
+										<column width="20%" />
+										<column width="20%" />
+									</columns>
+									<rows>
+
+										<row>
+											<cell>
+												<label value="Sector:"
+													style="color:black" />
+												<separator />
+												<textbox id="txtsect" />
+											</cell>
+											<cell>
+												<label value="Manzana:"
+													style="color:black" />
+												<separator />
+												<textbox id="txtmz" />
+											</cell>
+											<cell>
+												<label value="Solar:"
+													style="color:black" />
+												<separator />
+												<textbox id="txtsol" />
+											</cell>
+											<cell>
+												<label value="Piso:"
+													style="color:black" />
+												<separator />
+												<textbox id="txtpis" />
+											</cell>
+											<cell>
+												<label
+													value="Departamento:" style="color:black" />
+												<separator />
+												<textbox id="txtdpto" />
+											</cell>
+										</row>
+									</rows>
+								</grid>
+							</groupbox>
+						</div>
+					</cell>
+
+				</row>
+			</rows>
+
+		</grid>
+
+		<grid>
+
+
+
+			<rows>
+				<row>
+					<cell align="center">
+						<button id="btnbuscar" label="Buscar"
+							image="/img/buscar.png" onClick="@command('nuevo')" />
+						<space></space>
+						<button id="btnlimpiar" label="Limpiar"
+							image="/img/limpia.png" />
+					</cell>
+				</row>
+			</rows>
+		</grid>
+		<separator />
+
+		<listbox id="lbxper" mold="paging" pageSize="5"
+			sclass="tablas">
+			<listhead>
+				<listheader label="Codigo Predio" width="10%" />
+				<listheader label="Propietario" width="20%" />
+				<listheader label="Identificación" width="20%" />
+				<listheader label="Tipo Predio" width="10%" />
+				<listheader label="Acción" width="10%" />
+			</listhead>
+			<listitem>
+				<listcell label="" />
+				<listcell label="" />
+				<listcell label="" />
+				<listcell label="" />
+				<listcell>
+					<checkbox id="VerDetalle"
+						onClick="@command('modificar')" />
+					<label>Ver Detalle</label>
+				</listcell>
+			</listitem>
+		</listbox>
+	</window>
+</zk>

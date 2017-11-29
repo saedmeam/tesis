@@ -1,0 +1,51 @@
+<?page title="Mantenimiento_Parametro General" contentType="text/html;charset=UTF-8"?>
+<?init class="net.macrosigma.general.Validador"?>
+<zk>
+	<window title="Mantenimineto_Parametro General [par_019]"
+		border="none" height="98%" closable="true" id="winmantparamgen"
+		contentStyle="overflow:auto" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('net.macrosigma.gestion.controller.ManteParamGeneralController')">
+		<toolbar>
+			<toolbarbutton id="tbbnuevo" label="Nuevo"
+				onClick="@command('nuevo')" image="/img/new.png" />
+				<image src="img/fondo4.png" height="22px"></image>
+			<toolbarbutton id="tbbmodificar" label="Modificar"
+				onClick="@command('modificar')" image="/img/editar.png" />
+				<image src="img/fondo4.png" height="22px"></image>
+			<toolbarbutton id="tbbeliminar" label="Eliminar"
+				onClick="@command('eliminar')" image="/img/elimina.png" />
+				<image src="img/fondo4.png" height="22px"></image>
+			<toolbarbutton id="tbbagregar" label="Agregar Detalle"
+				onClick="@command('agregardet')" image="/img/agrega.png" />
+				<image src="img/fondo4.png" height="22px"></image>
+		</toolbar>
+		<groupbox closable="false">
+			<caption label="Criterio Búsqueda" />
+			<grid>
+				<columns>
+					<column width="24%" />
+					<column width="14%" />
+					<column width="24%" />
+				</columns>
+				<rows>
+					<row>
+						<label style="color:black">
+							Busqueda por Descripción:
+						</label>
+						<bandbox id="txtbusqueda" instant="true"
+						onChange="self.setValue(self.getValue().toUpperCase());"
+							onOpen="@command('listaPara')" />
+					</row>
+				</rows>
+			</grid>
+		</groupbox>
+		<separator height="5px" />
+		<tree id="trlistpara" rows="12" onSelect="@command('selec')">
+			<treecols>
+				<treecol label="Descripción" />
+				<treecol label="Valor" />
+				<treecol label="Estado" />
+			</treecols>
+		</tree>
+	</window>
+</zk>

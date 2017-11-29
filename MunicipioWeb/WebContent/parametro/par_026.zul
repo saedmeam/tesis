@@ -1,0 +1,154 @@
+<?link href="/css/main.css" rel="stylesheet" type="text/css"?>
+<window title="Cambio de Clave [par_026]"
+	apply="org.zkoss.bind.BindComposer" border="normal"
+	viewModel="@id('vm') @init('net.macrosigma.parametro.controller.CambiarClaveController')"
+	width="60%" onOK="@command('aceptar')" closable="true"
+	id="winCambioClave">
+	<div align="center">
+		<div align="center">
+			<html>
+				<FONT FACE="Segoe UI" SIZE="6" COLOR="293B65">
+					Cambio de Clave
+				</FONT>
+				<br></br>
+			</html>
+		</div>
+		<div align="center">
+			<image src="/img/nuevaClave1.png"></image>
+			<image src="/img/nuevaClave2.png"></image>
+		</div>
+		<div align="center" width="80%">
+			<grid>
+				<columns>
+					<column width="15%" />
+					<column width="35%" />
+					<column width="40%" />
+					<column width="10%" />
+				</columns>
+				<rows>
+					<row spans="4">
+						<label
+							value="BIENVENIDO: ${vm.usuario.usuUsuario}"
+							style="font-weight: bold;">
+						</label>
+					</row>
+					<row>
+						<cell colspan="4">
+							<div
+								sclass="form-group clearfix border-top-bottom">
+							</div>
+						</cell>
+					</row>
+					<row>
+						<cell colspan="4">
+							<div id="grpActual">
+								<html>
+									<FONT FACE="Segoe UI" SIZE="3"
+										COLOR="293B65">
+										<img src="img/seleccion.png"></img>
+										Ingrese su clave actual
+									</FONT>
+									<br></br>
+									<FONT FACE="Segoe UI" SIZE="3"
+										COLOR="293B65">
+										<img src="img/seleccion.png"></img>
+										Ingrese una nueva clave
+									</FONT>
+									<br></br>
+									<FONT FACE="Segoe UI" SIZE="3"
+										COLOR="293B65">
+										<img src="img/seleccion.png"></img>
+										Confirme la clave ingresada
+									</FONT>
+									<br></br>
+								</html>
+								<separator></separator>
+								<div align="left"
+									id="divRestaurarClave">
+									<grid>
+										<rows>
+											<row>
+												<cell></cell>
+												<cell>
+													<label
+														value="Clave actual:">
+													</label>
+												</cell>
+												<cell align="left">
+													<textbox width="80%"
+														id="claveActual" type="password"
+														onBlur="@command('claveActual')">
+													</textbox>
+													<image id="img0"
+														src="img/accept.png" visible="false">
+													</image>
+												</cell>
+												<cell></cell>
+											</row>
+											<row>
+												<cell></cell>
+												<cell>
+													<label
+														value="Nueva Clave:">
+													</label>
+												</cell>
+												<cell align="left">
+													<textbox width="80%"
+														id="nuevaClave" type="password"
+														onBlur="@command('validarClave')">
+													</textbox>
+													<image id="img1"
+														src="img/accept.png" visible="false">
+													</image>
+												</cell>
+												<cell></cell>
+											</row>
+											<row>
+												<cell></cell>
+												<cell>
+													<label
+														value="Confirmación
+																de
+																Clave:">
+													</label>
+												</cell>
+												<cell align="left">
+													<textbox width="80%"
+														type="password" id="confirmarClave"
+														onBlur="@command('validarClave')">
+													</textbox>
+													<image id="img2"
+														src="img/accept.png" visible="false">
+													</image>
+												</cell>
+												<cell></cell>
+											</row>
+										</rows>
+									</grid>
+									<separator></separator>
+									<div align="center">
+										<button id="btnActual"
+											label="Cambiar Clave" onClick="@command('doCambiar')"
+											image="/img/listo.png">
+										</button>
+									</div>
+								</div>
+							</div>
+						</cell>
+					</row>
+					<row>
+						<cell colspan="4">
+							<separator></separator>
+							<div
+								sclass="form-group clearfix border-top-bottom">
+							</div>
+						</cell>
+					</row>
+					<row>
+						<separator height="10px"></separator>
+					</row>
+				</rows>
+			</grid>
+		</div>
+	</div>
+</window>

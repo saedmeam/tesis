@@ -1,0 +1,122 @@
+<?page title="Asignacion_Roles a Usuario" contentType="text/html;charset=UTF-8"?>
+<?init class="net.macrosigma.general.Validador"?>
+<zk>
+	<window title="Asignacion_Roles a Usuario [rol_003]" border="normal"
+		height="98%" closable="true">
+		<toolbar>
+			<toolbarbutton id="tbbnuevo" label="Nuevo"
+				onClick="@command('nuevo')" image="/img/nuevo.png" />
+			<toolbarbutton id="tbbsalir" label="Salir"
+				image="/img/sal.png" />
+		</toolbar>
+		<groupbox>
+			<caption label="Criterio Búsqueda" />
+			<grid>
+				<columns>
+					<column width="25%" />
+					<column width="25%" />
+					<column width="25%" />
+					<column width="25%" />
+				</columns>
+				<rows>
+					<row>
+						<label style="color:black">Roles:</label>
+						<bandbox id="txtbusqueda" />
+						<label style="color:black">Perfile:</label>
+						<bandbox id="txtperfil" />
+					</row>
+					
+					<row>
+						<label style="color:black">Modulo:</label>
+						<bandbox id="txtmodulo" />
+						<label style="color:black">Opciones:</label>
+						<bandbox id="txtopciones" />
+					</row>
+				</rows>
+			</grid>
+		</groupbox>
+		<separator></separator>
+		<separator></separator>
+
+
+		<grid>
+			<columns>
+
+				<column width="40%" />
+				<column width="10%" />
+				<column width="10%" />
+				<column width="40%" />
+			</columns>
+			<rows>
+				
+
+
+				<row>
+					<tree id="tree" rows="7" multiple="true"
+						checkmark="true">
+						<treecols>
+							<treecol label="Modulo" />
+							<treecol label="Botones" />
+						</treecols>
+						<treechildren>
+							<treeitem>
+								<treerow>
+									<treecell
+										label="Mantenimiento de Predio" />
+									<treecell label="nuevo" />
+
+								</treerow>
+							</treeitem>
+							<treeitem>
+								<treerow>
+									<treecell label="Consulta Predio" />
+									<treecell
+										label="Item 2 description" />
+								</treerow>
+								<treechildren>
+									<treeitem>
+										<treerow>
+											<treecell label="Item 2.1" />
+										</treerow>
+										<treechildren>
+											<treeitem>
+												<treerow>
+													<treecell
+														label="Item 2.1.1" />
+												</treerow>
+											</treeitem>
+											<treeitem>
+												<treerow>
+													<treecell
+														label="Item 2.1.2" />
+												</treerow>
+											</treeitem>
+										</treechildren>
+									</treeitem>
+									<treeitem>
+										<treerow>
+											<treecell label="Item 2.2" />
+											<treecell
+												label="Item 2.2 description" />
+										</treerow>
+									</treeitem>
+								</treechildren>
+							</treeitem>
+							<treeitem label="Mantenimiento Personas" />
+						</treechildren>
+					</tree>
+
+				</row>
+			</rows>
+
+
+
+		</grid>
+
+
+
+
+
+
+	</window>
+</zk>

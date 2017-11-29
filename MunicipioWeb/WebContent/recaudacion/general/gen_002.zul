@@ -1,0 +1,59 @@
+<?page title="Catastro" contentType="text/html;charset=UTF-8"?>
+<?init class="net.macrosigma.general.Validador"?>
+<?link href="/css/main.css" rel="stylesheet" type="text/css"?>
+<zk>
+	<window title="Mantenimiento_Caja [gen__002]" border="normal"
+		id="winmantcaj" height="98%" closable="true"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('net.macrosigma.recaudacion.controller.MantenimientoGeneralController')">
+		<toolbar>
+			<toolbarbutton id="tbbnuevo" label="Nuevo"
+				onClick="@command('nuevo')" image="/img/nuevo.png" />
+			<toolbarbutton id="tbbmodificar" label="Modificar"
+				image="/img/edit.png" onClick="@command('modificar')" />
+		</toolbar>
+		<groupbox>
+			<caption label="Criterio Búsqueda" />
+			<grid>
+				<columns>
+					<column width="24%" />
+					<column width="14%" />
+					<column width="24%" />
+				</columns>
+				<rows>
+					<row>
+						<label style="color:black">
+							Tipo de Búsqueda:
+						</label>
+						<bandbox id="txtbusqueda" instant="true"
+							onOpen="@command('listaCaj')" />
+
+					</row>
+				</rows>
+			</grid>
+		</groupbox>
+		<separator height="5px"></separator>
+		<!-- paginar  -->
+		<listbox mold="paging" pageSize="5" sclass="tablas"
+			selectedItem="@bind(vm.cajaselect)" model="@load(vm.listaCaj)"
+			emptyMessage="no existen datos">
+
+			<listhead>
+				<listheader label="Cajero" />
+				<listheader label="Total Moneda" />
+				<listheader label="Total Billete" />
+				<listheader label="Total Caja" />
+			</listhead>
+			<template name="model">
+				<listitem>
+					<listcell label="@load(each.genCajero)"></listcell>
+					<listcell label="@load(each.gentotmon)"></listcell>
+					<listcell label="@load(each.gentotbill)"></listcell>
+					<listcell label="@load(each.gentotcaja)"></listcell>
+				</listitem>
+			</template>
+		</listbox>
+
+
+	</window>
+</zk>

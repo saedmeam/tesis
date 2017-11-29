@@ -1,0 +1,72 @@
+<?page title="Parámetros" contentType="text/html;charset=UTF-8"?>
+<?init class="net.macrosigma.general.Validador"?>
+<zk>
+	<window title="Preguntas Seguridad [cat_014_A]" border="none"
+		apply="org.zkoss.bind.BindComposer" height="100%"
+		viewModel="@id('vm') @init('net.macrosigma.gestion.controller.IngPreguntasSeguridadController')">
+		<toolbar>
+			<toolbarbutton id="tbbgrabar" label="Guardar"
+				onClick="@command('createUsuario')" image="/img/save3.png" />
+			<toolbarbutton id="tbbsalir" label="Salir"
+				image="/img/sal.png" />
+			<image src="img/fondo4.png" height="22px"></image>
+		</toolbar>
+		<separator height="20px" />
+		<div align="center">
+			<html>
+				<FONT FACE="Segoe UI" SIZE="6" COLOR="293B65">
+					Rubros
+				</FONT>
+				<br></br>
+			</html>
+		</div>
+
+		<div align="center">
+			<image src="/img/porcenta.png"></image>
+
+		</div>
+
+		<grid>
+			<columns>
+				<column width="30%" />
+				<column width="40%" />
+			</columns>
+			<rows>
+
+				<row>
+					<cell colspan="8">
+						<div
+							sclass="form-group clearfix border-top-bottom">
+						</div>
+					</cell>
+				</row>
+
+
+				<row>
+					<label>Pregunta de Seguridad</label>
+					<textbox id="txtpreg" width="98%" instant="true"
+					onChange="self.setValue(self.getValue().toUpperCase());"
+						onFocus='interes.open(txtpreg,"end_before")'
+						value="@bind(vm.interes.desPregunta)" />
+				</row>
+				<row>
+					<cell colspan="8">
+						<div
+							sclass="form-group clearfix border-top-bottom">
+						</div>
+					</cell>
+				</row>
+			</rows>
+		</grid>
+
+		<popup id="interes" width="170px" style="background:#FACD05">
+			<html>
+				
+				<![CDATA[ ingresar la pregunta de seguridad ]]>
+				
+			</html>
+		</popup>
+	</window>
+</zk>
+
+

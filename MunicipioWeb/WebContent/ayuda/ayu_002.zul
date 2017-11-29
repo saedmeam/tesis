@@ -1,0 +1,51 @@
+<?page title=".:Novedades:." contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window border="none">
+		<div align="center" width="100%">
+			<separator height="50px"></separator>
+
+			<separator height="50px"></separator>
+			<grid width="25%">
+				<columns>
+					<column width="100%"></column>
+
+				</columns>
+				<rows>
+					<row>
+						<div align="center">
+							<image src="/img/macrosigma.png"></image>
+
+						</div>
+					</row>
+					<row>
+						<div align="center">
+							Version:
+							<separator height="10px"></separator>
+
+							version 1.0 
+							<separator height="20px"></separator>
+							Fecha Salida:
+							<separator height="10px"></separator>
+							enero 1, 2015
+						</div>
+					</row>
+
+					<row spans="2">
+						<div align="center">
+							<button label="Salir"
+								onClick="redireccionar()">
+							</button>
+						</div>
+					</row>
+				</rows>
+			</grid>
+
+		</div>
+
+	</window>
+	<zscript>
+	void redireccionar() {
+		Executions.sendRedirect("/Login/Pantalla_Principal.zul");
+	}
+</zscript>
+</zk>

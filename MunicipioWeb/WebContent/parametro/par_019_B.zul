@@ -1,0 +1,90 @@
+<?page title="Parámetros General" contentType="text/html;charset=UTF-8"?>
+<?init class="net.macrosigma.general.Validador"?>
+<zk>
+	<window
+		title="Ingresar Actualizar Detalle Parametro General [par_019_B]"
+		border="none" apply="org.zkoss.bind.BindComposer" height="100%"
+		viewModel="@id('vm') @init('net.macrosigma.gestion.controller.IngresoDetParaGeneralController')">
+		<toolbar>
+			<toolbarbutton id="tbbgrabar" label="Guardar"
+				onClick="@command('createUsuario')" image="/img/save3.png" />
+			<image src="img/fondo4.png" height="22px"></image>
+		</toolbar>
+		<separator height="20px" />
+		<div align="center">
+			<html>
+				<FONT FACE="Segoe UI" SIZE="6" COLOR="293B65">
+					Detalle Parametro General
+				</FONT>
+				<br></br>
+			</html>
+		</div>
+		<div align="center">
+			<image src="/img/porcenta.png"></image>
+		</div>
+		<grid>
+			<columns>
+				<column width="12%" />
+				<column width="20%" />
+				<column width="12%" />
+				<column width="20%" />
+			</columns>
+			<rows>
+				<row>
+					<cell colspan="4">
+						<div
+							sclass="form-group clearfix border-top-bottom">
+						</div>
+					</cell>
+				</row>
+				<row>
+					<label>Descripcion</label>
+					<textbox id="txtdes" width="75%"
+						value="@bind(vm.para.parDes)" instant="true"
+						onChange="self.setValue(self.getValue().toUpperCase());"
+						onFocus='descripcion.open(txtdes,"end_before")' />
+					<label value="Valor" />
+					<textbox id="txtnom" width="75%"
+						onChange="self.setValue(self.getValue().toUpperCase());"
+						instant="true" onFocus='nombre.open(txtnom,"end_before")'
+						value="@bind(vm.para.parValor)" />
+				</row>
+				<row>
+					<label>Padre Parametros</label>
+					<textbox id="txtpadre" width="75%" readonly="true"
+						value="@bind(vm.para.carIdPad.parDes)" />
+					<label>Estado</label>
+					<combobox id="cmbtestado" width="75%"
+						onFocus='estado.open(cmbtestado,"end_before")' readonly="true"
+						selectedItem="@bind(vm.para.estado)">
+						<comboitem id="1" label="ACTIVO" value="ACT" />
+						<comboitem id="2" label="INACTIVO" value="INA" />
+					</combobox>
+				</row>
+				<row>
+					<cell colspan="4">
+						<div
+							sclass="form-group clearfix border-top-bottom">
+						</div>
+					</cell>
+				</row>
+			</rows>
+		</grid>
+		<popup id="nombre" width="150px" style="background:#FACD05">
+			<html>
+				<![CDATA[ ingresar el valor ]]>
+			</html>
+		</popup>
+		<popup id="descripcion" width="150px"
+			style="background:#FACD05">
+			<html>
+				<![CDATA[ ingresar la descripcion ]]>
+			</html>
+		</popup>
+		<popup id="estado" width="150px" style="background:#FACD05">
+			<html>
+				<![CDATA[ seleccione el estado ]]>
+			</html>
+		</popup>
+	</window>
+</zk>

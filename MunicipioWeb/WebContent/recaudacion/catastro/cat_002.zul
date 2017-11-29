@@ -1,0 +1,132 @@
+<?page title="Consulta Certificado" contentType="text/html;charset=UTF-8"?>
+<?init class="net.macrosigma.general.Validador"?>
+<zk>
+	<window title="Consulta de Cobro [cat_002]" border="normal"
+		height="60%" width="90%" closable="true">
+		<grid>
+			<columns>
+				<column width="25%" />
+				<column width="22%" />
+				<column width="25%" />
+				<column width="15%" />
+				<column width="10%" />
+			</columns>
+			<rows>
+				<row>
+					<label value="Tipo Predio:" />
+					<combobox id="cmbtippredio1" readonly="true">
+						<comboitem value="1" label="Urbano" />
+						<comboitem value="2" label="Rural" />
+					</combobox>
+					<label value="Busqueda por:" />
+					<combobox id="cmbtipbusq" readonly="true">
+						<comboitem value="1" label="Codigo Predial" />
+						<comboitem value="2" label="Persona" />
+					</combobox>
+				</row>
+				<row>
+					<cell colspan="4">
+						<div id="divcodpred">
+							<groupbox>
+								<caption>Busqueda Predio</caption>
+								<grid>
+									<columns>
+										<column width="20%" />
+										<column width="20%" />
+										<column width="20%" />
+										<column width="20%" />
+									</columns>
+									<rows>
+										<row>
+											<cell>
+												<label value="Sector:" />
+												<separator />
+												<textbox id="txtsect" />
+											</cell>
+											<cell>
+												<label value="Manzana:" />
+												<separator />
+												<textbox id="txtmz" />
+											</cell>
+											<cell>
+												<label value="Solar:" />
+												<separator />
+												<textbox id="txtsol" />
+											</cell>
+											<cell>
+												<label value="Piso:" />
+												<separator />
+												<textbox id="txtpis" />
+											</cell>
+											<cell>
+												<label
+													value="Departamento:" />
+												<separator />
+												<textbox id="txtdpto" />
+											</cell>
+										</row>
+									</rows>
+								</grid>
+							</groupbox>
+						</div>
+						<div id="divprop">
+							<groupbox>
+								<caption>Busqueda Propietario</caption>
+								<grid>
+									<columns>
+										<column width="10%" />
+										<column width="20%" />
+										<column width="10%" />
+										<column width="20%" />
+									</columns>
+									<rows>
+										<row>
+											<label
+												value="Identificación:" />
+											<textbox id="txtid"
+												width="98%" />
+											<label value="Apellidos:" />
+											<textbox id="txtape"
+												width="98%" />
+										</row>
+									</rows>
+								</grid>
+							</groupbox>
+						</div>
+					</cell>
+					<button id="btnbuscar" label="Consultar"
+						image="/img/buscar.png" />
+
+				</row>
+			</rows>
+		</grid>
+		<listbox id="lbxper" mold="paging" pageSize="5"
+			sclass="tablas">
+			<listhead>
+				<listheader label="Provincia" width="15%" />
+				<listheader label="Canton" width="15%" />
+				<listheader label="Parroquia" width="15%" />
+				<listheader label="Sector" width="15%" />
+				<listheader label="Manzana" width="15%" />
+				<listheader label="Solar" width="15%" />
+				<listheader label="Piso" width="15%" />
+				<listheader label="Departamento" width="15%" />
+			</listhead>
+			<listitem>
+				<listcell label="" />
+				<listcell label="" />
+				<listcell label="" />
+				<listcell label="" />
+				<listcell label="" />
+				<listcell label="" />
+				<listcell label="" />
+				<listcell label="" onClick="redireccionar()" />
+			</listitem>
+		</listbox>
+		<zscript>
+	void redireccionar() {
+		Executions.sendRedirect("/recaudacion/catastro/cat_001.zul");
+	}
+</zscript>
+	</window>
+</zk>

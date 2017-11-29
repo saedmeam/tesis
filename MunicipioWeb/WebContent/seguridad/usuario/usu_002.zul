@@ -1,0 +1,77 @@
+<?page title="Mantenimiento_Usuario" contentType="text/html;chars et=UTF-8"?>
+<?init class="net.macrosigma.general.Validador"?>
+<zk>
+	<window title="Mantenimiento_Usuario [usu_002]" border="normal"
+		id="winManUsu" height="100%" apply="org.zkoss.bind.BindComposer"
+		onOK="@command('buscarUsuario')"
+		viewModel="@id('vm') @init('net.macrosigma.seguridad.controller.MantenimientoUsuarioController')">
+		<toolbar>
+			<toolbarbutton id="tbbnuevo" label="Nuevo"
+				onClick="@command('nuevo')" image="/img/new.png" />
+			<image src="img/fondo4.png" height="22px"></image>
+			<toolbarbutton id="tbbedit" label="Modificar"
+				image="/img/editar.png" onClick="@command('modificar')" />
+			<image src="img/fondo4.png" height="22px"></image>
+		</toolbar>
+		<groupbox closable="false">
+			<caption label="Criterio Búsqueda" />
+			<grid>
+				<columns>
+					<column width="24%" />
+					<column width="14%" />
+					<column width="24%" />
+
+				</columns>
+				<rows>
+					<row>
+						<label style="color:black">
+							Búsqueda por Usuario:
+						</label>
+						<bandbox id="txtbusqueda"
+							onOpen="@command('buscarUsuario')" instant="true"
+							onChange="self.setValue(self.getValue().toUpperCase());"
+							onBlur="@command('buscarUsuario')" />
+
+					</row>
+				</rows>
+			</grid>
+		</groupbox>
+		<separator height="5px"></separator>
+		<listbox mold="paging" pageSize="8" class="tablas"
+			selectedItem="@bind(vm.usuarioSelecionado)"
+			model="@load(vm.listaUsuario)" emptyMessage="no existen datos">
+			<listhead>
+				<listheader width="10%" label="Usuario" />
+				<listheader width="15%" label="Nombre" />
+				<listheader width="15%" label="Apellido" />
+				<listheader width="15%" label="Departamento" />
+				<listheader width="20%" label="Email" />
+				<listheader width="15%" label="Rol" />
+				<listheader width="10%" label="Estado" align="center" />
+			</listhead>
+			<template name="model">
+				<listitem>
+					<listcell label="@load(each.usuUsuario)"
+						image="img/username.png">
+					</listcell>
+					<listcell label="@load(each.usuNombres)"></listcell>
+					<listcell label="@load(each.usuApellidos)"></listcell>
+					<listcell label="@load(each.usudepartamento)"></listcell>
+					<listcell label="@load(each.usuEmail)"></listcell>
+					<listcell>
+						<listbox model="@load(each.usuRolUsuId)">
+							<template name="model" var="rolUsu">
+								<listitem>
+									<listcell
+										label="@load(rolUsu.gmSegRol.rolNombre)">
+									</listcell>
+								</listitem>
+							</template>
+						</listbox>
+					</listcell>
+					<listcell label="@load(each.estado)"></listcell>
+				</listitem>
+			</template>
+		</listbox>
+	</window>
+</zk>

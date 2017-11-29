@@ -1,0 +1,208 @@
+<?page title="Ingreso_Opciones" contentType="text/html;charset=UTF-8"?>
+<?init class="net.macrosigma.general.Validador"?>
+<zk>
+	<window title="Ingreso_Opciones[opc_001]" border="none"
+		id="winNuevaOpc" contentStyle="overflow:auto"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('net.macrosigma.seguridad.controller.IngresoOpcionController')">
+		<toolbar>
+			<toolbarbutton id="tbbguardar" label="Guardar"
+				onClick="@command('crearOpcion')" image="/img/save3.png" />
+				<image src="img/fondo4.png" height="22px"></image>
+		</toolbar>
+		<separator height="10px"></separator>
+		<div align="center">
+			<html>
+				<FONT FACE="Segoe UI" SIZE="6" COLOR="293B65">
+					Opciones
+				</FONT>
+				<br></br>
+			</html>
+		</div>
+		<div align="center">
+			<image src="/img/options.png"></image>
+		</div>
+		<grid>
+			<columns>
+				<column width="1%" />
+				<column width="20%" />
+				<column width="30%" />
+				<column width="20%" />
+				<column width="29%" />
+			</columns>
+			<rows>
+				<row>
+					<cell colspan="5">
+						<div
+							sclass="form-group clearfix border-top-bottom">
+						</div>
+					</cell>
+				</row>
+				<row>
+					<separator height="1px"></separator>
+				</row>
+
+				<row>
+					<cell></cell>
+					<cell>Nombres de opción:</cell>
+					<cell>
+						<textbox id="txtnombreOpcion" width="90%" instant="true"
+						onChange="self.setValue(self.getValue().toUpperCase());"
+							onFocus='nombre.open(txtnombreOpcion,"end_before")'
+							value="@bind(vm.opcion.menNombre)" />
+					</cell>
+					<cell>Descripción de opción:</cell>
+					<cell>
+						<textbox id="txtDes" width="90%" instant="true"
+						onChange="self.setValue(self.getValue().toUpperCase());"
+							onFocus='descripcion.open(txtDes,"end_before")'
+							value="@bind(vm.opcion.menDescripcionMenu)" />
+					</cell>
+				</row>
+				<row>
+					<separator height="1px"></separator>
+				</row>
+				<row>
+					<cell></cell>
+					<cell>Modulo:</cell>
+					<cell>
+						<combobox id="cmbModulo" width="90%"
+							model="@load(vm.listaModulos)"
+							onFocus='modulo.open(cmbModulo,"end_before")' readonly="true"
+							selectedItem="@bind(vm.opcion.padreMenu)">
+							<template name="model">
+								<comboitem
+									label="@load(each.menNombre)">
+								</comboitem>
+							</template>
+						</combobox>
+
+					</cell>
+					<cell>Ruta de la página:</cell>
+					<cell>
+						<textbox id="txtRutaPagina" width="90%"
+							onFocus='ruta.open(txtRutaPagina,"end_before")'
+							value="@bind(vm.opcion.menRuta)" />
+					</cell>
+				</row>
+				<row>
+					<separator height="1px"></separator>
+				</row>
+				<row>
+					<cell></cell>
+
+					<cell>Estado:</cell>
+					<cell>
+						<combobox id="cmbEstado" width="50%"
+							onFocus='estado.open(cmbEstado,"end_before")'
+							selectedItem="@bind(vm.opcion.estado)" readonly="true">
+							<comboitem label="ACTIVO" value="ACT" />
+							<comboitem label="INACTIVO" value="INA" />
+						</combobox>
+					</cell>
+					<cell>Ruta de icono:</cell>
+					<cell>
+						<textbox id="txtRutaIcono" width="90%"
+							onFocus='icono.open(txtRutaIcono,"end_before")'
+							value="@bind(vm.opcion.menIcono)" />
+					</cell>
+				</row>
+				<row>
+					<separator height="1px"></separator>
+				</row>
+				<row>
+					<cell></cell>
+					<cell>Número de opción:</cell>
+					<cell>
+						<intbox id="inbNumroModulo" width="50%"
+							onFocus='opcion.open(inbNumroModulo,"end_before")'
+							value="@bind(vm.opcion.menOrden)" />
+					</cell>
+
+				</row>
+
+				<row>
+					<separator height="1px"></separator>
+				</row>
+				<row>
+					<separator height="1px"></separator>
+				</row>
+				<row>
+					<cell colspan="5">
+						<div
+							sclass="form-group clearfix border-top-bottom">
+						</div>
+					</cell>
+				</row>
+			</rows>
+		</grid>
+		<popup id="nombre" width="150px"
+			style="background:#FACD05">
+			<html>
+
+				
+				<![CDATA[ Ingresar el Nombre ]]>
+				
+				
+			</html>
+		</popup>
+		<popup id="descripcion" width="150px" style="background:#FACD05">
+			<html>
+
+				
+				<![CDATA[ Ingresar la Descripción  ]]>
+				
+				
+			</html>
+		</popup>
+		<popup id="modulo" width="150px"
+			style="background:#FACD05">
+			<html>
+
+				
+				<![CDATA[ Seleccionar el Modulo ]]>
+				
+				
+			</html>
+		</popup>
+		<popup id="ruta" width="150px" style="background:#FACD05">
+			<html>
+
+				
+				<![CDATA[ Ingresar la Ruta]]>
+				
+				
+			</html>
+		</popup>
+		<popup id="estado" width="150px"
+			style="background:#FACD05">
+			<html>
+
+				
+				<![CDATA[ Seleccionar el Estado ]]>
+				
+				
+			</html>
+		</popup>
+		<popup id="icono" width="150px"
+			style="background:#FACD05">
+			<html>
+
+				
+				<![CDATA[ Ingresar la Icono ]]>
+				
+				
+			</html>
+		</popup>
+		<popup id="opcion" width="150px"
+			style="background:#FACD05">
+			<html>
+
+				
+				<![CDATA[ ingresar el Número  ]]>
+				
+				
+			</html>
+		</popup>
+	</window>
+</zk>

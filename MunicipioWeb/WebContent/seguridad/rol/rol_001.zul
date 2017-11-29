@@ -1,0 +1,227 @@
+<?page title="Mantenimiento_Roles" contentType="text/html;charset=UTF-8"?>
+<?init class="net.macrosigma.general.Validador"?>
+<zk>
+	<window title="Mantenimiento_Roles [rol_001]" border="none"
+		id="winMantRol" apply="org.zkoss.bind.BindComposer" height="100%"
+		viewModel="@id('vm') @init('net.macrosigma.seguridad.controller.IngresoRolController')">
+		<toolbar>
+			<toolbarbutton id="tbbguardar" label="Guardar"
+				image="/img/save3.png" onClick="@command('createUsuario')" />
+				<image src="img/fondo4.png" height="22px"></image>
+		</toolbar>
+		<separator height="10px"></separator>
+		<div align="center">
+			<html>
+				<FONT FACE="Segoe UI" SIZE="6" COLOR="293B65">
+					Ingreso de Roles
+				</FONT>
+				<br></br>
+			</html>
+		</div>
+
+		<div align="center">
+			<image src="/img/roles_user.png"></image>
+		</div>
+		<grid>
+			<columns>
+				<column width="25%" />
+				<column width="25%" />
+				<column width="25%" />
+				<column width="25%" />
+			</columns>
+			<rows>
+			<row>
+			<separator height="10px"></separator>
+			</row>
+				<row>
+					<cell colspan="4">
+						<div
+							sclass="form-group clearfix border-top-bottom">
+						</div>
+					</cell>
+				</row>
+				<row>
+					<separator height="5px"></separator>
+				</row>
+				<row>
+					<cell>
+						<label value="Nombre Rol:" />
+					</cell>
+					<cell>
+						<textbox id="txtnombre" width="70%"
+							value="@load(vm.usuario.rolNombre)" instant="true"
+						onChange="self.setValue(self.getValue().toUpperCase());"
+							onFocus='nombrerol.open(txtnombre,"end_before")' />
+					</cell>
+					<cell>
+						<label value="Descripción:"></label>
+					</cell>
+					<cell>
+						<textbox id="txtdescripcion" width="70%" instant="true"
+						onChange="self.setValue(self.getValue().toUpperCase());"
+							onFocus='descripcion.open(txtdescripcion,"end_before")'
+							value="@load(vm.usuario.rolDescripcion)" />
+					</cell>
+				</row>
+				<row>
+					<separator height="10px" />
+				</row>
+				<row>
+					<cell>
+						<label value="Estado:" />
+					</cell>
+					<cell>
+						<combobox id="cmbestado" width="70%"
+							onFocus='estado.open(cmbestado,"end_before")' readonly="true"
+							onCreate="cmbestado.setSelectedIndex(0)"
+							value="@load(vm.usuario.estado)">
+							<comboitem value="ACT" label="Activo" />
+							<comboitem value="INA" label="Inactivo" />
+						</combobox>
+					</cell>
+				</row>
+				<row>
+					<separator height="5px"></separator>
+				</row>
+				<row>
+					<cell colspan="4">
+						<div
+							sclass="form-group clearfix border-top-bottom">
+						</div>
+					</cell>
+				</row>
+
+
+
+
+
+
+			</rows>
+		</grid>
+
+
+
+
+
+		<popup id="nombrerol" width="150px"
+			style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ Ingresar el Rol ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+
+
+		<popup id="descripcion" width="150px"
+			style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ Ingresar la Descripción]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+
+		<popup id="estado" width="150px" style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ Seleccionar el Estado]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+
+	
+	</window>
+</zk>

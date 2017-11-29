@@ -1,0 +1,69 @@
+<?page title="Mantenimiento_Roles" contentType="text/html;charset=UTF-8"?>
+<?init class="net.macrosigma.general.Validador"?>
+<zk>
+	<window title="Mantenimiento_Roles [rol_002]" border="none"
+		contentStyle="overflow:auto;" height="100%" id="winMonRol"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('net.macrosigma.seguridad.controller.MantenimientoRollController')">
+		<borderlayout>
+			<north>
+				<div>
+					<toolbar>
+						<toolbarbutton id="tbbGuardar" label="Guardar"
+							image="/img/save3.png" onClick="@command('guardarRolMenu')" />
+							<image src="img/fondo4.png" height="22px"></image>
+						<toolbarbutton id="tbbnuevo" label="Nuevo"
+							onClick="@command('nuevo')" image="/img/new.png" />
+							<image src="img/fondo4.png" height="22px"></image>
+						<toolbarbutton id="tbbModificar" label="Modificar"
+							image="/img/editar.png" onClick="@command('modificar')" />
+							<image src="img/fondo4.png" height="22px"></image>
+					</toolbar>
+					<separator height="10px"></separator>
+					<!-- paginar  -->
+					<!--  llenar tabla -->
+					<listbox mold="paging" pageSize="4" sclass="tablas"
+						id="lbxRoles" selectedItem="@bind(vm.rolselect)"
+						onSelect="@command('modulos')" model="@load(vm.listaRol)"
+						emptyMessage="no existen datos">
+						<listhead>
+							<listheader width="40%" label="Nombre" />
+							<listheader width="40%" label="Descripción" />
+							<listheader width="20%" label="Estado" />
+						</listhead>
+						<template name="model">
+							<listitem>
+								<listcell
+									label="@load(each.rolNombre)">
+								</listcell>
+								<listcell
+									label="@load(each.rolDescripcion)">
+								</listcell>
+								<listcell label="@load(each.estado)"></listcell>
+							</listitem>
+						</template>
+					</listbox>
+				</div>
+			</north>
+			<west width="49%" autoscroll="true" maxsize="494"
+				minsize="494" title="NOMBRE DE MODULOS" splittable="true"
+				collapsible="true" id="westmodulos" visible="false">
+				<div>
+					<listbox sclass="tablas" id="lbxModulos"></listbox>
+				</div>
+			</west>
+			<east autoscroll="true" width="49%" title="ACCIONES"
+				maxsize="494" minsize="494" splittable="true" collapsible="true"
+				id="eastacciones" visible="false">
+				<div>
+					<listbox id="lbxacciones" sclass="tablas"
+						width="50%">
+						<listhead>
+							<listheader label="ACCIONES"></listheader>
+						</listhead>
+					</listbox>
+				</div>
+			</east>
+		</borderlayout>
+	</window>
+</zk>

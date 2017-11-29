@@ -1,0 +1,101 @@
+<?page title=".:Gestion Municipal:." contentType="text/html;charset=UTF-8"?>
+<?link href="/css/main.css" rel="stylesheet" type="text/css"?>
+<?forward uri="/MenuNuevo.zul" if="${sessionScope.usuario!=null}"?>
+<zk>
+	<!--  <style>body{ background-image:url('img/fondo.jpg');}</style> -->
+	<window border="none" apply="org.zkoss.bind.BindComposer"
+		onOK="@command('doLogin',objeto = 0)"
+		viewModel="@id('vm') @init('net.macrosigma.util.controller.LoginController')"
+		width="100%" height="100%">
+		<borderlayout>
+			<center border="none">
+				<div class="estructura">
+					<div class="contenidologin" align="center">
+						<box width="50%">
+							<separator height="120px" />
+							<div id="panel" class="panellogin"
+								align="center">
+								<label width="300px"
+									value="Gestión Documental"
+									style="font-weight: bold;font-size:14pt;" />
+								<div id="usuario" class="usuario">
+									<image src="img/form-user.png"
+										width="19" height="15" />
+									Usuario
+									<div class="ingreso">
+										<textbox id="usu"
+											focus="true">
+										</textbox>
+									</div>
+								</div>
+								<div id="contrasenna"
+									class="contrasenna">
+									<image src="img/form-keys.png"
+										width="19" height="20" />
+									Clave:
+									<div class="ingreso">
+										<textbox type="password"
+											id="pass">
+										</textbox>
+									</div>
+								</div>
+								<div class="botoninicio">
+									<!-- <button id="ingresarBtn"
+										label="INICIO DE SESIÓN"
+										sclass="btn-primary btn-md btn-block btn-min" height="33px"
+										autodisable="self" onClick="@command('doLogin',objeto = 1)" /> -->
+									<button id="ingresarBtnNuevo"
+										label="INICIO DE SESIÓN"
+										sclass="btn-primary btn-md btn-block btn-min" height="33px"
+										autodisable="self" onClick="@command('doLogin', objeto = 0)" />
+									<button id="cambioClave"
+										label="REGISTRARSE"
+										sclass="btn-primary btn-md btn-block btn-min" height="33px"
+										autodisable="self" onClick="@command('crearUsuario')" />
+										<button id="recuperar"
+										label="RECUPERAR CLAVE"
+										sclass="btn-primary btn-md btn-block btn-min" height="33px"
+										autodisable="self" onClick="@command('recuperar')" />
+
+								</div>
+
+							</div>
+						</box>
+					</div>
+				</div>
+			</center>
+			<south border="none">
+				<div id="copyright">
+					<grid>
+						<rows>
+							<row>
+								<cell>
+									<div align="left">
+										<label
+											value=" Copyright © Macrosigma S.A 2014-2015"
+											style="font-size:12px">
+										</label>
+									</div>
+								</cell>
+								<cell>
+									<div align="right">
+										<image
+											src="img/mini_balzar.png">
+										</image>
+										<label
+											value="Todos los derechos reservados  .:Ilustre Municipalidad de Balzar:. "
+											style="font-size:12px">
+										</label>
+										<image src="img/ecuador.jpg"></image>
+									</div>
+								</cell>
+							</row>
+						</rows>
+					</grid>
+				</div>
+			</south>
+		</borderlayout>
+	</window>
+	<zscript>
+</zscript>
+</zk>

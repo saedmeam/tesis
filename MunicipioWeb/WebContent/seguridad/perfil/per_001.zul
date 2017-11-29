@@ -1,0 +1,202 @@
+<?page title="Ingreso_Perfil" contentType="text/html;charset=UTF-8"?>
+<?init class="net.macrosigma.general.Validador"?>
+<zk>
+	<window title="Ingreso_Perfil [per_001]" border="normal" id="winPerfil"
+		height="60%" width="60%" closable="true"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('net.macrosigma.seguridad.controller.IngresoPerfilController')">
+
+		<toolbar>
+			<toolbarbutton id="tbbguardar" label="Guardar"
+				image="/img/save.png" onClick="@command('createUsuario')" />
+		</toolbar>
+
+		<div align="center">
+			<html>
+				<FONT FACE="Segoe UI" SIZE="6" COLOR="293B65">
+					Ingreso de Perfil
+				</FONT>
+				<br></br>
+			</html>
+		</div>
+
+		<div align="center">
+			<image src="/img/perfiles.png"></image>
+		</div>
+		<grid>
+			<columns>
+				<column width="25%" />
+				<column width="25%" />
+				<column width="25%" />
+				<column width="25%" />
+			</columns>
+			<rows>
+
+				<row spans="4">
+					<label value="LLenar los datos"
+						style="font-weight: bold;">
+					</label>
+				</row>
+
+				<row>
+					<cell colspan="4">
+						<div
+							sclass="form-group clearfix border-top-bottom">
+						</div>
+					</cell>
+				</row>
+
+
+
+				<row>
+					<label style="color:black">Nombre Perfil:</label>
+					<textbox id="txtnombre" width="95%"
+						value="@bind(vm.perfil.perNombre)"
+						onFocus='nombreperfil.open(txtnombre,"end_before")' />
+
+					<label style="color:black">Descripción:</label>
+					<textbox id="txtdescripcion" width="95%"
+						value="@bind(vm.perfil.perDescripcion)"
+						onFocus='descripcion.open(txtdescripcion,"end_before")' />
+
+
+				</row>
+
+				<row>
+					<label style="color:black">Estado:</label>
+					<combobox id="cmbtestado" width="95%"
+						onFocus='estado.open(cmbtestado,"end_before")' readonly="true"
+						onCreate="cmbtestado.setSelectedIndex(0)"
+						onSelect="@bind(vm.usuario.estado)">
+						<comboitem id="1" label="Activo" value="ACT" />
+						<comboitem id="2" label="Inactivo" value="INA" />
+
+					</combobox>
+				</row>
+
+				<row>
+					<cell colspan="4">
+						<div
+							sclass="form-group clearfix border-top-bottom">
+						</div>
+					</cell>
+				</row>
+
+			</rows>
+
+		</grid>
+
+
+
+
+
+
+		<popup id="nombreperfil" width="150px"
+			style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ ingresar perfil ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+						
+			</html>
+		</popup>
+
+		<popup id="descripcion" width="150px"
+			style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ ingresar descripción ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+					
+			</html>
+		</popup>
+
+
+
+		<popup id="estado" width="150px" style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ seleccionar el estado ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+					
+			</html>
+		</popup>
+
+
+	</window>
+</zk>

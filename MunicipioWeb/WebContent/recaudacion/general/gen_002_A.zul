@@ -1,0 +1,234 @@
+<?page title="Inicio Caja Diario" contentType="text/html;charset=UTF-8"?>
+<?init class="net.macrosigma.general.Validador"?>
+<zk>
+	<window title="Inicio Caja [gen_002_A]" border="none"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('net.macrosigma.recaudacion.controller.IngresoGeneralController')">
+		<toolbar>
+			<toolbarbutton id="tbbgrabar" label="Guardar"
+				image="/img/save.png" onClick="@command('createUsuario')" />
+			<toolbarbutton id="tbbsalir" label="Salir"
+				image="/img/sal.png" />
+		</toolbar>
+		<separator height="25px" />
+		<div align="center">
+			<html>
+				<FONT FACE="Segoe UI" SIZE="6" COLOR="293B65">
+					Diario Caja
+				</FONT>
+				<br></br>
+			</html>
+		</div>
+
+		<div align="center">
+			<image src="/img/monedas.png"></image>
+			<image src="/img/billete.png"></image>
+		</div>
+
+
+
+		<separator></separator>
+
+		<grid>
+			<columns>
+				<column width="25%" />
+				<column width="25%" />
+				<column width="25%" />
+				<column width="25%" />
+			</columns>
+			<rows>
+
+				<row spans="4">
+					<label value="LLenar los datos"
+						style="font-weight: bold;">
+					</label>
+				</row>
+				<row>
+					<cell colspan="4">
+						<div
+							sclass="form-group clearfix border-top-bottom">
+						</div>
+					</cell>
+				</row>
+				<row>
+					<cell>
+						<groupbox>
+							<caption label="Ingresar" />
+							<div id="diingr">
+								<grid>
+									<columns>
+										<column width="20%" />
+										<column width="80%" />
+									</columns>
+									<rows>
+										<row>
+											<label style="color:black"
+												value="Cajero:" />
+											<textbox id="txtusuario"
+												width="98%" onFocus='caja.open(txtusuario,"end_before")'
+												value="@bind(vm.usuario.genCajero)" maxlength="5" />
+										</row>
+									</rows>
+								</grid>
+							</div>
+						</groupbox>
+					</cell>
+					<cell colspan="3">
+						<div id="total">
+							<groupbox>
+								<caption label="Totales" />
+
+								<grid>
+									<columns>
+										<column width="16%" />
+										<column width="16%" />
+										<column width="16%" />
+										<column width="16%" />
+										<column width="16%" />
+										<column width="16%" />
+									</columns>
+									<rows>
+										<row>
+											<label style="color:black"
+												value="Monedas:" />
+											<intbox readonly="true"
+												value="@bind(vm.usuario.gentotmon)" id="inttotalmone" />
+											<label style="color:black"
+												value="Billetes:" />
+											<intbox readonly="true"
+												value="@bind(vm.usuario.gentotbill)" id="inttotalbille" />
+											<label style="color:black"
+												value="Total Caja:" />
+											<doublebox readonly="true"
+												value="@bind(vm.usuario.gentotcaja)" id="dobtotcaj" />
+										</row>
+									</rows>
+								</grid>
+
+							</groupbox>
+						</div>
+					</cell>
+				</row>
+				<row>
+					<cell colspan="5">
+						<groupbox>
+							<caption label="Monedas" />
+							<div id="divmon">
+								<grid>
+									<columns>
+										<column width="16%" />
+										<column width="16%" />
+										<column width="16%" />
+										<column width="16%" />
+										<column width="16%" />
+										<column width="16%" />
+									</columns>
+									<rows>
+										<row>
+											<label style="color:black"
+												value="1 cetv:" />
+											<intbox id="int1ctv"
+												value="@bind(vm.usuario.gen1ctv)"
+												onBlur="@command('sumar')" />
+											<label style="color:black"
+												value="5 cetv:" />
+											<intbox id="int5ctv"
+												value="@bind(vm.usuario.gen5ctv)"
+												onBlur="@command('sumar')" />
+											<label style="color:black"
+												value="10 cetv:" />
+											<intbox id="int10ctv"
+												value="@bind(vm.usuario.gen10ctv)"
+												onBlur="@command('sumar')" />
+										</row>
+										<row>
+											<label style="color:black"
+												value="25 cetv:" />
+											<intbox id="int25ctv"
+												value="@bind(vm.usuario.gen25ctv)"
+												onBlur="@command('sumar')" />
+											<label style="color:black"
+												value="50 cetv:" />
+											<intbox id="int50ctv"
+												value="@bind(vm.usuario.gen50ctv)"
+												onBlur="@command('sumar')" />
+											<label style="color:black"
+												value="1 Dolar:" />
+											<intbox id="int1dol"
+												value="@bind(vm.usuario.gen1dol)"
+												onBlur="@command('sumar')" />
+										</row>
+									</rows>
+								</grid>
+							</div>
+						</groupbox>
+					</cell>
+				</row>
+
+
+				<row>
+					<cell colspan="5">
+						<groupbox>
+							<caption label="Billetes" />
+							<div id="divbill">
+								<grid>
+									<columns>
+										<column width="16%" />
+										<column width="16%" />
+										<column width="16%" />
+										<column width="16%" />
+										<column width="16%" />
+										<column width="16%" />
+									</columns>
+									<rows>
+										<row>
+											<label style="color:black"
+												value="1 dolar:" />
+											<intbox id="int1dolar"
+												value="@bind(vm.usuario.gen1dolar)"
+												onBlur="@command('sumar')" />
+											<label style="color:black"
+												value="5 dolares:" />
+											<intbox id="int5dolar"
+												value="@bind(vm.usuario.gen5dolar)"
+												onBlur="@command('sumar')" />
+											<label style="color:black"
+												value="10 dolares:" />
+											<intbox id="int10dolar"
+												value="@bind(vm.usuario.gen10dolar)"
+												onBlur="@command('sumar')" />
+										</row>
+										<row>
+											<label style="color:black"
+												value="20 dolares:" />
+											<intbox id="int20dolar"
+												value="@bind(vm.usuario.gen20dolar)"
+												onBlur="@command('sumar')" />
+											<label style="color:black"
+												value="50 dolares:" />
+											<intbox id="int50dolar"
+												value="@bind(vm.usuario.gen50dolar)"
+												onBlur="@command('sumar')" />
+											<label style="color:black"
+												value="100 dolares:" />
+											<intbox id="int100dolar"
+												value="@bind(vm.usuario.gen100dolar)"
+												onBlur="@command('sumar')" />
+										</row>
+									</rows>
+								</grid>
+							</div>
+						</groupbox>
+					</cell>
+				</row>
+			</rows>
+		</grid>
+		<popup id="caja" width="150px" style="background:#FACD05">
+			<html>
+				
+				<![CDATA[ ingrese el cajero ]]>
+				
+			</html>
+		</popup>
+	</window>
+</zk>

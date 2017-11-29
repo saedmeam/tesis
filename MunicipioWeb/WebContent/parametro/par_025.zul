@@ -1,0 +1,297 @@
+<?page title="Catastro" contentType="text/html;charset=UTF-8"?>
+<?init class="net.macrosigma.general.Validador"?>
+<zk>
+	<window title="Politica de Seguridad [par_025]" border="normal" 
+		height="98%" apply="org.zkoss.bind.BindComposer" id="winpolseg"
+		viewModel="@id('vm') @init('net.macrosigma.parametro.controller.PoliticaSeguridadController')">
+		<toolbar>
+			<toolbarbutton id="tbbguardar" label="Guardar"
+				image="/img/save.png" onClick="@command('nuevo')" />
+
+		</toolbar>
+		<groupbox closable="false">
+			<caption label="Usuario" />
+			<grid>
+				<columns>
+					<column width="25%" />
+					<column width="25%" />
+					<column width="25%" />
+				</columns>
+				<rows>
+					<row>
+						<label style="color:black">
+							Longuitud Maximo de Usuario:
+						</label>
+						<intbox id="intlongmaxusu" width="50%"
+							value="@bind(vm.polSegBean.polSegLonMaxUsu)"
+							onFocus='usuario.open(intlongmaxusu,"end_before")' />
+					</row>
+					<row>
+						<label style="color:black">
+							Número de Intentos Fallido De Clave:
+						</label>
+						<intbox id="intnumintfallclave" width="50%"
+							value="@bind(vm.polSegBean.polSegNumIntFalliCla)"
+							onFocus='intento.open(intnumintfallclave,"end_before")' />
+					</row>
+				</rows>
+			</grid>
+		</groupbox>
+		<groupbox closable="false">
+			<caption label="Contraseña" />
+			<grid>
+				<columns>
+					<column width="25%" />
+					<column width="25%" />
+					<column width="25%" />
+				</columns>
+				<rows>
+					<row>
+						<label style="color:black">
+							Longuitud Minimo de Contraseña:
+						</label>
+						<intbox id="intlongmincont" width="50%"
+							value="@bind(vm.polSegBean.polSegLongMinCon)"
+							onFocus='nombrerol.open(intlongmincont,"end_before")' />
+						<label style="color:black">
+							Longuitud Maximo de Contraseña:
+						</label>
+						<intbox id="intlongmaxcont" width="50%"
+							value="@bind(vm.polSegBean.polSegLongMaxCon)"
+							onFocus='descripcion.open(intlongmaxcont,"end_before")' />
+					</row>
+					<row>
+						<label style="color:black">
+							Recordar días de Cambio de Contraseña:
+						</label>
+						<intbox id="intdrecordatorio" width="50%"
+							value="@bind(vm.polSegBean.polSegDiasRecCamCon)"
+							onFocus='recordar.open(intdrecordatorio,"end_before")'>
+						</intbox>
+						<label style="color:black">
+							Dias de Vigencia de Constraseña:
+						</label>
+						<intbox id="intdias" width="50%"
+							value="@bind(vm.polSegBean.polSegVigCon)"
+							onFocus='vigencia.open(intdias,"end_before")'>
+						</intbox>
+					</row>
+				</rows>
+			</grid>
+		</groupbox>
+		<groupbox closable="false">
+			<caption label="Complejidad" />
+			<grid>
+				<columns>
+					<column width="25%" />
+					<column width="25%" />
+					<column width="25%" />
+					<column width="25%" />
+					<column width="25%" />
+				</columns>
+				<rows>
+					<row>
+						<cell>
+							<label style="color:black">
+								Solicitar Simbolos
+							</label>
+						</cell>
+						<cell>
+							<checkbox id="chkpersim" />
+						</cell>
+					</row>
+					<row>
+						<cell>
+							<label style="color:black">
+								Solicitar Numeros
+							</label>
+						</cell>
+						<cell>
+							<checkbox id="chkpernum" />
+						</cell>
+					</row>
+					<row>
+						<cell>
+							<label style="color:black">
+								Solicitar Minisculas
+							</label>
+						</cell>
+						<cell>
+							<checkbox id="chkpermin" />
+						</cell>
+					</row>
+					<row>
+						<cell>
+							<label style="color:black">
+								Solicitar Mayusculas
+							</label>
+						</cell>
+						<cell>
+							<checkbox id="chkpermay" />
+						</cell>
+					</row>
+				</rows>
+			</grid>
+		</groupbox>
+		<popup id="usuario" width="150px" style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ ingresar la longuitud ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+		</html>
+		</popup>
+		<popup id="intento" width="150px" style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ ingresar el número de intento ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="nombrerol" width="150px"
+			style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ ingresar la longuitud minimo ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="descripcion" width="180px"
+			style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ ingresar la longuitud maximo ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="recordar" width="150px" style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ ingresar los días de cambio ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="vigencia" width="150px" style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ ingresar los días de vigencia ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+	</window>
+</zk>

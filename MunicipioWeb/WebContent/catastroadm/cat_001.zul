@@ -1,0 +1,57 @@
+<?page title="Parámetros" contentType="text/html;charset=UTF-8"?>
+<?init class="net.macrosigma.general.Validador"?>
+<zk>
+	<window title="Mantenimiento de Solicitud [cat_001]" border="normal"
+		height="98%" closable="true" apply="org.zkoss.bind.BindComposer"
+		id="winmantrub"
+		viewModel="@id('vm') @init('net.macrosigma.gestion.controller.MantSolicitudController')">
+		<toolbar>
+			<toolbarbutton id="tbbnuevo" label="Nuevo"
+				image="/img/new.png" onClick="@command('nuevo')" />
+			<image src="img/fondo4.png" height="22px"></image>
+			<toolbarbutton id="tbbmod" label="Modificar"
+				image="/img/editar.png" onClick="@command('modificar')" />
+			<image src="img/fondo4.png" height="22px"></image>
+			<toolbarbutton id="tbbeli" label="Eliminar"
+				image="/img/elimina.png" onClick="@command('eliminar')" />
+			<image src="img/fondo4.png" height="22px"></image>
+		</toolbar>
+		<groupbox closable="false">
+			<caption label="Criterio Búsqueda" />
+			<grid>
+				<columns>
+					<column width="15%" />
+					<column width="25%" />
+					<column width="15%" />
+					<column width="25%" />
+					<column width="20%" />
+				</columns>
+				<rows>
+					<row>
+						<label>Búsqueda por Pregunta</label>
+						<bandbox id="intanio" width="98%" instant="true"
+							onChange="self.setValue(self.getValue().toUpperCase());"
+							onBlur="@command('getPorRubro')"
+							onOpen="@command('getPorRubro')" />
+					</row>
+				</rows>
+			</grid>
+		</groupbox>
+		<separator height="5px" />
+		<listbox id="lbxdet" mold="paging" pageSize="5" sclass="tablas"
+			model="@load(vm.listaInte)" emptyMessage="no existen datos"
+			selectedItem="@bind(vm.intereselect)">
+			<listhead>
+				<listheader label="Descripción" />
+
+			</listhead>
+			<template name="model">
+				<listitem>
+					<listcell label="@load(each.desPregunta)" />
+				</listitem>
+			</template>
+		</listbox>
+	</window>
+	<zscript>
+</zscript>
+</zk>

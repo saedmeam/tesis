@@ -1,0 +1,732 @@
+<?page title="Recuperacion de Clave" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="Recuperación de Clave [usu_004]" border="none"
+		id="winRecClaUsu" contentStyle="overflow:auto" height="80%"
+		width="70%" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('net.macrosigma.seguridad.controller.RecuperacionClaveUsuarioController')">
+		<toolbar>
+			<toolbarbutton id="tbbguardar" label="Guardar"
+				onClick="@command('crearUsuario')" image="/img/save3.png" />
+			<image src="img/fondo4.png" height="22px"></image>
+		</toolbar>
+		<separator height="10px"></separator>
+		<div align="center">
+			<html>
+				<FONT FACE="Segoe UI" SIZE="6" COLOR="293B65">
+					Usuario
+				</FONT>
+				<br></br>
+			</html>
+		</div>
+		<div align="center">
+			<image src="/img/user_man.png"></image>
+		</div>
+		<grid>
+			<columns>
+				<column width="1%" />
+				<column width="24%" />
+				<column width="25%" />
+				<column width="25%" />
+				<column width="25%" />
+			</columns>
+			<rows>
+				<row>
+					<cell colspan="5">
+						<div
+							sclass="form-group clearfix border-top-bottom">
+						</div>
+					</cell>
+				</row>
+				<row spans="4">
+					<label value="Datos de Usuario"
+						style="font-weight: bold;">
+					</label>
+				</row>
+				<row>
+					<cell></cell>
+					<cell>Número de Cédula:</cell>
+					<cell>
+						<textbox id="txtusuario" width="75%"
+							instant="true"
+							onChange="self.setValue(self.getValue().toUpperCase());"
+							onFocus='ingresarusuario.open(txtusuario,"end_before")'
+							value="@bind(vm.usuario.usuUsuario)"
+							onBlur="@command('validarUsuario')" />
+						<image id="img0" src="img/accept.png"
+							visible="false">
+						</image>
+					</cell>
+					<cell>Email:</cell>
+					<cell>
+						<textbox id="txtemail" width="75%"
+							onFocus='email.open(txtemail,"end_before")'
+							value="@bind(vm.usuario.usuEmail)"
+							onBlur="@command('validarCorreo')" />
+						<image id="img3" src="img/accept.png"
+							visible="false">
+						</image>
+					</cell>
+				</row>
+				<row>
+					<separator height="1px"></separator>
+				</row>
+				<row>
+					<cell></cell>
+					<cell>Nombres:</cell>
+					<cell>
+						<textbox id="txtnombre" width="75%"
+							instant="true"
+							onChange="self.setValue(self.getValue().toUpperCase());"
+							onFocus='nombre.open(txtnombre,"end_before")'
+							value="@bind(vm.usuario.usuNombres)" />
+					</cell>
+					<cell>Apellidos:</cell>
+					<cell>
+						<textbox id="txtapellido" width="75%"
+							instant="true"
+							onChange="self.setValue(self.getValue().toUpperCase());"
+							onFocus='apellido.open(txtapellido,"end_before")'
+							value="@bind(vm.usuario.usuApellidos)" />
+					</cell>
+				</row>
+				<row>
+					<separator height="1px"></separator>
+				</row>
+				<row>
+					<cell></cell>
+					<cell>Seleccionar Rol:</cell>
+					<cell>
+						<listbox id="lbxRolesAgregados"
+							model="@load(vm.listaRoles)" emptyMessage="Sin Roles"
+							sclass="tablas" width="90%">
+							<listhead>
+								<listheader label="ROLES ASIGNADOS"
+									width="70%">
+								</listheader>
+							</listhead>
+							<template name="model">
+								<listitem>
+									<listcell
+										label="@load(each.rolNombre)">
+									</listcell>
+								</listitem>
+							</template>
+						</listbox>
+					</cell>
+				</row>
+				<row>
+					<separator height="1px"></separator>
+				</row>
+				<row>
+					<cell></cell>
+					<label>Seleccione la pregunta de Seguridad</label>
+					<combobox id="cmbdesc" model="@load(vm.listpardes)"
+						onFocus='preg.open(cmbdesc,"end_before")' width="98%"
+						readonly="true" value="@load(vm.pregFreSel.desPregunta)"
+						selectedItem="@bind(vm.pregFreSel)">
+						<template name="model">
+							<comboitem value="@load(each.insId)"
+								label="@load(each.desPregunta)" />
+						</template>
+					</combobox>
+					<cell>Respuesta:</cell>
+					<cell>
+						<textbox id="txtres" width="75%" instant="true"
+							onBlur="@command('validarRespuesta')"
+							onChange="self.setValue(self.getValue().toUpperCase());"
+							onFocus='res.open(txtres,"end_before")'
+							value="@bind(vm.pregUsuSel.resPreg)" />
+					</cell>
+				</row>
+				<row>
+					<cell></cell>
+
+					<cell colspan="4">
+						<listbox id="lbxdet" mold="paging" pageSize="5"
+							sclass="tablas" model="@load(vm.listPreguntaUsuario)"
+							emptyMessage="no existen datos"
+							selectedItem="@bind(vm.pregUsuElim)">
+							<listhead>
+								<listheader label="Pregunta" />
+							</listhead>
+							<template name="model">
+								<listitem>
+									<listcell
+										label="@load(each.preFreUsu.desPregunta)" />
+								</listitem>
+							</template>
+						</listbox>
+					</cell>
+				</row>
+				<row>
+					<cell></cell>
+					<cell>Clave:</cell>
+					<cell>
+						<textbox type="password" width="75%"
+							readonly="@load(!vm.b)"
+							onFocus='ingresarcontrasena.open(txtClave,"end_before")'
+							value="@bind(vm.usuario.usuClave)" id="txtClave"
+							onBlur="@command('validarClave')">
+						</textbox>
+						<image id="img1" src="img/accept.png"
+							visible="false">
+						</image>
+					</cell>
+					<cell>Confirmar Clave:</cell>
+					<cell>
+						<textbox type="password" width="75%"
+							readonly="@load(!vm.b)"
+							onFocus='confirmarcontrasena.open(txtClave2,"end_before")'
+							id="txtClave2" onBlur="@command('validarClave')">
+						</textbox>
+						<image id="img2" src="img/accept.png"
+							visible="false">
+						</image>
+					</cell>
+				</row>
+				<row>
+					<separator height="1px"></separator>
+				</row>
+				<row>
+					<cell colspan="5">
+						<div
+							sclass="form-group clearfix border-top-bottom">
+						</div>
+					</cell>
+				</row>
+			</rows>
+		</grid>
+		<popup id="nombre" width="150px" style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ Ingresar el Nombre ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="preg" width="150px" style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ Seleccione su pregunta de Seguridad ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="apellido" width="150px" style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ Ingresar el Apellido ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="res" width="150px" style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ Respuesta de La Pregunta ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="departamento" width="150px"
+			style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ Ingresar el Departamento ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="estado" width="150px" style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ Seleccionar el Estado ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="email" width="150px" style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ Ingresar el Email]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="nombrerol" width="150px"
+			style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ Seleccionar el Rol]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="ingresarusuario" width="150px"
+			style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ Ingresar el Usuario ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="ingresarcontrasena" width="150px"
+			style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ Ingresar la Clave ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="confirmarcontrasena" width="150px"
+			style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ Confirmar la Clave ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="popRoles" width="300px"
+			tooltiptext="Agregar Roles">
+			<button label="Agregar" image="img/nuevo.png"
+				onClick="@command('agregarRoles')">
+			</button>
+			<listbox emptyMessage="No hay roles"
+				model="@load(vm.listaRoles)" multiple="true" checkmark="true"
+				sclass="tablas" mold="paging" pageSize="4" id="lbxAgregarRoles">
+				<listhead>
+					<listheader label="Roles"></listheader>
+				</listhead>
+				<template name="model">
+					<listitem>
+						<listcell label="@load(each.rolNombre)"></listcell>
+					</listitem>
+				</template>
+			</listbox>
+		</popup>
+	</window>
+</zk>

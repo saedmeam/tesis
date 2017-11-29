@@ -1,0 +1,291 @@
+.z-grid {
+	border: 0px;
+	overflow: hidden;
+	zoom: 1;
+}
+
+.z-grid .z-row:hover>.z-row-inner,.z-grid .z-row>.z-cell {
+	background: transparent;
+	border: 0 none;
+	padding: 0;
+}
+
+.panel2 {
+	width: 100%;
+	height: 15px;
+	position: relative;
+	background-image: url(../img/fondo2.jpg);
+	background-repeat: repeat-x;
+}
+
+/*-----------------------------------------ENCABEZADO------------------------------*/
+.panel1 {
+	width: 100%;
+	height: 70px;
+	background-image: url(../img/fondo1.png);
+	background-repeat: repeat-x;
+	position: relative;
+}
+
+/*============== Nombre de Menu================== */
+.z-borderlayout .z-west-header {
+	background: transparent repeat-x 0 0;
+	background-color: #ffd006;
+	color: #000;
+	font-family: arial, "Times New Roman", Times, serif;
+}
+
+.z-borderlayout .z-east-header {
+	background: transparent repeat-x 0 0;
+	background-color: #ffd006;
+	color: #000;
+	font-family: arial, "Times New Roman", Times, serif;
+}
+
+.z-west {
+	border: 1px solid #ffd006;
+	position: absolute;
+	overflow: hidden;
+}
+
+.z-east {
+	border: 1px solid #ffd006;
+	position: absolute;
+	overflow: hidden;
+}
+
+.z-south,.z-center,.z-east {
+	border: 1px solid #FFFFFF;
+	position: absolute;
+	overflow: hidden;
+	background-color: #FFFFFF;
+}
+
+.z-window-embedded-header .z-caption .z-caption-l .z-caption-r {
+	color: #FFFFFF; /*PRO*/
+	font-size: 14px; /*PRO*/
+	font-weight: bold; /*PRO*/
+}
+
+.z-window-embedded-header,.z-window-modal-header {
+	color: #FFFFFF; /*PRO*/
+	font-size: 14px; /*PRO*/
+	font-weight: bold; /*PRO*/
+	background-color: rgb(0, 114, 198);
+}
+
+.z-window-embedded-header .z-caption .z-caption-l,.z-window-embedded-header .z-caption .z-caption-r
+	{
+	color: #FFFFFF;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.z-window-embedded-tl,.z-window-embedded-tl-noborder {
+	background-color: #ffd006;
+	background-image: none;
+	background-position: top left;
+}
+
+.z-window-embedded-tr,.z-window-embedded-tr-noborder {
+	background-color: #ffd006;
+	background-image: none;
+	background-position: top right;
+}
+
+.z-window-embedded-hl,.z-window-embedded-hl-noborder {
+	background-color: #ffd006;
+	background-image: none;
+	background-position: top left;
+}
+
+.z-window-embedded-hm {
+	background-color: #ffd006;
+	background-image: none;
+	background-position: top center;
+}
+
+.z-window-embedded-hr {
+	background-color: #ffd006;
+	background-image: none;
+	background-position: top right;
+}
+
+.z-window-embedded-tl,.z-window-embedded-tr,.z-window-embedded-bl,.z-window-embedded-br
+	{
+	background-color: #ffd006;
+	background-image: none;
+}
+
+.z-window-embedded-cl,.z-window-embedded-cr {
+	background-color: #ffd006;
+	background-image: none;
+}
+
+.z-tree-body table,.z-dottree-body table,.z-filetree-body table,.z-vfiletree-body table
+	{
+	background-color: #FCF38E;
+}
+
+div.z-tree {
+	background: #FCF38E;
+	border: 1px solid #FCF38E;
+	overflow: hidden;
+	zoom: 1;
+}
+
+span.z-tree-root-open,span.z-tree-tee-open,span.z-tree-last-open,span.z-tree-root-close,span.z-tree-tee-close,span.z-tree-last-close
+	{
+	background-image: url(../img/principal.gif);
+}
+
+.z-tabbox .z-tabpanels .z-tabpanel {
+	border-top-style: solid;
+	border-top-width: 5px;
+	border-top-color: #FFFFFF;
+	background-color: #FFFFFF;
+	padding: 0px;
+}
+
+.dashboard {
+	background-image: url("../img/principal.gif");
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-color: #FCF38E;
+}
+
+.z-caption {
+	position: relative;
+	text-align: left;
+}
+
+.z-button {
+	position: relative;
+	text-align: left !important;
+	background: transparent !important;
+	padding: 0px 30px;
+	height: 30px;
+	font-family: Arial, Helvetica, sans-serif !important;
+}
+
+/*======================= tablas========================*/
+.tablas {
+	width: 100%;
+	padding: 0;
+}
+
+.tablas th {
+	background: #686765;
+	padding: 5px;
+	color: #fff;
+}
+
+.tablas td {
+	background: #FCF38E;
+	color: #000;
+	padding: 5px;
+}
+
+.z-listheader-content {
+	font-family: Arial, Sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	font-style: normal;
+	color: #FFFFFF;
+	line-height: 24px;
+	overflow: hidden;
+}
+
+/*==========================grid==========================*/
+.z-grid {
+	border: 0px;
+	overflow: hidden;
+	zoom: 1;
+}
+
+.z-grid-body table {
+	width: 100%;
+	padding: 0;
+}
+
+.z-grid-odd>.z-row-inner,.z-grid-odd>.z-cell {
+	background: transparent;
+	padding: 0;
+}
+
+.z-grid-odd>.z-row-inner,.z-grid-odd>.z-cell {
+	background: transparent;
+}
+
+.z-grid .z-row:hover>.z-row-inner,.z-grid .z-row>.z-cell:hover {
+	background: transparent;
+	border: 0 none;
+	padding: 0;
+}
+
+.z-row:hover>.z-row-inner,.z-row:hover>.z-cell:hover {
+	background: transparent;
+}
+
+.z-cell {
+	background: transparent;
+}
+.z-grid-odd > .z-cell {
+	background: transparent;
+}
+
+
+/*============================windows=======================*/
+.z-window-content {
+	border: 0px;
+	margin: 0;
+	padding: 0px;
+	background: none;
+	overflow: hidden;
+	zoom: 1;
+	background: none;
+	margin: 0;
+}
+
+[class^="z-w"],[class*=" z-w"] {
+	background: url("../img/bg-square.png") repeat;
+}
+
+/*===============RALLITA=========================*/
+.border-top-bottom {
+	border-top: 1px solid #adabab;
+	border-bottom: 1px solid #adabab;
+}
+
+.clearfix {
+	*zoom: 1;
+}
+
+.clearfix:before,.clearfix:after {
+	display: table;
+	content: "";
+	line-height: 0;
+}
+
+.clearfix:after {
+	clear: both;
+}
+
+.clearfix:before,.clearfix:after {
+	content: " ";
+	display: table;
+}
+
+.clearfix:after {
+	clear: both;
+}
+
+.clearfix {
+	*zoom: 1;
+}
+
+#Nuevo .form-horizontal .form-group {
+	margin-left: 0;
+	margin-right: 0;
+}
+

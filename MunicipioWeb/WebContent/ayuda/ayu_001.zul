@@ -1,0 +1,82 @@
+<?page title="Cambio_Clave" contentType="text/html;charset=UTF-8"?>
+<!--  <?init class="net.macrosigma.general.Validador"?> -->
+<zk>
+	<window title="Cambio Clave [ayu_001]" border="normal"
+		height="85%" width="75%" closable="true"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('net.macrosigma.seguridad.controller.IngresoPerfilController')">
+
+
+
+		<div align="center">
+			<html>
+				<FONT FACE="Segoe UI" SIZE="6" COLOR="293B65">
+					Cambio CLave
+				</FONT>
+				<br></br>
+			</html>
+		</div>
+
+		
+
+		<separator></separator>
+		<separator></separator>
+
+		<div align="normal">
+			<html>
+				<FONT FACE="Segoe UI" SIZE="4" COLOR="293B65">
+					Para cambiar la clave hacemos click en la opcion
+					Cambio de Clave que se encuentra en la parte
+					superior
+				</FONT>
+				<br></br>
+			</html>
+		</div>
+
+		<separator></separator>
+		<separator></separator>
+
+		<div align="center">
+			<image src="/img/cambioclave.png"></image>
+		</div>
+
+		<separator></separator>
+		<separator></separator>
+
+		<div align="normal">
+			<html>
+				<FONT FACE="Segoe UI" SIZE="4" COLOR="293B65">
+					Nos aparece la siguiente ventana que me permite
+					ingresar las siguientes opciones
+				</FONT>
+				<br></br>
+			</html>
+		</div>
+
+		<separator></separator>
+		<separator></separator>
+
+		<div align="center">
+			<image src="/img/cambioclave1.png"></image>
+		</div>
+
+
+		<div align="normal">
+			<html>
+				<FONT FACE="Segoe UI" SIZE="4" COLOR="293B65">
+					Luego hacemos click en la opción cambiar clave, que
+					me permite cambiar la clave correctamente
+				</FONT>
+				<br></br>
+			</html>
+		</div>
+
+		<separator></separator>
+		<separator></separator>
+
+		<div align="center">
+			<image src="/img/cambioclave2.png"></image>
+		</div>
+
+	</window>
+</zk>

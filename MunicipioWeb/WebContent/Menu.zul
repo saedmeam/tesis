@@ -1,0 +1,170 @@
+<?page title=".:Gestion Municipal:." contentType="text/html;charset=UTF-8"?>
+<?link href="/css/main.css" rel="stylesheet" type="text/css"?>
+<?init class="net.macrosigma.general.Validador"?>
+<?forward uri="/Pantalla_Principal.zul" if="${sessionScope.usuario==null}"?>
+<zk xmlns:w="http://www.zkoss.org/2005/zk/client">
+	<div align="center" height="100%">
+		<window width="100%" height="100%"
+			apply="org.zkoss.bind.BindComposer" id="mainWindow"
+			viewModel="@id('vm') @init('net.macrosigma.util.controller.MenuController')">
+			<borderlayout>
+				<north border="none">
+					<div>
+						<div>
+							<div>
+
+								<div class="panel1">
+									<grid>
+										<columns>
+											<column width="20%"></column>
+											<column width="20%"></column>
+											<column width="17%"></column>
+											<column width="1%"></column>
+											<column width="18%"></column>
+											<column width="1%"></column>
+											<column width="12%"></column>
+											<column width="1%"></column>
+											<column width="10%"></column>
+										</columns>
+										<rows>
+											<row>
+												<cell>
+													<image
+														src="img/logo_macrosigma.png" top="10px">
+													</image>
+												</cell>
+												<cell></cell>
+												<cell align="center">
+													<image
+														src="img/logo_del_sistema.png">
+													</image>
+												</cell>
+												<cell>
+													<image
+														src="img/fondo4.png" height="40px">
+													</image>
+												</cell>
+												<cell align="center">
+													<div
+														sclass="welcome">
+
+														<image
+															src="img/personal.png" sclass="home-user-icon"
+															height="20px">
+														</image>
+														<label
+															value="BIENVENIDO: ${vm.usu.usuUsuario}"
+															style="font-weight: bold;">
+														</label>
+													</div>
+												</cell>
+												<cell>
+													<image
+														src="img/fondo4.png" height="40px">
+													</image>
+												</cell>
+												<cell align="center">
+													<div
+														sclass="nav-collapse menu-top">
+														<div
+															align="center">
+															<a
+																onClick="@command('cambioClave')"
+																image="img/cambio_clave.png" label=" CAMBIO DE CLAVE"
+																style="color: black">
+															</a>
+														</div>
+													</div>
+												</cell>
+												<cell>
+													<image
+														src="img/fondo4.png" height="40px">
+													</image>
+												</cell>
+												<cell align="center">
+													<div
+														sclass="nav-collapse menu-top">
+														<a
+															onClick="@command('doLogoff')" image="img/logout.png"
+															label=" CERRAR SESIÓN" style="color: black">
+														</a>
+													</div>
+												</cell>
+											</row>
+										</rows>
+									</grid>
+								</div>
+								<div class="panel2">
+									<div class="menu_princ">
+										<label id="lbNombreModulo"
+											style="font-weight: bold;">
+										</label>
+									</div>
+									<div class="salir">
+										<a onClick="redireccionar()" image="img/home.png">
+										<label style="font-weight: bold;">INICIO</label>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</north>
+				<west border="none" maxsize="300" minsize="300">
+					<div sclass="no-padding" width="300px">
+						<div sclass="clearfix form-main">
+							<navbar id="navbar" orient="vertical"></navbar>
+						</div>
+					</div>
+				</west>
+				<center border="none" autoscroll="true">
+					<div width="100%" height="100%">
+						<borderlayout>
+							<center border="none">
+								<include id="incCont" />
+							</center>
+							<south border="none">
+								<grid>
+									<rows>
+										<row>
+											<cell>
+												<div align="left">
+													<label
+														value=" Copyright © Macrosigma S.A 2014-2015"
+														style="font-size:12px">
+													</label>
+												</div>
+											</cell>
+											<cell>
+												<div align="right">
+													<image
+														src="img/mini_balzar.png">
+													</image>
+													<label
+														value="Todos los derechos reservados  .:Ilustre Municipalidad de Balzar:. "
+														style="font-size:12px">
+													</label>
+													<image
+														src="img/ecuador.jpg">
+													</image>
+												</div>
+											</cell>
+										</row>
+									</rows>
+								</grid>
+							</south>
+						</borderlayout>
+					</div>
+				</center>
+			</borderlayout>
+		</window>
+	</div>
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/growl.js"></script>
+	<script src="/js/sitmedia.js"></script>
+	<zscript>
+	void redireccionar() {
+		Executions.sendRedirect("/Pantalla_Principal.zul");
+	}
+</zscript>
+</zk>
