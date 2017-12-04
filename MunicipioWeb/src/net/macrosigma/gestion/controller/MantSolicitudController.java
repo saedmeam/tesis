@@ -3,8 +3,11 @@ package net.macrosigma.gestion.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.macrosigma.gestion.dao.GmGesPreguntaFrecuenteDao;
-import net.macrosigma.gestion.ent.GmGesPreguntaFrecuente;
+import net.macrosigma.gestion.dao.GmGesSolicitudDao;
+import net.macrosigma.gestion.ent.GmGesSolicitud;
+import net.macrosigma.parametro.dao.GmParParametroDao;
+import net.macrosigma.parametro.ent.GmParParametros;
+import net.macrosigma.seguridad.ent.GmSegUsuario;
 import net.macrosigma.util.controller.BaseController;
 
 import org.zkoss.bind.BindUtils;
@@ -33,18 +36,57 @@ public class MantSolicitudController extends BaseController {
 	@Wire
 	Window winmantrub;
 	// llenar tabla
-	List<GmGesPreguntaFrecuente> listaInte = new ArrayList<GmGesPreguntaFrecuente>();
-	GmGesPreguntaFrecuenteDao intDao = new GmGesPreguntaFrecuenteDao();
-	GmGesPreguntaFrecuente intereselect = new GmGesPreguntaFrecuente();
+	List<GmGesSolicitud> listaInte = new ArrayList<GmGesSolicitud>();
+	GmGesSolicitudDao intDao = new GmGesSolicitudDao();
+	GmGesSolicitud intereselect = new GmGesSolicitud();
 	@Wire
 	Bandbox bndanio;
 
-	public GmGesPreguntaFrecuente getIntereselect() {
+	GmSegUsuario usu = (GmSegUsuario) Sessions.getCurrent().getAttribute(
+			"usuario");
+
+	GmParParametroDao parDao = new GmParParametroDao();
+	List<GmParParametros> listparSol = new ArrayList<GmParParametros>();
+	GmParParametros parSolSel = new GmParParametros();
+
+	public List<GmGesSolicitud> getListaInte() {
+		return listaInte;
+	}
+
+	public void setListaInte(List<GmGesSolicitud> listaInte) {
+		this.listaInte = listaInte;
+	}
+
+	public GmGesSolicitud getIntereselect() {
 		return intereselect;
 	}
 
-	public void setIntereselect(GmGesPreguntaFrecuente intereselect) {
+	public void setIntereselect(GmGesSolicitud intereselect) {
 		this.intereselect = intereselect;
+	}
+
+	public GmSegUsuario getUsu() {
+		return usu;
+	}
+
+	public void setUsu(GmSegUsuario usu) {
+		this.usu = usu;
+	}
+
+	public List<GmParParametros> getListparSol() {
+		return listparSol;
+	}
+
+	public void setListparSol(List<GmParParametros> listparSol) {
+		this.listparSol = listparSol;
+	}
+
+	public GmParParametros getParSolSel() {
+		return parSolSel;
+	}
+
+	public void setParSolSel(GmParParametros parSolSel) {
+		this.parSolSel = parSolSel;
 	}
 
 	@Command
@@ -65,7 +107,7 @@ public class MantSolicitudController extends BaseController {
 		tab.setClosable(true);
 		tab.setSelected(true);
 		// Id del tab
-		tab.setId("/catastroadm/cat_014_A.zul");
+		tab.setId("/catastroadm/cat_001_A.zul");
 		tabs.getTabs().appendChild(tab);
 		Tabpanel tabpanel = new Tabpanel();
 		tabpanels.appendChild(tabpanel);
@@ -81,7 +123,7 @@ public class MantSolicitudController extends BaseController {
 	public void modificar() {
 		// @BindingParam("objeto") GmParInteres interes) {
 		if (intereselect != null)
-			if (intereselect.getInsId() != null) {
+			if (intereselect.getSolId() != null) {
 
 				Sessions.getCurrent().setAttribute("tip_op", "M");
 				Sessions.getCurrent().setAttribute("cod_int", intereselect);
@@ -91,7 +133,8 @@ public class MantSolicitudController extends BaseController {
 						.getParent().getParent().getParent().getParent();
 				Borderlayout bl = new Borderlayout();
 				if (tabs.hasFellow("/catastroadm/cat_001_A.zul")) {
-					Tab tab2 = (Tab) tabs.getFellow("/catastroadm/cat_001_A.zul");
+					Tab tab2 = (Tab) tabs
+							.getFellow("/catastroadm/cat_001_A.zul");
 					tab2.close();
 				}
 				// Nombre del tab
@@ -99,11 +142,11 @@ public class MantSolicitudController extends BaseController {
 				tab.setClosable(true);
 				tab.setSelected(true);
 				// Id del tab
-				tab.setId("/catastroadm/cat_014_A.zul");
+				tab.setId("/catastroadm/cat_001_A.zul");
 				tabs.getTabs().appendChild(tab);
 				Tabpanel tabpanel = new Tabpanel();
 				tabpanels.appendChild(tabpanel);
-				Include include = new Include("/catastroadm/cat_014_A.zul");
+				Include include = new Include("/catastroadm/cat_001_A.zul");
 				Center c = new Center();
 				c.setAutoscroll(true);
 				c.appendChild(include);
@@ -116,26 +159,21 @@ public class MantSolicitudController extends BaseController {
 			Messagebox.show("Debe Seleccionar el registro que desea modificar");
 	}
 
+	@SuppressWarnings("static-access")
 	@AfterCompose
 	public void init(@ContextParam(ContextType.VIEW) Component view) {
 		Selectors.wireComponents(view, this, false);
+		listparSol = parDao.getParametroByDesPad("TIPOS DE SOLICITUD");
 		buscar();
 	}
 
 	@NotifyChange("listaInte")
 	public void buscar() {
-		listaInte = intDao.getPreFreAct();
+		listaInte = intDao.getPreFreAct(usu);
 
 	}
 
-	public List<GmGesPreguntaFrecuente> getListaInte() {
-		return listaInte;
-	}
-
-	public void setListaInte(List<GmGesPreguntaFrecuente> listaInte) {
-		this.listaInte = listaInte;
-	}
-
+	@SuppressWarnings("static-access")
 	@NotifyChange("listaInte")
 	@Command
 	public void InteresPorAño() {
@@ -143,8 +181,7 @@ public class MantSolicitudController extends BaseController {
 			buscar();
 		} else {
 			if (bndanio.getText() != null) {
-				listaInte = GmGesPreguntaFrecuenteDao.getValPrebyPre(bndanio
-						.getText().toUpperCase());
+				listaInte = intDao.getSolbyTipSol(usu, parSolSel);
 			} else
 				buscar();
 		}
@@ -155,12 +192,17 @@ public class MantSolicitudController extends BaseController {
 	public void eliminar() {
 		// @BindingParam("objeto") GmParInteres interes) {
 		if (intereselect != null)
-			if (intereselect.getInsId() != null) {
-				intereselect.setEstado("INA");
-				intDao.actualizar(intereselect);
-				buscar();
-				BindUtils.postNotifyChange(null, null,
-						MantSolicitudController.this, "listaInte");
+			if (intereselect.getSolId() != null) {
+				if (intereselect.getSolEstado().equals("ACT")
+						|| intereselect.getSolEstado().equals("OBS")) {
+					intereselect.setEstado("INA");
+					intDao.actualizar(intereselect);
+					buscar();
+					BindUtils.postNotifyChange(null, null,
+							MantSolicitudController.this, "listaInte");
+				}else{
+					Messagebox.show("No se puede eliminar el registro ya que esta siendo procesado");
+				}
 			} else
 				Messagebox.show("Debe Seleccionar el Item que desea Eliminar");
 		else

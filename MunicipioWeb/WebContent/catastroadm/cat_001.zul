@@ -28,11 +28,20 @@
 				</columns>
 				<rows>
 					<row>
-						<label>Búsqueda por Pregunta</label>
-						<bandbox id="intanio" width="98%" instant="true"
-							onChange="self.setValue(self.getValue().toUpperCase());"
-							onBlur="@command('getPorRubro')"
-							onOpen="@command('getPorRubro')" />
+
+						<label>Tipo de Solicitud</label>
+						<combobox id="cmbtiposolicitud"
+							model="@load(vm.listparSol)" width="98%" readonly="true"
+							value="@load(vm.parSolSel.parDes)"
+							onSelect="@command('getPorRubro')"
+							onBlur="@command('getPorRubro')" onOK="@command('getPorRubro')"
+							selectedItem="@bind(vm.parSolSel)">
+							<template name="model">
+								<comboitem value="@load(each.par_id)"
+									label="@load(each.parDes)" />
+							</template>
+						</combobox>
+
 					</row>
 				</rows>
 			</grid>
@@ -42,12 +51,23 @@
 			model="@load(vm.listaInte)" emptyMessage="no existen datos"
 			selectedItem="@bind(vm.intereselect)">
 			<listhead>
-				<listheader label="Descripción" />
-
+				<listheader label="Carrera" />
+				<listheader label="Solicitud" />
+				<listheader label="Nombres" />
+				<listheader label="Apellidos" />
+				<listheader label="Identificacion" />
+				<listheader label="Estado Solicitud" />
 			</listhead>
 			<template name="model">
 				<listitem>
-					<listcell label="@load(each.desPregunta)" />
+					<listcell label="@load(each.solCarrera.parDes)" />
+					<listcell
+						label="@load(each.solTipoSolicitud.parDes)" />
+					<listcell label="@load(each.solUsu.usuNombres)" />
+					<listcell label="@load(each.solUsu.usuApellidos)" />
+					<listcell label="@load(each.solUsu.usuario)" />
+					<listcell
+						label="@load(each.solEstado.equals('ING')?'INGRESADO': each.solEstado.equals('OBS')?'OBSERVADO':each.solEstado.equals('PRO')?'PROCESADO':'RECHAZADO')" />
 				</listitem>
 			</template>
 		</listbox>

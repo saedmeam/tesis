@@ -130,6 +130,9 @@ public class IngSolicitudesController extends BaseController {
 		if (tipop == "M") {
 			sol = ((GmGesSolicitud) Sessions.getCurrent().getAttribute(
 					"cod_int"));
+			parCarreraSel = sol.getSolCarrera();
+			parSolSel = sol.getSolTipoSolicitud();
+			listparReqSol = sol.getSolReqDoc();
 		}
 		cargaCombo();
 		BindUtils.postNotifyChange(null, null, IngSolicitudesController.this,
@@ -187,6 +190,7 @@ public class IngSolicitudesController extends BaseController {
 			cmbtiposolicitud.setErrorMessage("campo obligatorio");
 			return;
 		}
+
 		String reqfal = null;
 		boolean b = false;
 		for (int i = 0; i < listparReqSol.size(); i++) {
@@ -202,7 +206,12 @@ public class IngSolicitudesController extends BaseController {
 			Messagebox.show(reqfal);
 			return;
 		}
+		sol.setSolCarrera(parCarreraSel);
+		sol.setSolTipoSolicitud(parSolSel);
+		sol.setSolUsu(usu);
+		sol.setUsuario(usu.getUsuario());
 		sol.setEstado("ACT");
+		sol.setSolEstado("ING");
 		if (tipop == "M")
 			intDao.actualizar(sol);
 		else

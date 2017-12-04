@@ -15,7 +15,7 @@
 		<div align="center">
 			<html>
 				<FONT FACE="Segoe UI" SIZE="6" COLOR="293B65">
-					Rubros
+					Ingreso de Solicitudes
 				</FONT>
 				<br></br>
 			</html>
@@ -76,6 +76,11 @@
 						value="@load(vm.usu.usuApellidos)" />
 				</row>
 				<row>
+					<label value="Identificacion" />
+					<textbox readonly="true"
+						value="@load(vm.usu.usuario)" />
+				</row>
+				<row>
 					<cell colspan="4">
 						<groupbox>
 							<caption label="Requisitos Por solicitud" />
@@ -93,7 +98,7 @@
 										<listcell
 											label="@load(each.solReqTipSol.parDes)" />
 										<listcell>
-											<button label="Carga Imagen"
+											<button label="Carga de Solicitud"
 												upload="true,maxsize=801192"
 												onUpload="@command('uploadFile',upload=event,obj=each)"
 												autodisable="self" sclass="btn" image="/img/agrega.png" />
