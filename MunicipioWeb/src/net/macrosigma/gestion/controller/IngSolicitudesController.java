@@ -127,6 +127,7 @@ public class IngSolicitudesController extends BaseController {
 	public void init(@ContextParam(ContextType.VIEW) Component view) {
 		Selectors.wireComponents(view, this, false);
 		tipop = ((String) Sessions.getCurrent().getAttribute("tip_op"));
+		cargaCombo();
 		if (tipop == "M") {
 			sol = ((GmGesSolicitud) Sessions.getCurrent().getAttribute(
 					"cod_int"));
@@ -134,7 +135,7 @@ public class IngSolicitudesController extends BaseController {
 			parSolSel = sol.getSolTipoSolicitud();
 			listparReqSol = sol.getSolReqDoc();
 		}
-		cargaCombo();
+
 		BindUtils.postNotifyChange(null, null, IngSolicitudesController.this,
 				"interes");
 	}

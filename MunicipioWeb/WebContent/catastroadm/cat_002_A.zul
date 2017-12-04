@@ -1,0 +1,298 @@
+<?page title="Ingreso_Usuario" contentType="text/html;charset=UTF-8"?>
+<?init class="net.macrosigma.general.Validador"?>
+<zk>
+	<window title="Departamento [usu_001]" border="none"
+		id="winNuevoUsu" contentStyle="overflow:auto" height="100%"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('net.macrosigma.gestion.controller.IngDepartamentoController')">
+		<toolbar>
+			<toolbarbutton id="tbbguardar" label="Guardar"
+				onClick="@command('crearUsuario')" image="/img/save3.png" />
+			<image src="img/fondo4.png" height="22px"></image>
+		</toolbar>
+		<separator height="10px"></separator>
+		<div align="center">
+			<html>
+				<FONT FACE="Segoe UI" SIZE="6" COLOR="293B65">
+					Departamento
+				</FONT>
+				<br></br>
+			</html>
+		</div>
+		<grid>
+			<columns>
+				<column width="1%" />
+				<column width="24%" />
+				<column width="25%" />
+				<column width="25%" />
+				<column width="25%" />
+			</columns>
+			<rows>
+				<row>
+					<cell colspan="5">
+						<div
+							sclass="form-group clearfix border-top-bottom">
+						</div>
+					</cell>
+				</row>
+				<row>
+
+					<cell></cell>
+					<cell>Nombre Departamento:</cell>
+					<cell>
+						<textbox id="txtdepartamento" width="75%"
+							instant="true"
+							onChange="self.setValue(self.getValue().toUpperCase());"
+							onFocus='departamento.open(txtdepartamento,"end_before")'
+							value="@bind(vm.usuario.depNomDep)" />
+					</cell>
+
+					<cell>Seleccionar Carreras:</cell>
+					<cell>
+						<listbox id="lbxRolesAgregados"
+							model="@load(vm.listaRolUsuarioGuardar)" emptyMessage="Sin Roles"
+							sclass="tablas" width="90%">
+							<listhead>
+								<listheader label="ROLES ASIGNADOS"
+									width="70%">
+								</listheader>
+								<listheader align="center">
+									<button image="img/nuevo.png"
+										id="btnAgregar" onClick="popRoles.open(self)"
+										tooltiptext="Agregar Roles" />
+								</listheader>
+							</listhead>
+							<template name="model">
+								<listitem>
+									<listcell
+										label="@load(each.depCarreraId.parDes)">
+									</listcell>
+									<listcell>
+										<a image="img/cruz.png"
+											onClick="@command('removerRol', objeto = each)">
+										</a>
+									</listcell>
+								</listitem>
+							</template>
+						</listbox>
+					</cell>
+
+				</row>
+				<row>
+					<separator height="1px"></separator>
+				</row>
+				<row>
+					<cell colspan="5">
+						<div
+							sclass="form-group clearfix border-top-bottom">
+						</div>
+					</cell>
+				</row>
+			</rows>
+		</grid>
+		<popup id="nombre" width="150px" style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+				
+				<![CDATA[ Ingresar el Nombre ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="apellido" width="150px" style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+				
+				<![CDATA[ Ingresar el Apellido ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="departamento" width="150px"
+			style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+				
+				<![CDATA[ Ingresar el Departamento ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="estado" width="150px" style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+				
+				<![CDATA[ Seleccionar el Estado ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="email" width="150px" style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+				
+				<![CDATA[ Ingresar el Email]]>
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="nombrerol" width="150px"
+			style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+				
+				<![CDATA[ Seleccionar el Rol]]>
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="ingresarusuario" width="150px"
+			style="background:#FACD05">
+			<html>
+
+
+
+
+
+
+
+				
+				<![CDATA[ Ingresar el Usuario ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="ingresarcontrasena" width="150px"
+			style="background:#FACD05">
+			<html>
+
+
+
+
+
+				
+				<![CDATA[ Ingresar la Clave ]]>
+				
+				
+				
+				
+				
+					
+			</html>
+		</popup>
+		<popup id="confirmarcontrasena" width="150px"
+			style="background:#FACD05">
+			<html>
+
+
+
+
+
+				
+				<![CDATA[ Confirmar la Clave ]]>
+				
+				
+				
+				
+				
+										
+			</html>
+		</popup>
+		<popup id="popRoles" width="300px"
+			tooltiptext="Agregar Carrera">
+			<button label="Agregar" image="img/nuevo.png"
+				onClick="@command('agregarRoles')">
+			</button>
+			<listbox emptyMessage="No hay Carreras"
+				model="@load(vm.listaRoles)" multiple="true" checkmark="true"
+				sclass="tablas" mold="paging" pageSize="4" id="lbxAgregarRoles">
+				<listhead>
+					<listheader label="Carrera"></listheader>
+				</listhead>
+				<template name="model">
+					<listitem>
+						<listcell label="@load(each.parDes)"></listcell>
+					</listitem>
+				</template>
+			</listbox>
+		</popup>
+	</window>
+</zk>
