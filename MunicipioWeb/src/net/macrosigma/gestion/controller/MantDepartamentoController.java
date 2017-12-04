@@ -3,8 +3,8 @@ package net.macrosigma.gestion.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.macrosigma.gestion.dao.GmGesPreguntaFrecuenteDao;
-import net.macrosigma.gestion.ent.GmGesPreguntaFrecuente;
+import net.macrosigma.gestion.dao.GmGesDepartamentoDao;
+import net.macrosigma.gestion.ent.GmGesDepartamento;
 import net.macrosigma.util.controller.BaseController;
 
 import org.zkoss.bind.BindUtils;
@@ -33,17 +33,17 @@ public class MantDepartamentoController extends BaseController {
 	@Wire
 	Window winmantrub;
 	// llenar tabla
-	List<GmGesPreguntaFrecuente> listaInte = new ArrayList<GmGesPreguntaFrecuente>();
-	GmGesPreguntaFrecuenteDao intDao = new GmGesPreguntaFrecuenteDao();
-	GmGesPreguntaFrecuente intereselect = new GmGesPreguntaFrecuente();
+	List<GmGesDepartamento> listaInte = new ArrayList<GmGesDepartamento>();
+	GmGesDepartamentoDao intDao = new GmGesDepartamentoDao();
+	GmGesDepartamento intereselect = new GmGesDepartamento();
 	@Wire
 	Bandbox bndanio;
 
-	public GmGesPreguntaFrecuente getIntereselect() {
+	public GmGesDepartamento getIntereselect() {
 		return intereselect;
 	}
 
-	public void setIntereselect(GmGesPreguntaFrecuente intereselect) {
+	public void setIntereselect(GmGesDepartamento intereselect) {
 		this.intereselect = intereselect;
 	}
 
@@ -61,7 +61,7 @@ public class MantDepartamentoController extends BaseController {
 			tab2.close();
 		}
 		// Nombre del tab
-		Tab tab = new Tab("INGRESO DE RECEPCION DE PAQUETE");
+		Tab tab = new Tab("INGRESO DE DEPARTAMENTO");
 		tab.setClosable(true);
 		tab.setSelected(true);
 		// Id del tab
@@ -81,7 +81,7 @@ public class MantDepartamentoController extends BaseController {
 	public void modificar() {
 		// @BindingParam("objeto") GmParInteres interes) {
 		if (intereselect != null)
-			if (intereselect.getInsId() != null) {
+			if (intereselect.getDepId() != null) {
 
 				Sessions.getCurrent().setAttribute("opcion", 1);
 				Sessions.getCurrent().setAttribute("cod_int", intereselect);
@@ -91,11 +91,12 @@ public class MantDepartamentoController extends BaseController {
 						.getParent().getParent().getParent().getParent();
 				Borderlayout bl = new Borderlayout();
 				if (tabs.hasFellow("/catastroadm/cat_002_A.zul")) {
-					Tab tab2 = (Tab) tabs.getFellow("/catastroadm/cat_002_A.zul");
+					Tab tab2 = (Tab) tabs
+							.getFellow("/catastroadm/cat_002_A.zul");
 					tab2.close();
 				}
 				// Nombre del tab
-				Tab tab = new Tab("MODIFICACION DE RECEPCION DE PAQUETE");
+				Tab tab = new Tab("MODIFICACION DE DEPARTAMENTO");
 				tab.setClosable(true);
 				tab.setSelected(true);
 				// Id del tab
@@ -128,23 +129,25 @@ public class MantDepartamentoController extends BaseController {
 
 	}
 
-	public List<GmGesPreguntaFrecuente> getListaInte() {
+	public List<GmGesDepartamento> getListaInte() {
 		return listaInte;
 	}
 
-	public void setListaInte(List<GmGesPreguntaFrecuente> listaInte) {
+	public void setListaInte(List<GmGesDepartamento> listaInte) {
 		this.listaInte = listaInte;
 	}
 
+	@SuppressWarnings("static-access")
 	@NotifyChange("listaInte")
 	@Command
-	public void InteresPorAño() {
+	public void getPorRubro() {
+		
 		if (bndanio.getText().isEmpty()) {
 			buscar();
 		} else {
 			if (bndanio.getText() != null) {
-				listaInte = GmGesPreguntaFrecuenteDao.getValPrebyPre(bndanio
-						.getText().toUpperCase());
+				listaInte = intDao.getValPrebyPre(bndanio.getText()
+						.toUpperCase());
 			} else
 				buscar();
 		}
@@ -155,7 +158,7 @@ public class MantDepartamentoController extends BaseController {
 	public void eliminar() {
 		// @BindingParam("objeto") GmParInteres interes) {
 		if (intereselect != null)
-			if (intereselect.getInsId() != null) {
+			if (intereselect.getDepId() != null) {
 				intereselect.setEstado("INA");
 				intDao.actualizar(intereselect);
 				buscar();

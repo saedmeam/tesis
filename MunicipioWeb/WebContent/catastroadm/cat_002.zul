@@ -29,7 +29,7 @@
 				<rows>
 					<row>
 						<label>Búsqueda por Pregunta</label>
-						<bandbox id="intanio" width="98%" instant="true"
+						<bandbox id="bndanio" width="98%" instant="true"
 							onChange="self.setValue(self.getValue().toUpperCase());"
 							onBlur="@command('getPorRubro')"
 							onOpen="@command('getPorRubro')" />
@@ -47,7 +47,7 @@
 			</listhead>
 			<template name="model">
 				<listitem>
-					<listcell label="@load(each.desPregunta)" />
+					<listcell label="@load(each.depNomDep)" />
 				</listitem>
 			</template>
 		</listbox>

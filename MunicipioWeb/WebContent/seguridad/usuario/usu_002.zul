@@ -56,7 +56,7 @@
 					</listcell>
 					<listcell label="@load(each.usuNombres)"></listcell>
 					<listcell label="@load(each.usuApellidos)"></listcell>
-					<listcell label="@load(each.usudepartamento)"></listcell>
+					<listcell label="@load(each.usuDepId.depNomDep)"></listcell>
 					<listcell label="@load(each.usuEmail)"></listcell>
 					<listcell>
 						<listbox model="@load(each.usuRolUsuId)">

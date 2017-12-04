@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.macrosigma.gestion.ent.GmGesDepartamento;
+import net.macrosigma.parametro.dao.GmParParametroDao;
 import net.macrosigma.parametro.dao.GmParPolitSeguridadDao;
+import net.macrosigma.parametro.ent.GmParParametros;
 import net.macrosigma.parametro.ent.GmParPolitSeguridadBean;
 import net.macrosigma.seguridad.dao.GmSegRolDao;
 import net.macrosigma.seguridad.dao.GmSegRolUsuarioDao;
@@ -28,7 +31,6 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
@@ -58,7 +60,7 @@ public class IngresoUsuarioController extends BaseController {
 	Textbox txtusuario, txtClave, txtClave2, txtnombre, txtapellido,
 			txtdepartamento, txtemail, txtrol;
 	@Wire
-	Combobox cmbtestado, cmbtnombrrol;
+	Combobox cmbtestado, cmbtnombrrol, cmbdpto;
 	@Wire
 	Image img0, img1, img2, img3;
 	@Wire
@@ -84,6 +86,44 @@ public class IngresoUsuarioController extends BaseController {
 	List<GmSegRolUsuario> listaRolUsuarioBorrar = new ArrayList<GmSegRolUsuario>();
 	GmSegRolUsuarioDao gmSegRolUsuarioDao = new GmSegRolUsuarioDao();
 
+	List<GmParParametros> listparCarrera = new ArrayList<GmParParametros>();
+	GmParParametros parCarreraSel = new GmParParametros();
+	GmParParametroDao parDao = new GmParParametroDao();
+	List<GmGesDepartamento> listparSol = new ArrayList<GmGesDepartamento>();
+	GmGesDepartamento parSolSel = new GmGesDepartamento();
+
+	public List<GmParParametros> getListparCarrera() {
+		return listparCarrera;
+	}
+
+	public void setListparCarrera(List<GmParParametros> listparCarrera) {
+		this.listparCarrera = listparCarrera;
+	}
+
+	public GmParParametros getParCarreraSel() {
+		return parCarreraSel;
+	}
+
+	public void setParCarreraSel(GmParParametros parCarreraSel) {
+		this.parCarreraSel = parCarreraSel;
+	}
+
+	public List<GmGesDepartamento> getListparSol() {
+		return listparSol;
+	}
+
+	public void setListparSol(List<GmGesDepartamento> listparSol) {
+		this.listparSol = listparSol;
+	}
+
+	public GmGesDepartamento getParSolSel() {
+		return parSolSel;
+	}
+
+	public void setParSolSel(GmGesDepartamento parSolSel) {
+		this.parSolSel = parSolSel;
+	}
+
 	public List<GmSegRolUsuario> getListaRolUsuarioGuardar() {
 		return listaRolUsuarioGuardar;
 	}
@@ -93,8 +133,10 @@ public class IngresoUsuarioController extends BaseController {
 		this.listaRolUsuarioGuardar = listaRolUsuarioGuardar;
 	}
 
+	@SuppressWarnings("static-access")
 	public void cargarRoles() {
 		listaRoles = rolDao.getRoles();
+		listparCarrera = parDao.getParametroByDesPad("CARRERAS");
 	}
 
 	public List<GmSegRol> getListaRoles() {
@@ -161,10 +203,11 @@ public class IngresoUsuarioController extends BaseController {
 			txtnombre.setErrorMessage("Por favor ingrese Nombres");
 			return;
 		}
-		if (usuario.getUsudepartamento() == null) {
-			txtdepartamento.setErrorMessage("Por favor ingrese Departamento");
+		if (cmbdpto.getValue() == null) {
+			cmbdpto.setErrorMessage("Por favor seleccione un Departamento");
 			return;
-		}
+		}else
+			usuario.setUsuDepId(parSolSel);
 		if (usuario.getUsuEmail() == null) {
 			txtemail.setErrorMessage("Por favor ingrese Email");
 			return;
@@ -239,8 +282,6 @@ public class IngresoUsuarioController extends BaseController {
 						public void onEvent(Event e) throws Exception {
 							if ("onOK".equals(e.getName())) {
 							}
-							Events.postEvent(new Event(Events.ON_CLOSE,
-									winNuevoUsu));
 						}
 					});
 		} else {
@@ -256,8 +297,6 @@ public class IngresoUsuarioController extends BaseController {
 						public void onEvent(Event e) throws Exception {
 							if ("onOK".equals(e.getName())) {
 							}
-							Events.postEvent(new Event(Events.ON_CLOSE,
-									winNuevoUsu));
 						}
 					});
 		}
@@ -582,6 +621,19 @@ public class IngresoUsuarioController extends BaseController {
 		c.appendChild(include);
 		bl.appendChild(c);
 		tabpanel.appendChild(bl);
+	}
+
+	@Command
+	public void cargalistado() {
+		if (parCarreraSel != null) {
+			for (int i = 0; i < parCarreraSel.getDepCarreraId().size(); i++) {
+				listparSol.add(parCarreraSel.getDepCarreraId().get(i)
+						.getDepCarreraDepId());
+			}
+
+		}
+		BindUtils.postNotifyChange(null, null, IngresoUsuarioController.this,
+				"listparSol");
 	}
 
 }

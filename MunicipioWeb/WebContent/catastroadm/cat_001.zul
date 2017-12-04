@@ -67,7 +67,7 @@
 					<listcell label="@load(each.solUsu.usuApellidos)" />
 					<listcell label="@load(each.solUsu.usuario)" />
 					<listcell
-						label="@load(each.solEstado.equals('ING')?'INGRESADO': each.solEstado.equals('OBS')?'OBSERVADO':each.solEstado.equals('PRO')?'PROCESADO':'RECHAZADO')" />
+						label="@load(each.solEstado.equals('ING')?'INGRESADO': each.solEstado.equals('OBS')?'OBSERVADO':each.solEstado.equals('PRO')?'PROCESANDO':each.solEstado.equals('TER')?'TERMINADO':'RECHAZADO')" />
 				</listitem>
 			</template>
 		</listbox>

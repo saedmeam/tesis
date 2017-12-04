@@ -24,7 +24,6 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
@@ -113,7 +112,7 @@ public class IngDepartamentoController extends BaseController {
 	public void cargarUsuarioMod() {
 		if (opcion == 1) {
 			usuarioModificar = (GmGesDepartamento) Sessions.getCurrent()
-					.getAttribute("usuarioModificar");
+					.getAttribute("cod_int");
 			winNuevoUsu.setTitle("Modificar_Usuario [usu_001]");
 			Sessions.getCurrent().removeAttribute("opcion");
 			Sessions.getCurrent().removeAttribute("usuarioModificar");
@@ -152,26 +151,32 @@ public class IngDepartamentoController extends BaseController {
 
 						}
 					});
-			for(GmGesDepartamentoCarrera rolUsuBorrar : listaRolUsuarioGuardar){
+			for (GmGesDepartamentoCarrera rolUsuBorrar : listaRolUsuarioGuardar) {
 				rolUsuBorrar.setDepCarreraDepId(usuario);
 				gmSegRolUsuarioDao.crear(rolUsuBorrar);
 				gmSegRolUsuarioDao = new GmGesDepartamentoCarreraDao();
 			}
 		} else {
-			for (GmGesDepartamentoCarrera rolUsuBorrar : listaRolUsuarioBorrar) {
-				usuario.getDepCarreraDepId().add(rolUsuBorrar);
-			}
+
 			usuario.setFechaModificacion(new Date());
 			usuarioDao.actualizar(usuario);
-			Messagebox.show("Usuario modificado con exito", "Informe",
+
+			for (GmGesDepartamentoCarrera rolUsuBorrar : listaRolUsuarioBorrar) {
+				rolUsuBorrar.setDepCarreraDepId(usuario);
+				rolUsuBorrar.setEstado("INA");
+				gmSegRolUsuarioDao.actualizar(rolUsuBorrar);
+				gmSegRolUsuarioDao = new GmGesDepartamentoCarreraDao();
+			}
+			for (GmGesDepartamentoCarrera rolUsuBorrar : listaRolUsuarioGuardar) {
+				rolUsuBorrar.setDepCarreraDepId(usuario);
+				gmSegRolUsuarioDao.actualizar(rolUsuBorrar);
+				gmSegRolUsuarioDao = new GmGesDepartamentoCarreraDao();
+			}
+			Messagebox.show("Departamento modificado con exito", "Informe",
 					Messagebox.OK, Messagebox.INFORMATION,
 					new EventListener<Event>() {
 						@Override
 						public void onEvent(Event e) throws Exception {
-							if ("onOK".equals(e.getName())) {
-							}
-							Events.postEvent(new Event(Events.ON_CLOSE,
-									winNuevoUsu));
 						}
 					});
 		}
@@ -192,8 +197,11 @@ public class IngDepartamentoController extends BaseController {
 				rol = (GmParParametros) item.getValue();
 				if (listaRolUsuarioGuardar.size() > 0) {
 					for (GmGesDepartamentoCarrera r : listaRolUsuarioGuardar) {
-						if (rol.getPar_id() == r.getDepCarreraId().getPar_id()
-								|| rol.equals(r.getDepCarreraId())) {
+						System.out.println(rol.getPar_id());
+						System.out.println(r.getDepCarreraId().getPar_id());
+						Long idnuevcarr = rol.getPar_id();
+						Long idregcarr = r.getDepCarreraId().getPar_id();
+						if (idnuevcarr.equals(idregcarr)) {
 							band = 1;
 						}
 					}

@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.macrosigma.general.ValidaString;
+import net.macrosigma.gestion.dao.GmGesDepartamentoDao;
 import net.macrosigma.gestion.dao.GmGesPreguntaFrecuenteDao;
 import net.macrosigma.gestion.dao.GmGesPreguntaUsuarioDao;
 import net.macrosigma.gestion.ent.GmGesPreguntaFrecuente;
@@ -137,7 +138,7 @@ public class IngresoUsuarioEstudianteController extends BaseController {
 	}
 
 	public void cargarRoles() {
-		
+
 		listpardes = pregFreDao.getPreFreAct();
 		listaRoles = rolDao.getPorRol("ESTUDIANTE");
 	}
@@ -171,6 +172,7 @@ public class IngresoUsuarioEstudianteController extends BaseController {
 		cargarRoles();
 	}
 
+	@SuppressWarnings("static-access")
 	@Command
 	public void crearUsuario() {
 		if (usuario.getUsuNombres() == null) {
@@ -185,7 +187,8 @@ public class IngresoUsuarioEstudianteController extends BaseController {
 			txtnombre.setErrorMessage("Por favor ingrese Nombres");
 			return;
 		}
-		usuario.setUsudepartamento("ESTUDIANTE");
+		usuario.setUsuDepId(((new GmGesDepartamentoDao())
+				.getValPrebyPre("ESTUDIANTE")).get(0));
 
 		if (usuario.getUsuEmail() == null) {
 			txtemail.setErrorMessage("Por favor ingrese Email");
@@ -247,16 +250,16 @@ public class IngresoUsuarioEstudianteController extends BaseController {
 		usuario.setUsuario(usuario.getUsuUsuario().toUpperCase());
 		usuario.setPreUsu(listPreguntaUsuario);
 		usuarioDao.crear(usuario);
-		if (listPreguntaUsuario.size() <=3) {
-			Messagebox.show("Debe escojer al menos tres preguntas ", "Información",
-					Messagebox.OK, Messagebox.INFORMATION);
+		if (listPreguntaUsuario.size() <= 3) {
+			Messagebox.show("Debe escojer al menos tres preguntas ",
+					"Información", Messagebox.OK, Messagebox.INFORMATION);
 			return;
 		} else {
-		for (int i = 0; i < listPreguntaUsuario.size(); i++) {
-			listPreguntaUsuario.get(i).setPreUsu(usuario);
-			pregUsuDao.crear(listPreguntaUsuario.get(i));
-			pregUsuDao = new GmGesPreguntaUsuarioDao();
-		}
+			for (int i = 0; i < listPreguntaUsuario.size(); i++) {
+				listPreguntaUsuario.get(i).setPreUsu(usuario);
+				pregUsuDao.crear(listPreguntaUsuario.get(i));
+				pregUsuDao = new GmGesPreguntaUsuarioDao();
+			}
 		}
 		Messagebox.show(
 				"Usuario ingresado con exito, su usuario es "
