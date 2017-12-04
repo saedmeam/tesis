@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -42,6 +44,10 @@ public class GmSegUsuario extends EntityBase {
 
 	@OneToMany(mappedBy = "solUsu")
 	private List<GmGesSolicitud> solUsu;
+	
+	@ManyToOne
+	@JoinColumn(name = "usu_dep_id")
+	private GmSegUsuario usuDepId;
 
 	public List<GmGesSolicitud> getSolUsu() {
 		return solUsu;
@@ -155,6 +161,14 @@ public class GmSegUsuario extends EntityBase {
 
 	public void setPreUsu(List<GmGesPreguntasUsuario> preUsu) {
 		this.preUsu = preUsu;
+	}
+
+	public GmSegUsuario getUsuDepId() {
+		return usuDepId;
+	}
+
+	public void setUsuDepId(GmSegUsuario usuDepId) {
+		this.usuDepId = usuDepId;
 	}
 
 }

@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import net.macrosigma.gestion.ent.GmGesDepartamentoCarrera;
 import net.macrosigma.gestion.ent.GmGesSolicitud;
 import net.macrosigma.gestion.ent.GmGesSolicitudRequisitoDocumento;
 import net.macrosigma.util.ent.EntityBase;
@@ -43,6 +44,9 @@ public class GmParParametros extends EntityBase {
 
 	@OneToMany(mappedBy = "solCarrera")
 	private List<GmGesSolicitud> solCarrera;
+
+	@OneToMany(mappedBy = "depCarreraId")
+	private List<GmGesDepartamentoCarrera> depCarreraId;
 
 	@OneToMany(mappedBy = "solTipoSolicitud")
 	private List<GmGesSolicitud> solTipoSolicitud;
@@ -124,6 +128,14 @@ public class GmParParametros extends EntityBase {
 
 	public void setParValor(String parValor) {
 		this.parValor = parValor;
+	}
+
+	public List<GmGesDepartamentoCarrera> getDepCarreraId() {
+		return depCarreraId;
+	}
+
+	public void setDepCarreraId(List<GmGesDepartamentoCarrera> depCarreraId) {
+		this.depCarreraId = depCarreraId;
 	}
 
 }

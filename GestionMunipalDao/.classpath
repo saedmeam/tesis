@@ -8,5 +8,13 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Santiago_Merino/Desktop/workspace macro/workspace/ganado/workspace/GanaderoDao/lib/hibernate-annotations-3.5.6-Final.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Santiago_Merino/Desktop/workspace macro/workspace/ganado/workspace/GanaderoDao/lib/hibernate-envers-4.3.11.Final.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Santiago_Merino/Desktop/workspace macro/workspace/ganado/workspace/GanaderoDao/lib/jaxb-api.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Santiago_Merino/Desktop/workspace macro/workspace/ganado/workspace/GanaderoDao/lib/jaxb-core.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Santiago_Merino/Desktop/workspace macro/workspace/ganado/workspace/GanaderoDao/lib/jaxb-impl.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Santiago_Merino/Desktop/workspace macro/workspace/ganado/workspace/GanaderoDao/lib/jaxb-jxc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Santiago_Merino/Desktop/workspace macro/workspace/ganado/workspace/GanaderoDao/lib/jaxb-xjc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Santiago_Merino/Desktop/workspace macro/workspace/ganado/workspace/GanaderoDao/lib/jaxp-ri-1.4.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
