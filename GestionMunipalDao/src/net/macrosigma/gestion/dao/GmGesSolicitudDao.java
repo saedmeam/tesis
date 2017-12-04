@@ -6,10 +6,11 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
 import net.macrosigma.gestion.ent.GmGesSolicitud;
+import net.macrosigma.parametro.ent.GmParParametros;
+import net.macrosigma.seguridad.ent.GmSegUsuario;
 import net.macrosigma.util.dao.GenericDao;
 
-public class GmGesSolicitudDao extends
-		GenericDao<GmGesSolicitud, Long> {
+public class GmGesSolicitudDao extends GenericDao<GmGesSolicitud, Long> {
 
 	public GmGesSolicitudDao() {
 		super(GmGesSolicitud.class);
@@ -40,26 +41,30 @@ public class GmGesSolicitudDao extends
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<GmGesSolicitud> getValPrebyPre(String claCat) {
+	public static List<GmGesSolicitud> getSolbyTipSol(GmSegUsuario usu,
+			GmParParametros tipSol) {
 		StringBuilder sql = new StringBuilder();
 		String select = "";
-		select = "select o from GmGesPreguntasFrecuentes o where (o.desPregunta = :claCat or :claCat =null)";
+		select = "select o from GmGesSolicitud o where (o.solTipoSolicitud = :tipSol or :tipSol =null)";
+		select += "(o.solUsu = :usu or :usu = null)";
 		select += "and o.estado = 'ACT'";
 		sql.append(select);
 		Query query = em.createQuery(sql.toString());
-		query.setParameter("claCat", claCat);
+		query.setParameter("tipSol", tipSol);
+		query.setParameter("usu", usu);
 
 		List<GmGesSolicitud> result = query.getResultList();
 		return result;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<GmGesSolicitud> getPreFreAct() {
+	public List<GmGesSolicitud> getPreFreAct(GmSegUsuario usu) {
 		StringBuilder sql = new StringBuilder();
 		String select = "";
-		select = "select o from GmGesSolicitud o where o.estado = 'ACT'";
+		select = "select o from GmGesSolicitud o where o.estado = 'ACT' and (o.solUsu = :usu or :usu = null)";
 		sql.append(select);
 		Query query = em.createQuery(sql.toString());
+		query.setParameter("usu", usu);
 
 		List<GmGesSolicitud> result = query.getResultList();
 		return result;

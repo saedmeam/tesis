@@ -41,6 +41,9 @@ public class GmGesSolicitud extends EntityBase {
 
 	@OneToMany(mappedBy = "solReqDoc")
 	private List<GmGesSolicitudRequisitoDocumento> solReqDoc;
+	
+	@Column ( name="sol_estado")
+	private String solEstado;
 
 	public Long getSolId() {
 		return solId;
@@ -80,6 +83,14 @@ public class GmGesSolicitud extends EntityBase {
 
 	public void setSolReqDoc(List<GmGesSolicitudRequisitoDocumento> solReqDoc) {
 		this.solReqDoc = solReqDoc;
+	}
+
+	public String getSolEstado() {
+		return solEstado;
+	}
+
+	public void setSolEstado(String solEstado) {
+		this.solEstado = solEstado;
 	}
 
 }
