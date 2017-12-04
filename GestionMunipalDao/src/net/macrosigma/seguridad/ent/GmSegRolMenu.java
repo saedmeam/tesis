@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
 import net.macrosigma.util.ent.EntityBase;
 
 @Entity
@@ -36,6 +38,7 @@ public class GmSegRolMenu extends EntityBase {
 	private GmSegRol rol;
 
 	@OneToMany(mappedBy = "rolMenu", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@Where(clause = "aud_estado = 'ACT'")
 	private List<GmSegRolMenuAccion> rolesAccesos;
 
 	public Long getRolMenId() {

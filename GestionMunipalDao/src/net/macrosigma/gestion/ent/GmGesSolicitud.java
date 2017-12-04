@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
 import net.macrosigma.parametro.ent.GmParParametros;
 import net.macrosigma.seguridad.ent.GmSegUsuario;
 import net.macrosigma.util.ent.EntityBase;
@@ -40,6 +42,7 @@ public class GmGesSolicitud extends EntityBase {
 	private GmParParametros solTipoSolicitud;
 
 	@OneToMany(mappedBy = "solReqDoc")
+	@Where(clause = "aud_estado = 'ACT'")
 	private List<GmGesSolicitudRequisitoDocumento> solReqDoc;
 	
 	@Column ( name="sol_estado")

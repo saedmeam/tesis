@@ -6,7 +6,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
 import net.macrosigma.gestion.ent.GmGesDepartamento;
-import net.macrosigma.gestion.ent.GmGesPreguntaFrecuente;
 import net.macrosigma.util.dao.GenericDao;
 
 public class GmGesDepartamentoDao extends
@@ -41,16 +40,16 @@ public class GmGesDepartamentoDao extends
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<GmGesPreguntaFrecuente> getValPrebyPre(String claCat) {
+	public static List<GmGesDepartamento> getValPrebyPre(String claCat) {
 		StringBuilder sql = new StringBuilder();
 		String select = "";
-		select = "select o from GmGesDepartamento o where (o.desPregunta = :claCat or :claCat =null)";
+		select = "select o from GmGesDepartamento o where (o.depNomDep = :claCat or :claCat =null)";
 		select += "and o.estado = 'ACT'";
 		sql.append(select);
 		Query query = em.createQuery(sql.toString());
 		query.setParameter("claCat", claCat);
 
-		List<GmGesPreguntaFrecuente> result = query.getResultList();
+		List<GmGesDepartamento> result = query.getResultList();
 		return result;
 	}
 

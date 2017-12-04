@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
 import net.macrosigma.util.ent.EntityBase;
 
 @Entity
@@ -41,6 +43,7 @@ public class GmSegMenu extends EntityBase {
 	    private int menOrden;
 	    
 	    @OneToMany(mappedBy = "padreMenu")
+	    @Where(clause = "aud_estado = 'ACT'")
 		private List<GmSegMenu> listPadreMenu;
 	    
 	    @ManyToOne

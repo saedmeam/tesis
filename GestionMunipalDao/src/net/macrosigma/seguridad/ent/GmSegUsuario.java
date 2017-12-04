@@ -16,6 +16,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
+import net.macrosigma.gestion.ent.GmGesDepartamento;
 import net.macrosigma.gestion.ent.GmGesPreguntasUsuario;
 import net.macrosigma.gestion.ent.GmGesSolicitud;
 import net.macrosigma.util.ent.EntityBase;
@@ -37,34 +40,26 @@ public class GmSegUsuario extends EntityBase {
 	private String usuClave;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "gmSegUsuario")
+	@Where(clause = "aud_estado = 'ACT'")
 	private List<GmSegRolUsuario> usuRolUsuId;
 
 	@OneToMany(mappedBy = "preUsu")
+	@Where(clause = "aud_estado = 'ACT'")
 	private List<GmGesPreguntasUsuario> preUsu;
 
 	@OneToMany(mappedBy = "solUsu")
+	@Where(clause = "aud_estado = 'ACT'")
 	private List<GmGesSolicitud> solUsu;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "usu_dep_id")
-	private GmSegUsuario usuDepId;
-
-	public List<GmGesSolicitud> getSolUsu() {
-		return solUsu;
-	}
-
-	public void setSolUsu(List<GmGesSolicitud> solUsu) {
-		this.solUsu = solUsu;
-	}
+	private GmGesDepartamento usuDepId;
 
 	@Column(name = "usu_nombres")
 	private String usuNombres;
 
 	@Column(name = "usu_apellidos")
 	private String usuApellidos;
-
-	@Column(name = "usu_departamento")
-	private String usudepartamento;
 
 	@Column(name = "usu_email")
 	private String usuEmail;
@@ -75,20 +70,20 @@ public class GmSegUsuario extends EntityBase {
 	@Column(name = "usu_intentos_fallidos")
 	private int usuIntentosFallidos;
 
+	public List<GmGesSolicitud> getSolUsu() {
+		return solUsu;
+	}
+
+	public void setSolUsu(List<GmGesSolicitud> solUsu) {
+		this.solUsu = solUsu;
+	}
+
 	public int getUsuIntentosFallidos() {
 		return usuIntentosFallidos;
 	}
 
 	public void setUsuIntentosFallidos(int usuIntentosFallidos) {
 		this.usuIntentosFallidos = usuIntentosFallidos;
-	}
-
-	public String getUsudepartamento() {
-		return usudepartamento;
-	}
-
-	public void setUsudepartamento(String usudepartamento) {
-		this.usudepartamento = usudepartamento;
 	}
 
 	public String getUsuNombres() {
@@ -163,11 +158,11 @@ public class GmSegUsuario extends EntityBase {
 		this.preUsu = preUsu;
 	}
 
-	public GmSegUsuario getUsuDepId() {
+	public GmGesDepartamento getUsuDepId() {
 		return usuDepId;
 	}
 
-	public void setUsuDepId(GmSegUsuario usuDepId) {
+	public void setUsuDepId(GmGesDepartamento usuDepId) {
 		this.usuDepId = usuDepId;
 	}
 
