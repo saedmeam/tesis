@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.macrosigma.gestion.dao.GeneralUtilsDao;
+import net.macrosigma.gestion.dao.GmGesDepartamentoTipSolicitudDao;
 import net.macrosigma.gestion.dao.GmGesSolicitudDao;
 import net.macrosigma.gestion.dao.GmGesSolicitudRequisitoDocumentoDao;
+import net.macrosigma.gestion.ent.GmGesDepartamentoTipSolicitud;
 import net.macrosigma.gestion.ent.GmGesSolicitud;
 import net.macrosigma.gestion.ent.GmGesSolicitudRequisitoDocumento;
 import net.macrosigma.parametro.dao.GmParParametroDao;
@@ -27,12 +29,16 @@ import org.zkoss.util.media.Media;
 import org.zkoss.zhtml.Messagebox;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Window;
 
 public class IngSolicitudesController extends BaseController {
 
@@ -40,6 +46,8 @@ public class IngSolicitudesController extends BaseController {
 
 	@Wire
 	Combobox cmbdesc, cmbtiposolicitud;
+	@Wire
+	Window winingsol;
 	@Wire
 	Listbox lbxreqsol;
 
@@ -150,7 +158,7 @@ public class IngSolicitudesController extends BaseController {
 	@Command
 	public void cargalistado() {
 		List<GmParParametros> listReq = new ArrayList<GmParParametros>();
-
+		listparReqSol = new ArrayList<>();
 		if (parSolSel != null) {
 			for (GmParParametros par : parSolSel.getCarIdHij())
 				listReq.add(par);
@@ -178,8 +186,10 @@ public class IngSolicitudesController extends BaseController {
 		return returnString;
 	}
 
+	@SuppressWarnings("static-access")
 	@Command
 	public void createUsuario() {
+
 		// campos para validar los si estan vacio
 
 		if (cmbdesc.getValue() == null) {
@@ -204,7 +214,13 @@ public class IngSolicitudesController extends BaseController {
 			}
 		}
 		if (b) {
-			Messagebox.show(reqfal);
+			Messagebox.show(reqfal, "Informe", Messagebox.OK, Messagebox.ERROR,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event e) throws Exception {
+
+						}
+					});
 			return;
 		}
 		sol.setSolCarrera(parCarreraSel);
@@ -213,17 +229,67 @@ public class IngSolicitudesController extends BaseController {
 		sol.setUsuario(usu.getUsuario());
 		sol.setEstado("ACT");
 		sol.setSolEstado("ING");
-		if (tipop == "M")
-			intDao.actualizar(sol);
+		List<GmGesDepartamentoTipSolicitud> ldepsol = new ArrayList<>();
+		GmGesDepartamentoTipSolicitudDao deptipsoldao = new GmGesDepartamentoTipSolicitudDao();
+		ldepsol = deptipsoldao.getDepTipSolXCarrTipSolAct(parSolSel,
+				parCarreraSel);
+		if (ldepsol.size() > 0)
+			sol.setSolUsuAsig(ldepsol.get(0).getDepDepUsuId());
 		else
-			intDao.crear(sol);
-		for (int i = 0; i < listparReqSol.size(); i++) {
-			listparReqSol.get(i).setSolReqDoc(sol);
-			GmGesSolicitudRequisitoDocumentoDao reqSolDao = new GmGesSolicitudRequisitoDocumentoDao();
-			reqSolDao.crear(listparReqSol.get(i));
+			Messagebox
+					.show("Esta solicitud no tiene responsable, favor comuniquese con el administrador",
+							"Informe", Messagebox.OK, Messagebox.ERROR,
+							new EventListener<Event>() {
+								@Override
+								public void onEvent(Event e) throws Exception {
+									return;
+								}
+							});
+		if (tipop == "M") {
+			intDao.actualizar(sol);
+			for (int i = 0; i < listparReqSol.size(); i++) {
+				listparReqSol.get(i).setSolReqDoc(sol);
+				GmGesSolicitudRequisitoDocumentoDao reqSolDao = new GmGesSolicitudRequisitoDocumentoDao();
+				reqSolDao.crear(listparReqSol.get(i));
+			}
+			limpiar();
+			Messagebox.show("Solicitud Procesada", "Informe", Messagebox.OK,
+					Messagebox.INFORMATION, new EventListener<Event>() {
+						@Override
+						public void onEvent(Event e) throws Exception {
+							Events.postEvent(new Event(Events.ON_CLOSE,
+									winingsol));
+						}
+					});
+		} else {
+			List<GmGesSolicitud> lsol = new ArrayList<>();
+			lsol = intDao.getSolbyTipSolValEst(usu, parSolSel);
+			if (lsol.size() > 0) {
+				Messagebox
+						.show("Usted ya tiene en tramite una solicitud por el mismo tipo",
+								"Informe", Messagebox.OK, Messagebox.ERROR);
+				return;
+			} else {
+
+				intDao.crear(sol);
+				for (int i = 0; i < listparReqSol.size(); i++) {
+					listparReqSol.get(i).setSolReqDoc(sol);
+					GmGesSolicitudRequisitoDocumentoDao reqSolDao = new GmGesSolicitudRequisitoDocumentoDao();
+					reqSolDao.crear(listparReqSol.get(i));
+				}
+				limpiar();
+				Messagebox.show("Solicitud Procesada", "Informe",
+						Messagebox.OK, Messagebox.INFORMATION,
+						new EventListener<Event>() {
+							@Override
+							public void onEvent(Event e) throws Exception {
+								Events.postEvent(new Event(Events.ON_CLOSE,
+										winingsol));
+							}
+						});
+			}
+
 		}
-		limpiar();
-		Messagebox.show("Solicitud Ingresada");
 
 		BindUtils.postNotifyChange(null, null, IngSolicitudesController.this,
 				"sol");
@@ -250,8 +316,16 @@ public class IngSolicitudesController extends BaseController {
 		try {
 			Filedownload.save(archivo, null);
 		} catch (Exception e) {
-			Messagebox.show("Error descargando archivo "
-					+ parSel.getImagenPath());
+			Messagebox.show(
+					"Error descargando archivo" + parSel.getImagenPath(),
+					"Informe", Messagebox.OK, Messagebox.ERROR,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event e) throws Exception {
+
+						}
+					});
+
 			e.printStackTrace();
 		}
 	}
@@ -260,7 +334,25 @@ public class IngSolicitudesController extends BaseController {
 	public void uploadFile(
 			@ContextParam(ContextType.TRIGGER_EVENT) UploadEvent event,
 			@BindingParam("obj") GmGesSolicitudRequisitoDocumento parSel) {
+		if (!event.getMedia().getFormat().equals("pdf")
+				&& !event.getMedia().getFormat().equals("jpeg")
+				&& !event.getMedia().getFormat().equals("jpg")
+				&& !event.getMedia().getFormat().equals("png")) {
+			Messagebox.show("Debe ingresar solo los formatos permitidos",
+					"Información", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
+
+		byte[] fileData = event.getMedia().getByteData();
+
+		if (fileData.length > 6291456) {
+			Messagebox.show("El tamaño del archivo es mayor al limite",
+					"Información", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
+
 		if (parCarreraSel.getPar_id() != null) {
+
 			media = event.getMedia();
 			media.getStreamData();
 			try {

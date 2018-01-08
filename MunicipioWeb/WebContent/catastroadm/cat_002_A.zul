@@ -1,7 +1,7 @@
 <?page title="Ingreso_Usuario" contentType="text/html;charset=UTF-8"?>
 <?init class="net.macrosigma.general.Validador"?>
 <zk>
-	<window title="Departamento [usu_001]" border="none"
+	<window title="Departamento [cat_002_A]" border="none"
 		id="winNuevoUsu" contentStyle="overflow:auto" height="100%"
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('net.macrosigma.gestion.controller.IngDepartamentoController')">
@@ -50,10 +50,10 @@
 					<cell>Seleccionar Carreras:</cell>
 					<cell>
 						<listbox id="lbxRolesAgregados"
-							model="@load(vm.listaRolUsuarioGuardar)" emptyMessage="Sin Roles"
+							model="@load(vm.listaRolUsuarioGuardar)" emptyMessage="Sin CARRERAS"
 							sclass="tablas" width="90%">
 							<listhead>
-								<listheader label="ROLES ASIGNADOS"
+								<listheader label="CARRERAS ASIGNADOS"
 									width="70%">
 								</listheader>
 								<listheader align="center">
@@ -90,190 +90,54 @@
 				</row>
 			</rows>
 		</grid>
-		<popup id="nombre" width="150px" style="background:#FACD05">
+		<popup id="nombre" width="150px" sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-				
 				<![CDATA[ Ingresar el Nombre ]]>
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
-		<popup id="apellido" width="150px" style="background:#FACD05">
+		<popup id="apellido" width="150px" sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-				
 				<![CDATA[ Ingresar el Apellido ]]>
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
 		<popup id="departamento" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-				
 				<![CDATA[ Ingresar el Departamento ]]>
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
-		<popup id="estado" width="150px" style="background:#FACD05">
+		<popup id="estado" width="150px" sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-				
 				<![CDATA[ Seleccionar el Estado ]]>
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
-		<popup id="email" width="150px" style="background:#FACD05">
+		<popup id="email" width="150px" sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-				
 				<![CDATA[ Ingresar el Email]]>
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
 		<popup id="nombrerol" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-				
 				<![CDATA[ Seleccionar el Rol]]>
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
 		<popup id="ingresarusuario" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-				
 				<![CDATA[ Ingresar el Usuario ]]>
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
 		<popup id="ingresarcontrasena" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
-
-
-
-
-
-				
 				<![CDATA[ Ingresar la Clave ]]>
-				
-				
-				
-				
-				
-					
 			</html>
 		</popup>
 		<popup id="confirmarcontrasena" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
-
-
-
-
-
-				
-				<![CDATA[ Confirmar la Clave ]]>
-				
-				
-				
-				
-				
-										
+				<![CDATA[ Confirmar la Clave ]]>						
 			</html>
 		</popup>
 		<popup id="popRoles" width="300px"

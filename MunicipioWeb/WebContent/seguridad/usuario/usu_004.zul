@@ -2,7 +2,7 @@
 <zk>
 	<window title="Recuperación de Clave [usu_004]" border="none"
 		id="winRecClaUsu" contentStyle="overflow:auto" height="80%"
-		width="70%" apply="org.zkoss.bind.BindComposer"
+		width="80%" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('net.macrosigma.seguridad.controller.RecuperacionClaveUsuarioController')">
 		<toolbar>
 			<toolbarbutton id="tbbguardar" label="Guardar"
@@ -46,7 +46,7 @@
 					<cell></cell>
 					<cell>Número de Cédula:</cell>
 					<cell>
-						<textbox id="txtusuario" width="75%"
+						<textbox id="txtusuario" width="98%"
 							instant="true"
 							onChange="self.setValue(self.getValue().toUpperCase());"
 							onFocus='ingresarusuario.open(txtusuario,"end_before")'
@@ -58,7 +58,7 @@
 					</cell>
 					<cell>Email:</cell>
 					<cell>
-						<textbox id="txtemail" width="75%"
+						<textbox id="txtemail" width="98%" readonly="true"
 							onFocus='email.open(txtemail,"end_before")'
 							value="@bind(vm.usuario.usuEmail)"
 							onBlur="@command('validarCorreo')" />
@@ -74,7 +74,7 @@
 					<cell></cell>
 					<cell>Nombres:</cell>
 					<cell>
-						<textbox id="txtnombre" width="75%"
+						<textbox id="txtnombre" width="98%" readonly="true"
 							instant="true"
 							onChange="self.setValue(self.getValue().toUpperCase());"
 							onFocus='nombre.open(txtnombre,"end_before")'
@@ -82,7 +82,7 @@
 					</cell>
 					<cell>Apellidos:</cell>
 					<cell>
-						<textbox id="txtapellido" width="75%"
+						<textbox id="txtapellido" width="98%" readonly="true"
 							instant="true"
 							onChange="self.setValue(self.getValue().toUpperCase());"
 							onFocus='apellido.open(txtapellido,"end_before")'
@@ -94,32 +94,7 @@
 				</row>
 				<row>
 					<cell></cell>
-					<cell>Seleccionar Rol:</cell>
-					<cell>
-						<listbox id="lbxRolesAgregados"
-							model="@load(vm.listaRoles)" emptyMessage="Sin Roles"
-							sclass="tablas" width="90%">
-							<listhead>
-								<listheader label="ROLES ASIGNADOS"
-									width="70%">
-								</listheader>
-							</listhead>
-							<template name="model">
-								<listitem>
-									<listcell
-										label="@load(each.rolNombre)">
-									</listcell>
-								</listitem>
-							</template>
-						</listbox>
-					</cell>
-				</row>
-				<row>
-					<separator height="1px"></separator>
-				</row>
-				<row>
-					<cell></cell>
-					<label>Seleccione la pregunta de Seguridad</label>
+					<cell>Seleccione la pregunta de Seguridad</cell>
 					<combobox id="cmbdesc" model="@load(vm.listpardes)"
 						onFocus='preg.open(cmbdesc,"end_before")' width="98%"
 						readonly="true" value="@load(vm.pregFreSel.desPregunta)"
@@ -131,7 +106,7 @@
 					</combobox>
 					<cell>Respuesta:</cell>
 					<cell>
-						<textbox id="txtres" width="75%" instant="true"
+						<textbox id="txtres" width="98%" instant="true"
 							onBlur="@command('validarRespuesta')"
 							onChange="self.setValue(self.getValue().toUpperCase());"
 							onFocus='res.open(txtres,"end_before")'
@@ -140,29 +115,9 @@
 				</row>
 				<row>
 					<cell></cell>
-
-					<cell colspan="4">
-						<listbox id="lbxdet" mold="paging" pageSize="5"
-							sclass="tablas" model="@load(vm.listPreguntaUsuario)"
-							emptyMessage="no existen datos"
-							selectedItem="@bind(vm.pregUsuElim)">
-							<listhead>
-								<listheader label="Pregunta" />
-							</listhead>
-							<template name="model">
-								<listitem>
-									<listcell
-										label="@load(each.preFreUsu.desPregunta)" />
-								</listitem>
-							</template>
-						</listbox>
-					</cell>
-				</row>
-				<row>
-					<cell></cell>
 					<cell>Clave:</cell>
 					<cell>
-						<textbox type="password" width="75%"
+						<textbox type="password" width="98%"
 							readonly="@load(!vm.b)"
 							onFocus='ingresarcontrasena.open(txtClave,"end_before")'
 							value="@bind(vm.usuario.usuClave)" id="txtClave"
@@ -174,7 +129,7 @@
 					</cell>
 					<cell>Confirmar Clave:</cell>
 					<cell>
-						<textbox type="password" width="75%"
+						<textbox type="password" width="98%"
 							readonly="@load(!vm.b)"
 							onFocus='confirmarcontrasena.open(txtClave2,"end_before")'
 							id="txtClave2" onBlur="@command('validarClave')">
@@ -196,518 +151,64 @@
 				</row>
 			</rows>
 		</grid>
-		<popup id="nombre" width="150px" style="background:#FACD05">
+		<popup id="nombre" width="150px" sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
-				<![CDATA[ Ingresar el Nombre ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+				<![CDATA[ Ingrese los Nombres ]]>
 			</html>
 		</popup>
-		<popup id="preg" width="150px" style="background:#FACD05">
+		<popup id="preg" width="150px" sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ Seleccione su pregunta de Seguridad ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
-		<popup id="apellido" width="150px" style="background:#FACD05">
+		<popup id="apellido" width="150px" sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
-				<![CDATA[ Ingresar el Apellido ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+				<![CDATA[ Ingresar los Apellidos ]]>
 			</html>
 		</popup>
-		<popup id="res" width="150px" style="background:#FACD05">
+		<popup id="res" width="150px" sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ Respuesta de La Pregunta ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
 		<popup id="departamento" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ Ingresar el Departamento ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
-		<popup id="estado" width="150px" style="background:#FACD05">
+		<popup id="estado" width="150px" sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ Seleccionar el Estado ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
-		<popup id="email" width="150px" style="background:#FACD05">
+		<popup id="email" width="150px" sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ Ingresar el Email]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
 		<popup id="nombrerol" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ Seleccionar el Rol]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
 		<popup id="ingresarusuario" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-				
-				<![CDATA[ Ingresar el Usuario ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+				<![CDATA[ Ingresar el Número de Cédula ]]>
 			</html>
 		</popup>
 		<popup id="ingresarcontrasena" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ Ingresar la Clave ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
 		<popup id="confirmarcontrasena" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ Confirmar la Clave ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
 		<popup id="popRoles" width="300px"

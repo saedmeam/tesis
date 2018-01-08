@@ -1,4 +1,4 @@
-<?page title=".:Gestion Municipal:." contentType="text/html;charset=UTF-8"?>
+<?page title="Universidad de Guayaquil" contentType="text/html;charset=UTF-8"?>
 <?link href="/css/main.css" rel="stylesheet" type="text/css"?>
 <?init class="net.macrosigma.general.Validador"?>
 <?forward uri="/Pantalla_Principal.zul" if="${sessionScope.usuario==null}"?>
@@ -28,9 +28,9 @@
 										<cell></cell>
 										<cell></cell>
 										<cell align="center">
-											<image
+											<!-- <image
 												src="img/logo_del_sistema.png">
-											</image>
+												</image> -->
 										</cell>
 										<cell>
 											<image src="img/fondo4.png"
@@ -45,8 +45,7 @@
 													height="20px">
 												</image>
 												<label
-													value="BIENVENIDO: ${vm.usu.usuUsuario}"
-													style="font-weight: bold;">
+													value="BIENVENIDO: ${vm.usu.usuUsuario}">
 												</label>
 											</div>
 										</cell>
@@ -62,7 +61,7 @@
 													<a
 														onClick="@command('cambioClave')"
 														image="img/cambio_clave.png" label=" CAMBIO DE CLAVE"
-														style="color: black">
+														style="font-weight: bold; color: #F7F7F7">
 													</a>
 												</div>
 											</div>
@@ -77,7 +76,8 @@
 												sclass="nav-collapse menu-top">
 												<a
 													onClick="@command('doLogoff')" image="img/logout.png"
-													label=" CERRAR SESIÓN" style="color: black">
+													label=" CERRAR SESIÓN"
+													style="font-weight: bold; color: #F7F7F7">
 												</a>
 											</div>
 										</cell>
@@ -104,16 +104,7 @@
 					<div width="100%" height="100%">
 						<borderlayout>
 							<center border="none">
-								<tabbox id="tabs" height="100%">
-									<tabs>
-										<tab label="GESTION DOCUMENTAL"
-											style="font-weight: bold;" />
-									</tabs>
-									<tabpanels id="tabpanels">
-										<tabpanel sclass="dashboard">
-										</tabpanel>
-									</tabpanels>
-								</tabbox>
+								<include id="incCont" />
 							</center>
 							<south border="none">
 								<grid>

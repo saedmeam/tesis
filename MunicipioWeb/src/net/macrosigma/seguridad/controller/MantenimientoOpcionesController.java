@@ -16,19 +16,14 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zhtml.Messagebox;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Bandbox;
-import org.zkoss.zul.Borderlayout;
-import org.zkoss.zul.Center;
-import org.zkoss.zul.Include;
-import org.zkoss.zul.Tab;
-import org.zkoss.zul.Tabbox;
-import org.zkoss.zul.Tabpanel;
-import org.zkoss.zul.Tabpanels;
 import org.zkoss.zul.Window;
 
 public class MantenimientoOpcionesController extends BaseController {
@@ -37,6 +32,7 @@ public class MantenimientoOpcionesController extends BaseController {
 	Bandbox txtbusqueda;
 	@Wire
 	Window winManOpc;
+	Window window;
 
 	// private Window window;
 	private GmSegMenuDao opcionDao = new GmSegMenuDao();
@@ -66,30 +62,26 @@ public class MantenimientoOpcionesController extends BaseController {
 	@Command
 	public void nuevo() {
 		Sessions.getCurrent().setAttribute("opcion", 0);
-		Tabbox tabs = (Tabbox) winManOpc.getParent().getParent().getParent()
-				.getParent().getParent().getParent();
-		Tabpanels tabpanels = (Tabpanels) winManOpc.getParent().getParent()
-				.getParent().getParent().getParent();
-		Borderlayout bl = new Borderlayout();
-		if (tabs.hasFellow("/seguridad/opciones/opc_001.zul")) {
-			Tab tab2 = (Tab) tabs.getFellow("/seguridad/opciones/opc_001.zul");
-			tab2.close();
+		if (window == null) {
+			window = (Window) Executions.createComponents(
+					"/seguridad/opciones/opc_001.zul", null, null);
+			window.doModal();
+			window.setMaximizable(true);
+			window.setClosable(true);
+			window.setWidth("60%");
+			window.setHeight("60%");
+			window.addEventListener(Events.ON_CLOSE,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event arg0) throws Exception {
+							window = null;
+							buscar(null);
+							BindUtils.postNotifyChange(null, null,
+									MantenimientoOpcionesController.this,
+									"listOpciones");
+						}
+					});
 		}
-		// Nombre del tab
-		Tab tab = new Tab("INGRESO DE OPCIONES");
-		tab.setClosable(true);
-		tab.setSelected(true);
-		// Id del tab
-		tab.setId("/seguridad/opciones/opc_001.zul");
-		tabs.getTabs().appendChild(tab);
-		Tabpanel tabpanel = new Tabpanel();
-		tabpanels.appendChild(tabpanel);
-		Include include = new Include("/seguridad/opciones/opc_001.zul");
-		Center c = new Center();
-		c.setAutoscroll(true);
-		c.appendChild(include);
-		bl.appendChild(c);
-		tabpanel.appendChild(bl);
 	}
 
 	@AfterCompose
@@ -103,34 +95,34 @@ public class MantenimientoOpcionesController extends BaseController {
 		Sessions.getCurrent().setAttribute("opcionModificar",
 				opcionSeleccionada);
 		Sessions.getCurrent().setAttribute("opcion", 1);
-		if (opcionSeleccionada != null) {
-			Tabbox tabs = (Tabbox) winManOpc.getParent().getParent()
-					.getParent().getParent().getParent().getParent();
-			Tabpanels tabpanels = (Tabpanels) winManOpc.getParent().getParent()
-					.getParent().getParent().getParent();
-			Borderlayout bl = new Borderlayout();
-			if (tabs.hasFellow("/seguridad/opciones/opc_001.zul")) {
-				Tab tab2 = (Tab) tabs
-						.getFellow("/seguridad/opciones/opc_001.zul");
-				tab2.close();
-			}
-			// Nombre del tab
-			Tab tab = new Tab("MODIFICACION DE OPCIONES");
-			tab.setClosable(true);
-			tab.setSelected(true);
-			// Id del tab
-			tab.setId("/seguridad/opciones/opc_001.zul");
-			tabs.getTabs().appendChild(tab);
-			Tabpanel tabpanel = new Tabpanel();
-			tabpanels.appendChild(tabpanel);
-			Include include = new Include("/seguridad/opciones/opc_001.zul");
-			Center c = new Center();
-			c.setAutoscroll(true);
-			c.appendChild(include);
-			bl.appendChild(c);
-			tabpanel.appendChild(bl);
+		if (window == null) {
+			window = (Window) Executions.createComponents(
+					"/seguridad/opciones/opc_001.zul", null, null);
+			window.doModal();
+			window.setMaximizable(true);
+			window.setClosable(true);
+			window.setWidth("60%");
+			window.setHeight("60%");
+			window.addEventListener(Events.ON_CLOSE,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event arg0) throws Exception {
+							window = null;
+							buscar(null);
+							BindUtils.postNotifyChange(null, null,
+									MantenimientoOpcionesController.this,
+									"listOpciones");
+						}
+					});
 		} else {
-			Messagebox.show("Debe Seleccionar el registro que desea modificar");
+			Messagebox.show("Debe Seleccionar el registro que desea modificar",
+					"Informe", Messagebox.OK, Messagebox.EXCLAMATION,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event e) throws Exception {
+
+						}
+					});
 		}
 	}
 

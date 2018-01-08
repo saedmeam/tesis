@@ -2,7 +2,7 @@
 <?init class="net.macrosigma.general.Validador"?>
 <zk>
 	<window title="Ingreso_Perfil [per_001]" border="normal" id="winPerfil"
-		height="60%" width="60%" closable="true"
+		height="60%" width="60%" closable="true" contentStyle="overflow:auto"
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('net.macrosigma.seguridad.controller.IngresoPerfilController')">
 
@@ -85,118 +85,22 @@
 			</rows>
 
 		</grid>
-
-
-
-
-
-
 		<popup id="nombreperfil" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ ingresar perfil ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-						
 			</html>
 		</popup>
-
 		<popup id="descripcion" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ ingresar descripción ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-					
 			</html>
 		</popup>
-
-
-
-		<popup id="estado" width="150px" style="background:#FACD05">
+		<popup id="estado" width="150px" sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ seleccionar el estado ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-					
 			</html>
 		</popup>
-
-
 	</window>
 </zk>

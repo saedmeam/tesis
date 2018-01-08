@@ -6,7 +6,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.macrosigma.gestion.dao.GmGesPreguntaFrecuenteDao;
+import net.macrosigma.gestion.dao.GmGesPreguntaUsuarioDao;
 import net.macrosigma.gestion.ent.GmGesDepartamento;
+import net.macrosigma.gestion.ent.GmGesPreguntaFrecuente;
+import net.macrosigma.gestion.ent.GmGesPreguntasUsuario;
 import net.macrosigma.parametro.dao.GmParParametroDao;
 import net.macrosigma.parametro.dao.GmParPolitSeguridadDao;
 import net.macrosigma.parametro.ent.GmParParametros;
@@ -31,6 +35,7 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
@@ -58,9 +63,9 @@ public class IngresoUsuarioController extends BaseController {
 	Listbox lbxRolesAgregados, lbxAgregarRoles;
 	@Wire
 	Textbox txtusuario, txtClave, txtClave2, txtnombre, txtapellido,
-			txtdepartamento, txtemail, txtrol;
+			txtdepartamento, txtemail, txtrol,txtres;
 	@Wire
-	Combobox cmbtestado, cmbtnombrrol, cmbdpto;
+	Combobox cmbtestado, cmbtnombrrol, cmbdpto, cmbdesc;
 	@Wire
 	Image img0, img1, img2, img3;
 	@Wire
@@ -91,6 +96,56 @@ public class IngresoUsuarioController extends BaseController {
 	GmParParametroDao parDao = new GmParParametroDao();
 	List<GmGesDepartamento> listparSol = new ArrayList<GmGesDepartamento>();
 	GmGesDepartamento parSolSel = new GmGesDepartamento();
+
+	List<GmGesPreguntaFrecuente> listpardes = new ArrayList<GmGesPreguntaFrecuente>();
+	GmGesPreguntaFrecuente pregFreSel = new GmGesPreguntaFrecuente();
+	GmGesPreguntaFrecuenteDao pregFreDao = new GmGesPreguntaFrecuenteDao();
+	List<GmGesPreguntasUsuario> listPreguntaUsuario = new ArrayList<GmGesPreguntasUsuario>();
+	List<GmGesPreguntasUsuario> listPreguntaUsuarioElim = new ArrayList<GmGesPreguntasUsuario>();
+	GmGesPreguntasUsuario pregUsuSel = new GmGesPreguntasUsuario();
+	GmGesPreguntasUsuario pregUsuElim = new GmGesPreguntasUsuario();
+	GmGesPreguntaUsuarioDao pregUsuDao = new GmGesPreguntaUsuarioDao();
+
+	public List<GmGesPreguntaFrecuente> getListpardes() {
+		return listpardes;
+	}
+
+	public void setListpardes(List<GmGesPreguntaFrecuente> listpardes) {
+		this.listpardes = listpardes;
+	}
+
+	public GmGesPreguntaFrecuente getPregFreSel() {
+		return pregFreSel;
+	}
+
+	public void setPregFreSel(GmGesPreguntaFrecuente pregFreSel) {
+		this.pregFreSel = pregFreSel;
+	}
+
+	public List<GmGesPreguntasUsuario> getListPreguntaUsuario() {
+		return listPreguntaUsuario;
+	}
+
+	public void setListPreguntaUsuario(
+			List<GmGesPreguntasUsuario> listPreguntaUsuario) {
+		this.listPreguntaUsuario = listPreguntaUsuario;
+	}
+
+	public GmGesPreguntasUsuario getPregUsuSel() {
+		return pregUsuSel;
+	}
+
+	public void setPregUsuSel(GmGesPreguntasUsuario pregUsuSel) {
+		this.pregUsuSel = pregUsuSel;
+	}
+
+	public GmGesPreguntasUsuario getPregUsuElim() {
+		return pregUsuElim;
+	}
+
+	public void setPregUsuElim(GmGesPreguntasUsuario pregUsuElim) {
+		this.pregUsuElim = pregUsuElim;
+	}
 
 	public List<GmParParametros> getListparCarrera() {
 		return listparCarrera;
@@ -135,6 +190,7 @@ public class IngresoUsuarioController extends BaseController {
 
 	@SuppressWarnings("static-access")
 	public void cargarRoles() {
+		listpardes = pregFreDao.getPreFreAct();
 		listaRoles = rolDao.getRoles();
 		listparCarrera = parDao.getParametroByDesPad("CARRERAS");
 	}
@@ -184,6 +240,8 @@ public class IngresoUsuarioController extends BaseController {
 			txtClave2.setDisabled(true);
 			cellClave.setVisible(true);
 			listaRolUsuarioGuardar = usuarioModificar.getUsuRolUsuId();
+			parCarreraSel = usuarioModificar.getUsuCarrId();
+			parSolSel = usuarioModificar.getUsuDepId();
 			BindUtils.postNotifyChange(null, null,
 					IngresoUsuarioController.this, "usuario");
 		}
@@ -191,6 +249,7 @@ public class IngresoUsuarioController extends BaseController {
 
 	@Command
 	public void crearUsuario() {
+		usuarioDao = new GmSegUsuarioDao();
 		if (usuario.getUsuNombres() == null) {
 			txtnombre.setErrorMessage("Por favor ingrese Nombres");
 			return;
@@ -206,8 +265,14 @@ public class IngresoUsuarioController extends BaseController {
 		if (cmbdpto.getValue() == null) {
 			cmbdpto.setErrorMessage("Por favor seleccione un Departamento");
 			return;
-		}else
+		} else
 			usuario.setUsuDepId(parSolSel);
+
+		if (cmbdesc.getValue() == null) {
+			cmbdesc.setErrorMessage("Por favor seleccione una Carrera");
+			return;
+		} else
+			usuario.setUsuCarrId(parCarreraSel);
 		if (usuario.getUsuEmail() == null) {
 			txtemail.setErrorMessage("Por favor ingrese Email");
 			return;
@@ -263,7 +328,7 @@ public class IngresoUsuarioController extends BaseController {
 			usuario.setUsuClave(claveAnterior);
 		}
 		if (listaRolUsuarioGuardar.size() == 0) {
-			Messagebox.show("Debe escojer almenos un ROL", "Información",
+			Messagebox.show("Debe escoger almenos un ROL", "Información",
 					Messagebox.OK, Messagebox.INFORMATION);
 			return;
 		} else {
@@ -275,27 +340,60 @@ public class IngresoUsuarioController extends BaseController {
 
 		if (opcion == 0) {
 			usuarioDao.crear(usuario);
-			Messagebox.show("Usuario ingresado con exito", "Informe",
+			if (listPreguntaUsuario.size() < 3) {
+				Messagebox.show("Debe escoger al menos tres preguntas ",
+						"Información", Messagebox.OK, Messagebox.INFORMATION);
+				return;
+			} else {
+				for (int i = 0; i < listPreguntaUsuario.size(); i++) {
+					listPreguntaUsuario.get(i).setPreUsu(usuario);
+					pregUsuDao.crear(listPreguntaUsuario.get(i));
+					pregUsuDao = new GmGesPreguntaUsuarioDao();
+				}
+			}
+			Messagebox.show("Usuario ingresado con éxito", "Informe",
 					Messagebox.OK, Messagebox.INFORMATION,
 					new EventListener<Event>() {
-						@Override
-						public void onEvent(Event e) throws Exception {
-							if ("onOK".equals(e.getName())) {
-							}
-						}
-					});
+				@Override
+				public void onEvent(Event e) throws Exception {
+					Events.postEvent(new Event(Events.ON_CLOSE,
+							winNuevoUsu));
+				}
+			});
+			
 		} else {
 			for (GmSegRolUsuario rolUsuBorrar : listaRolUsuarioBorrar) {
-				usuario.getUsuRolUsuId().add(rolUsuBorrar);
+				// usuario.getUsuRolUsuId().add(rolUsuBorrar);
+				gmSegRolUsuarioDao = new GmSegRolUsuarioDao();
+				gmSegRolUsuarioDao.actualizar(rolUsuBorrar);
+			}
+			for(int i=0;i<listPreguntaUsuarioElim.size();i++){
+				listPreguntaUsuarioElim.get(i).setEstado("INA");
+				pregUsuDao.actualizar(listPreguntaUsuario.get(i));
+				pregUsuDao = new GmGesPreguntaUsuarioDao();
+			}
+			if (listPreguntaUsuario.size() < 3) {
+				Messagebox.show("Debe escoger al menos tres preguntas ",
+						"Información", Messagebox.OK, Messagebox.INFORMATION);
+				return;
+			} else {
+				for (int i = 0; i < listPreguntaUsuario.size(); i++) {
+					listPreguntaUsuario.get(i).setPreUsu(usuario);
+					pregUsuDao.crear(listPreguntaUsuario.get(i));
+					pregUsuDao = new GmGesPreguntaUsuarioDao();
+				}
 			}
 			usuario.setFechaModificacion(new Date());
+
 			usuarioDao.actualizar(usuario);
-			Messagebox.show("Usuario modificado con exito", "Informe",
+			Messagebox.show("Usuario modificado con éxito", "Informe",
 					Messagebox.OK, Messagebox.INFORMATION,
 					new EventListener<Event>() {
 						@Override
 						public void onEvent(Event e) throws Exception {
 							if ("onOK".equals(e.getName())) {
+								Events.postEvent(new Event(Events.ON_CLOSE,
+										winNuevoUsu));
 							}
 						}
 					});
@@ -308,29 +406,29 @@ public class IngresoUsuarioController extends BaseController {
 			if (polSeg.getPolSegPerMin().equals("S")) {
 				if (polSeg.getPolSegPerNum().equals("S")) {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas, minusculas, números y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: mayúsculas, minúsculas, números y simbolos.";
 					} else {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas, minusculas y números.";
+						mensaje = "La clave debe contener los siguientes elementos: mayúsculas, minúsculas y números.";
 					}
 				} else {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas, minusculas y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: mayúsculas, minúsculas y simbolos.";
 					} else {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas y minusculas.";
+						mensaje = "La clave debe contener los siguientes elementos: mayúsculas y minúsculas.";
 					}
 				}
 			} else {
 				if (polSeg.getPolSegPerNum().equals("S")) {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas, números y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: mayúsculas, números y simbolos.";
 					} else {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas y números.";
+						mensaje = "La clave debe contener los siguientes elementos: mayúsculas y números.";
 					}
 				} else {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: mayúsculas y simbolos.";
 					} else {
-						mensaje = "La clave debe contener al menos: mayusculas.";
+						mensaje = "La clave debe contener al menos: mayúsculas.";
 					}
 				}
 			}
@@ -338,27 +436,27 @@ public class IngresoUsuarioController extends BaseController {
 			if (polSeg.getPolSegPerMin().equals("S")) {
 				if (polSeg.getPolSegPerNum().equals("S")) {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: minusculas, números y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: minúsculas, números y simbolos.";
 					} else {
-						mensaje = "La clave debe contener los siguientes elementos: minusculas y números.";
+						mensaje = "La clave debe contener los siguientes elementos: minúsculas y números.";
 					}
 				} else {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: minusculas y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: minúsculas y simbolos.";
 					} else {
-						mensaje = "La clave debe contener almenos: minusculas.";
+						mensaje = "La clave debe contener almenos: minúsculas.";
 					}
 				}
 			} else {
 				if (polSeg.getPolSegPerNum().equals("S")) {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: números y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: números y simbolos.";
 					} else {
 						mensaje = "La clave debe contener almenos: números.";
 					}
 				} else {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener al menos: símbolos.";
+						mensaje = "La clave debe contener al menos: simbolos.";
 					} else {
 						mensaje = "";
 					}
@@ -370,7 +468,7 @@ public class IngresoUsuarioController extends BaseController {
 			if (txtClave.getText().length() < polSeg.getPolSegLongMinCon()
 					|| txtClave.getText().length() > polSeg
 							.getPolSegLongMaxCon()) {
-				txtClave.setErrorMessage("La clave debe tener minimo "
+				txtClave.setErrorMessage("La clave debe tener mínimo "
 						+ polSeg.getPolSegLongMinCon() + " caracters y maximo "
 						+ polSeg.getPolSegLongMaxCon() + " caracteres.");
 				ban2 = 1;
@@ -456,7 +554,7 @@ public class IngresoUsuarioController extends BaseController {
 		if (!txtusuario.getText().isEmpty()) {
 			if (txtusuario.getText().length() > polSeg.getPolSegLonMaxUsu()) {
 				txtusuario
-						.setErrorMessage("Nombre de usuario demasiado grande, el limite de caracteres asignado para usuarios es máximo "
+						.setErrorMessage("Nombre de usuario demasiado grande, el límite de caracteres asignado para usuarios es máximo "
 								+ polSeg.getPolSegLonMaxUsu());
 				img0.setVisible(false);
 				ban4 = 1;
@@ -498,7 +596,7 @@ public class IngresoUsuarioController extends BaseController {
 	public void validarCorreo() {
 		if (!txtemail.getText().isEmpty()) {
 			if (!validarEmail(txtemail.getText())) {
-				txtemail.setErrorMessage("La direccion de correo no es valida");
+				txtemail.setErrorMessage("La dirección de correo no es valida");
 				ban6 = 1;
 				img3.setVisible(false);
 				return;
@@ -625,6 +723,7 @@ public class IngresoUsuarioController extends BaseController {
 
 	@Command
 	public void cargalistado() {
+		listparSol = new ArrayList<>();
 		if (parCarreraSel != null) {
 			for (int i = 0; i < parCarreraSel.getDepCarreraId().size(); i++) {
 				listparSol.add(parCarreraSel.getDepCarreraId().get(i)
@@ -634,6 +733,50 @@ public class IngresoUsuarioController extends BaseController {
 		}
 		BindUtils.postNotifyChange(null, null, IngresoUsuarioController.this,
 				"listparSol");
+	}
+	
+	@Command
+	public void ingresaPregunta() {
+
+		if (pregFreSel == null) {
+			cmbdesc.setErrorMessage("Por favor Seleccione una Pregunta");
+			return;
+		}
+		if (pregUsuSel.getResPreg() == null) {
+			txtres.setErrorMessage("Por favor ingrese Apellidos");
+			return;
+		}
+		boolean b = false;
+		for (int i = 0; i < listPreguntaUsuario.size(); i++) {
+			if (listPreguntaUsuario.get(i).getPreFreUsu() == pregFreSel) {
+				b = true;
+				break;
+			}
+
+		}
+		if (!b) {
+			pregUsuSel.setPreFreUsu(pregFreSel);
+			listPreguntaUsuario.add(pregUsuSel);
+		} else{
+			cmbdesc.setErrorMessage("No se puede Ingresar 2 veces la misma pregunta");
+			return;
+		}
+		pregUsuSel= new GmGesPreguntasUsuario();
+		pregFreSel = new GmGesPreguntaFrecuente();
+		BindUtils.postNotifyChange(null, null,
+				IngresoUsuarioController.this, "listPreguntaUsuario");
+		BindUtils.postNotifyChange(null, null,
+				IngresoUsuarioController.this, "pregUsuSel");
+		BindUtils.postNotifyChange(null, null,
+				IngresoUsuarioController.this, "pregFreSel");
+	}
+
+	@Command
+	public void elim(@BindingParam("obj") GmGesPreguntasUsuario edif) {
+		listPreguntaUsuario.remove(edif);
+		listPreguntaUsuarioElim.add(edif);
+		BindUtils.postNotifyChange(null, null,
+				IngresoUsuarioController.this, "listPreguntaUsuario");
 	}
 
 }

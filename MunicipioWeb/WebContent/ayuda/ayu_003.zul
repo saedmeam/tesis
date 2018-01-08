@@ -1,6 +1,6 @@
 <?page title=".:Informacion:." contentType="text/html;charset=UTF-8"?>
 <zk>
-	<window border="none">
+	<window border="none" contentStyle="overflow:auto">
 		<div align="center" width="100%">
 			<separator height="50px"></separator>
 

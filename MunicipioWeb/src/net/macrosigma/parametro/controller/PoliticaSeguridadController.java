@@ -10,6 +10,8 @@ import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.zhtml.Messagebox;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Checkbox;
@@ -81,8 +83,15 @@ public class PoliticaSeguridadController extends BaseController {
 			polSegBean.setPolSegPerSim("N");
 
 		polSegDao.crear(polSegBean);
+		Messagebox.show(
+				"Política Guardada",
+				"Informe", Messagebox.OK, Messagebox.ERROR,
+				new EventListener<Event>() {
+					@Override
+					public void onEvent(Event e) throws Exception {
 
-		Messagebox.show("Política Guardada");
+					}
+				});
 
 	}
 }

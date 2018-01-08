@@ -2,18 +2,19 @@
 <zk>
 	<window title="Ingreso_Estudiante [usu_003]" border="none"
 		id="winCreaUsuEst" contentStyle="overflow:auto" height="80%"
-		width="70%" apply="org.zkoss.bind.BindComposer"
+		width="80%" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('net.macrosigma.seguridad.controller.IngresoUsuarioEstudianteController')">
 		<toolbar>
 			<toolbarbutton id="tbbguardar" label="Guardar"
-				onClick="@command('crearUsuario')" image="/img/save3.png" />
+				style=" color: #F7F7F7;" onClick="@command('crearUsuario')"
+				image="/img/save3.png" />
 			<image src="img/fondo4.png" height="22px"></image>
 		</toolbar>
 		<separator height="10px"></separator>
 		<div align="center">
 			<html>
 				<FONT FACE="Segoe UI" SIZE="6" COLOR="293B65">
-					Usuario
+					Registrarse
 				</FONT>
 				<br></br>
 			</html>
@@ -24,14 +25,15 @@
 		<grid>
 			<columns>
 				<column width="1%" />
-				<column width="24%" />
-				<column width="25%" />
-				<column width="25%" />
-				<column width="25%" />
+				<column width="22%" />
+				<column width="23%" />
+				<column width="22%" />
+				<column width="22%" />
+				<column width="10%" />
 			</columns>
 			<rows>
 				<row>
-					<cell colspan="5">
+					<cell colspan="6">
 						<div
 							sclass="form-group clearfix border-top-bottom">
 						</div>
@@ -46,7 +48,7 @@
 					<cell></cell>
 					<cell>Número de Cédula:</cell>
 					<cell>
-						<textbox id="txtusuario" width="75%"
+						<textbox id="txtusuario" width="90%"
 							instant="true"
 							onChange="self.setValue(self.getValue().toUpperCase());"
 							onFocus='ingresarusuario.open(txtusuario,"end_before")'
@@ -57,8 +59,8 @@
 						</image>
 					</cell>
 					<cell>Email:</cell>
-					<cell>
-						<textbox id="txtemail" width="75%"
+					<cell colspan="2">
+						<textbox id="txtemail" width="90%"
 							onFocus='email.open(txtemail,"end_before")'
 							value="@bind(vm.usuario.usuEmail)"
 							onBlur="@command('validarCorreo')" />
@@ -74,15 +76,15 @@
 					<cell></cell>
 					<cell>Nombres:</cell>
 					<cell>
-						<textbox id="txtnombre" width="75%"
+						<textbox id="txtnombre" width="90%"
 							instant="true"
 							onChange="self.setValue(self.getValue().toUpperCase());"
 							onFocus='nombre.open(txtnombre,"end_before")'
 							value="@bind(vm.usuario.usuNombres)" />
 					</cell>
 					<cell>Apellidos:</cell>
-					<cell>
-						<textbox id="txtapellido" width="75%"
+					<cell colspan="2">
+						<textbox id="txtapellido" width="90%"
 							instant="true"
 							onChange="self.setValue(self.getValue().toUpperCase());"
 							onFocus='apellido.open(txtapellido,"end_before")'
@@ -96,22 +98,15 @@
 					<cell></cell>
 					<cell>Seleccionar Rol:</cell>
 					<cell>
-						<listbox id="lbxRolesAgregados"
-							model="@load(vm.listaRoles)" emptyMessage="Sin Roles"
-							sclass="tablas" width="90%">
-							<listhead>
-								<listheader label="ROLES ASIGNADOS"
-									width="70%">
-								</listheader>
-							</listhead>
-							<template name="model">
-								<listitem>
-									<listcell
-										label="@load(each.rolNombre)">
-									</listcell>
-								</listitem>
-							</template>
-						</listbox>
+					<combobox id="lbxRolesAgregados" model="@load(vm.listaRoles)"
+						onFocus='rol.open(lbxRolesAgregados,"end_before")' width="90%"
+						readonly="true" value="@load(vm.rolSel.rolNombre)"
+						selectedItem="@bind(vm.pregFreSel)">
+						<template name="model">
+							<comboitem value="@load(each.rolId)"
+								label="@load(each.rolNombre)" />
+						</template>
+					</combobox>
 					</cell>
 				</row>
 				<row>
@@ -121,7 +116,7 @@
 					<cell></cell>
 					<cell>Clave:</cell>
 					<cell>
-						<textbox type="password" width="75%"
+						<textbox type="password" width="90%"
 							onFocus='ingresarcontrasena.open(txtClave,"end_before")'
 							value="@bind(vm.usuario.usuClave)" id="txtClave"
 							onBlur="@command('validarClave')">
@@ -131,8 +126,8 @@
 						</image>
 					</cell>
 					<cell>Confirmar Clave:</cell>
-					<cell>
-						<textbox type="password" width="75%"
+					<cell colspan="2">
+						<textbox type="password" width="90%"
 							onFocus='confirmarcontrasena.open(txtClave2,"end_before")'
 							id="txtClave2" onBlur="@command('validarClave')">
 						</textbox>
@@ -145,7 +140,7 @@
 					<cell></cell>
 					<label>Seleccione la pregunta de Seguridad</label>
 					<combobox id="cmbdesc" model="@load(vm.listpardes)"
-						onFocus='preg.open(cmbdesc,"end_before")' width="98%"
+						onFocus='preg.open(cmbdesc,"end_before")' width="90%"
 						readonly="true" value="@load(vm.pregFreSel.desPregunta)"
 						selectedItem="@bind(vm.pregFreSel)">
 						<template name="model">
@@ -154,21 +149,19 @@
 						</template>
 					</combobox>
 					<cell>Respuesta:</cell>
-					<cell>
-						<textbox id="txtres" width="75%" instant="true"
+					<cell >
+						<textbox id="txtres" width="90%" instant="true"
 							onChange="self.setValue(self.getValue().toUpperCase());"
 							onFocus='res.open(txtres,"end_before")'
 							value="@bind(vm.pregUsuSel.resPreg)" />
 					</cell>
+					<button image="/img/agrega.png" 
+							onClick="@command('ingresaPregunta')">
+						</button>
 				</row>
 				<row>
 					<cell></cell>
-					<cell colspan="2">
-						<button label="Agregar Pregunta de Seguridad"
-							onClick="@command('ingresaPregunta')">
-						</button>
-					</cell>
-					<cell colspan="2">
+					<cell colspan="5">
 						<listbox id="lbxdet" mold="paging" pageSize="5"
 							sclass="tablas" model="@load(vm.listPreguntaUsuario)"
 							emptyMessage="no existen datos"
@@ -205,518 +198,64 @@
 				</row>
 			</rows>
 		</grid>
-		<popup id="nombre" width="150px" style="background:#FACD05">
+		<popup id="nombre" width="150px" sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
-				<![CDATA[ Ingresar el Nombre ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+				<![CDATA[ Ingresar los Nombres ]]>
 			</html>
 		</popup>
-		<popup id="preg" width="150px" style="background:#FACD05">
+		<popup id="apellido" width="150px" sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
+				<![CDATA[ Ingresar los Apellidos ]]>				
+			</html>
+		</popup>
+		<popup id="preg" width="150px" sclass="popinform">
+			<html>
 				<![CDATA[ Seleccione su pregunta de Seguridad ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
-		<popup id="apellido" width="150px" style="background:#FACD05">
+		<popup id="rol" width="150px" sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
-				<![CDATA[ Ingresar el Apellido ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+				<![CDATA[ Seleccione el rol del usuario ]]>
 			</html>
 		</popup>
-		<popup id="res" width="150px" style="background:#FACD05">
+		<popup id="res" width="150px" sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ Respuesta de La Pregunta ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
 		<popup id="departamento" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ Ingresar el Departamento ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
-		<popup id="estado" width="150px" style="background:#FACD05">
+		<popup id="email" width="150px" sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
-				<![CDATA[ Seleccionar el Estado ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-			</html>
-		</popup>
-		<popup id="email" width="150px" style="background:#FACD05">
-			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ Ingresar el Email]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
 		<popup id="nombrerol" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ Seleccionar el Rol]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
 		<popup id="ingresarusuario" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ Ingresar el Número de Cédula ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
 		<popup id="ingresarcontrasena" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ Ingresar la Clave ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
 		<popup id="confirmarcontrasena" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ Confirmar la Clave ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
 		<popup id="popRoles" width="300px"

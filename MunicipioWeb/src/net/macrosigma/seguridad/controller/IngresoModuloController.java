@@ -73,18 +73,18 @@ public class IngresoModuloController extends BaseController {
 		// campos para validar los si estan vacio
 
 		if (txtnombre.getText().isEmpty()) {
-			txtnombre.setErrorMessage("Debe ingresar un Nombre de Modulo");
+			txtnombre.setErrorMessage("Debe ingresar un Nombre de Módulo");
 			return;
 		}
 
 		if (txtdescripcion.getText().isEmpty()) {
-			txtdescripcion.setErrorMessage("Debe ingresar la descripción del módulo ");
+			txtdescripcion.setErrorMessage("Debe ingresar la descripción del Módulo ");
 			return;
 
 		}
 		
 		if(txtRutaIcono.getText().isEmpty()){
-			txtRutaIcono.setErrorMessage("Debe Ingresar la ruta del Icono");
+			txtRutaIcono.setErrorMessage("Debe Ingresar la ruta del Ícono");
 			return;
 		}
 		
@@ -97,7 +97,7 @@ public class IngresoModuloController extends BaseController {
 				"usuario")).getUsuUsuario());
 		if(opcion==0){
 			menuDao.crear(modulo);
-			Messagebox.show("Módulo ingresado con exito", "Informe",
+			Messagebox.show("Módulo ingresado con éxito", "Informe",
 					Messagebox.OK, Messagebox.INFORMATION,
 					new EventListener<Event>() {
 						@Override
@@ -111,7 +111,7 @@ public class IngresoModuloController extends BaseController {
 		}
 		else{
 			menuDao.actualizar(modulo);
-			Messagebox.show("Módulo actualizado con exito", "Informe",
+			Messagebox.show("Módulo actualizado con éxito", "Informe",
 					Messagebox.OK, Messagebox.INFORMATION,
 					new EventListener<Event>() {
 						@Override

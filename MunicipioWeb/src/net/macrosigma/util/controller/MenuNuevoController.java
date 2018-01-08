@@ -232,112 +232,115 @@ public class MenuNuevoController extends BaseController {
 	@SuppressWarnings("static-access")
 	public void getModulos() {
 		listaModulos = menuDao.getMenuPorUsuario(usu);
-		if (!listaModulos.isEmpty()) {
-			for (GmSegMenu modulo : listaModulos) {
-				Groupbox gb = new Groupbox();
-				gb.setId("gb" + modulo.getMenId());
-				gb.setMold("3d");
-				gb.setOpen(false);
-				Caption caption = new Caption(modulo.getMenNombre());
-				caption.setStyle("width:100% !important");
-				caption.setImage("/img/icon_1.png");
-				gb.appendChild(caption);
-				vlayout.appendChild(gb);
-				Vlayout vl = new Vlayout();
-				vl.setSpacing("0px");
-				vlayout.setWidth("100%");
-				gb.appendChild(vl);
-				Image div = new Image();
-				div.setId("arrow" + modulo.getMenId());
-				div.setSrc("img/flecha_arriba1.png");
-				div.setWidth("14px");
-				div.setHeight("12px");
-				div.setStyle("float:right");
-				caption.appendChild(div);
-				gb.addEventListener(Events.ON_CLICK,
-						new EventListener<Event>() {
-							@Override
-							public void onEvent(Event event) throws Exception {
-								Groupbox gb = (Groupbox) event.getTarget();
-								for (Component comp : vlayout.getChildren()) {
-									if (comp instanceof Groupbox) {
-										Groupbox gba = (Groupbox) comp;
-										if (!gba.getId().equals(gb.getId())) {
-											for (Component comp1 : gba
-													.getChildren()) {
-												if (comp instanceof Caption) {
-													for (Component comp2 : comp
-															.getChildren()) {
-														if (comp2 instanceof Image) {
-															Image div = (Image) comp1;
-															div.setStyle("float:right");
-															div.setSrc("img/flecha_arriba1.png");
+		if (listaModulos != null) {
+			if (!listaModulos.isEmpty()) {
+				for (GmSegMenu modulo : listaModulos) {
+					Groupbox gb = new Groupbox();
+					gb.setId("gb" + modulo.getMenId());
+					gb.setMold("3d");
+					gb.setOpen(false);
+					Caption caption = new Caption(modulo.getMenNombre());
+					caption.setStyle("width:100% !important");
+					caption.setImage("/img/icon_1.png");
+					gb.appendChild(caption);
+					vlayout.appendChild(gb);
+					Vlayout vl = new Vlayout();
+					vl.setSpacing("0px");
+					vlayout.setWidth("100%");
+					gb.appendChild(vl);
+					Image div = new Image();
+					div.setId("arrow" + modulo.getMenId());
+					div.setSrc("img/flecha_arriba1.png");
+					div.setWidth("14px");
+					div.setHeight("12px");
+					div.setStyle("float:right");
+					caption.appendChild(div);
+					gb.addEventListener(Events.ON_CLICK,
+							new EventListener<Event>() {
+								@Override
+								public void onEvent(Event event)
+										throws Exception {
+									Groupbox gb = (Groupbox) event.getTarget();
+									for (Component comp : vlayout.getChildren()) {
+										if (comp instanceof Groupbox) {
+											Groupbox gba = (Groupbox) comp;
+											if (!gba.getId().equals(gb.getId())) {
+												for (Component comp1 : gba
+														.getChildren()) {
+													if (comp instanceof Caption) {
+														for (Component comp2 : comp
+																.getChildren()) {
+															if (comp2 instanceof Image) {
+																Image div = (Image) comp1;
+																div.setStyle("float:right");
+																div.setSrc("img/flecha_arriba1.png");
+															}
 														}
 													}
 												}
 											}
 										}
 									}
-								}
-								if (gb.isOpen()) {
-									for (Component comp : gb.getChildren()) {
-										if (comp instanceof Caption) {
-											for (Component comp1 : comp
-													.getChildren()) {
-												if (comp1 instanceof Image) {
-													Image div = (Image) comp1;
-													div.setSrc("img/flecha_abajo1.png");
-													div.setStyle("float:right");
+									if (gb.isOpen()) {
+										for (Component comp : gb.getChildren()) {
+											if (comp instanceof Caption) {
+												for (Component comp1 : comp
+														.getChildren()) {
+													if (comp1 instanceof Image) {
+														Image div = (Image) comp1;
+														div.setSrc("img/flecha_abajo1.png");
+														div.setStyle("float:right");
+													}
+												}
+											}
+										}
+									} else {
+										gb.setSclass("menu-grupo-open-false");
+										for (Component comp : gb.getChildren()) {
+											if (comp instanceof Caption) {
+												for (Component comp1 : comp
+														.getChildren()) {
+													if (comp1 instanceof Image) {
+														Image div = (Image) comp1;
+														div.setSrc("img/flecha_arriba1.png");
+														div.setStyle("float:right");
+													}
 												}
 											}
 										}
 									}
-								} else {
-									gb.setSclass("menu-grupo-open-false");
-									for (Component comp : gb.getChildren()) {
-										if (comp instanceof Caption) {
-											for (Component comp1 : comp
-													.getChildren()) {
-												if (comp1 instanceof Image) {
-													Image div = (Image) comp1;
-													div.setSrc("img/flecha_arriba1.png");
-													div.setStyle("float:right");
-												}
-											}
-										}
-									}
 								}
+
+							});
+					listaMenu = menuDao.getMenuPorModulo(usu, modulo);
+					if (listaMenu.size() > 0) {
+						for (GmSegMenu op : listaMenu) {
+							if (op.getPadreMenu().getMenId() != 0) {
+								Button button = new Button();
+								button.setAttribute("opcion", op);
+								button.setWidth("290px");
+								button.setImage("/img/circle_orange.png");
+								button.setLabel(op.getMenNombre());
+								button.setSclass("boton-menu");
+								button.addEventListener(Events.ON_CLICK,
+										new EventListener<Event>() {
+											@Override
+											public void onEvent(Event event)
+													throws Exception {
+												Button button = (Button) event
+														.getTarget();
+												GmSegMenu opcion = (GmSegMenu) button
+														.getAttribute("opcion");
+												incCont.setSrc(opcion.getMenRuta());
+											}
+										});
+								vl.appendChild(button);
 							}
 
-						});
-				listaMenu = menuDao.getMenuPorModulo(usu, modulo);
-				if (listaMenu.size() > 0) {
-					for (GmSegMenu op : listaMenu) {
-						if (op.getPadreMenu().getMenId() != 0) {
-							Button button = new Button();
-							button.setAttribute("opcion", op);
-							button.setWidth("290px");
-							button.setImage("/img/circle_orange.png");
-							button.setLabel(op.getMenNombre());
-							button.setSclass("boton-menu");
-							button.addEventListener(Events.ON_CLICK,
-									new EventListener<Event>() {
-										@Override
-										public void onEvent(Event event)
-												throws Exception {
-											Button button = (Button) event
-													.getTarget();
-											GmSegMenu opcion = (GmSegMenu) button
-													.getAttribute("opcion");
-											addTab(opcion);
-										}
-									});
-							vl.appendChild(button);
 						}
-
 					}
-				}
 
+				}
 			}
 		}
 	}

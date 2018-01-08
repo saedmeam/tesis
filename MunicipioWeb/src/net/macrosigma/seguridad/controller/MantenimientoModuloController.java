@@ -16,25 +16,21 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zhtml.Messagebox;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Bandbox;
-import org.zkoss.zul.Borderlayout;
-import org.zkoss.zul.Center;
-import org.zkoss.zul.Include;
-import org.zkoss.zul.Tab;
-import org.zkoss.zul.Tabbox;
-import org.zkoss.zul.Tabpanel;
-import org.zkoss.zul.Tabpanels;
 import org.zkoss.zul.Window;
 
 public class MantenimientoModuloController extends BaseController {
 
 	@Wire
 	Window winManMod;
+	Window window;
 
 	@Wire
 	Bandbox txtbusqueda;
@@ -70,30 +66,26 @@ public class MantenimientoModuloController extends BaseController {
 	@Command
 	public void nuevo() {
 		Sessions.getCurrent().setAttribute("opcion", 0);
-		Tabbox tabs = (Tabbox) winManMod.getParent().getParent().getParent()
-				.getParent().getParent().getParent();
-		Tabpanels tabpanels = (Tabpanels) winManMod.getParent().getParent()
-				.getParent().getParent().getParent();
-		Borderlayout bl = new Borderlayout();
-		if (tabs.hasFellow("/seguridad/modulo/mod_001.zul")) {
-			Tab tab2 = (Tab) tabs.getFellow("/seguridad/modulo/mod_001.zul");
-			tab2.close();
+		if (window == null) {
+			window = (Window) Executions.createComponents(
+					"/seguridad/modulo/mod_001.zul", null, null);
+			window.doModal();
+			window.setMaximizable(true);
+			window.setClosable(true);
+			window.setWidth("60%");
+			window.setHeight("60%");
+			window.addEventListener(Events.ON_CLOSE,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event arg0) throws Exception {
+							window = null;
+							buscar(null);
+							BindUtils.postNotifyChange(null, null,
+									MantenimientoModuloController.this,
+									"listaMod");
+						}
+					});
 		}
-		// Nombre del tab
-		Tab tab = new Tab("INGRESO DE MODULOS");
-		tab.setClosable(true);
-		tab.setSelected(true);
-		// Id del tab
-		tab.setId("/seguridad/modulo/mod_001.zul");
-		tabs.getTabs().appendChild(tab);
-		Tabpanel tabpanel = new Tabpanel();
-		tabpanels.appendChild(tabpanel);
-		Include include = new Include("/seguridad/modulo/mod_001.zul");
-		Center c = new Center();
-		c.setAutoscroll(true);
-		c.appendChild(include);
-		bl.appendChild(c);
-		tabpanel.appendChild(bl);
 	}
 
 	@Command
@@ -101,40 +93,44 @@ public class MantenimientoModuloController extends BaseController {
 		if (moduloSelecionado != null) {
 			Sessions.getCurrent().setAttribute("opcion", 1);
 			Sessions.getCurrent().setAttribute("modulo", moduloSelecionado);
-			Tabbox tabs = (Tabbox) winManMod.getParent().getParent()
-					.getParent().getParent().getParent().getParent();
-			Tabpanels tabpanels = (Tabpanels) winManMod.getParent().getParent()
-					.getParent().getParent().getParent();
-			Borderlayout bl = new Borderlayout();
-			if (tabs.hasFellow("/seguridad/modulo/mod_001.zul")) {
-				Tab tab2 = (Tab) tabs
-						.getFellow("/seguridad/modulo/mod_001.zul");
-				tab2.close();
+			if (window == null) {
+				window = (Window) Executions.createComponents(
+						"/seguridad/modulo/mod_001.zul", null, null);
+				window.doModal();
+				window.setMaximizable(true);
+				window.setClosable(true);
+				window.setWidth("60%");
+				window.setHeight("60%");
+				window.addEventListener(Events.ON_CLOSE,
+						new EventListener<Event>() {
+							@Override
+							public void onEvent(Event arg0) throws Exception {
+								window = null;
+								buscar(null);
+								BindUtils.postNotifyChange(null, null,
+										MantenimientoModuloController.this,
+										"listaMod");
+							}
+						});
 			}
-			// Nombre del tab
-			Tab tab = new Tab("MODIFICACIÓN DE MODULOS");
-			tab.setClosable(true);
-			tab.setSelected(true);
-			// Id del tab
-			tab.setId("/seguridad/modulo/mod_001.zul");
-			tabs.getTabs().appendChild(tab);
-			Tabpanel tabpanel = new Tabpanel();
-			tabpanels.appendChild(tabpanel);
-			Include include = new Include("/seguridad/modulo/mod_001.zul");
-			Center c = new Center();
-			c.setAutoscroll(true);
-			c.appendChild(include);
-			bl.appendChild(c);
-			tabpanel.appendChild(bl);
 		} else {
-			Messagebox.show("Debe Seleccionar el registro que desea modificar");
+			
+			Messagebox.show(
+					"Debe Seleccionar el registro que desea modificar",
+					"Informe", Messagebox.OK, Messagebox.EXCLAMATION,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event e) throws Exception {
+
+						}
+					});
 		}
 	}
 
 	@Command
 	public void eliminar(@BindingParam("objeto") final GmSegMenu objeto) {
 		Messagebox.show(
-				"Esta seguro que sesea eliminar el modulo * "
+				"Esta seguro que sesea eliminar el módulo * "
 						+ objeto.getMenNombre() + " *", "Informe",
 				Messagebox.OK | Messagebox.CANCEL, Messagebox.INFORMATION,
 				new EventListener<Event>() {
@@ -142,9 +138,10 @@ public class MantenimientoModuloController extends BaseController {
 					public void onEvent(Event e) throws Exception {
 						if ("onOK".equals(e.getName())) {
 							moduloDao.eliminar(objeto);
-							Messagebox.show("Modulo eliminado exitosamente",
+							Messagebox.show("Módulo eliminado exitosamente",
 									"Informe", Messagebox.OK,
 									Messagebox.INFORMATION);
+							buscar(null);
 							BindUtils.postNotifyChange(null, null,
 									MantenimientoModuloController.this,
 									"listaMod");

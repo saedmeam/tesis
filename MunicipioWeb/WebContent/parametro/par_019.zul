@@ -44,7 +44,7 @@
 			<treecols>
 				<treecol label="Descripción" />
 				<treecol label="Valor" />
-				<treecol label="Estado" />
+				<treecol label="Estado" width="10%"/>
 			</treecols>
 		</tree>
 	</window>

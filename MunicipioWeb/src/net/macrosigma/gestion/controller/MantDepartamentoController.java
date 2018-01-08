@@ -15,23 +15,21 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zhtml.Messagebox;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Bandbox;
-import org.zkoss.zul.Borderlayout;
-import org.zkoss.zul.Center;
-import org.zkoss.zul.Include;
-import org.zkoss.zul.Tab;
-import org.zkoss.zul.Tabbox;
-import org.zkoss.zul.Tabpanel;
-import org.zkoss.zul.Tabpanels;
 import org.zkoss.zul.Window;
 
 public class MantDepartamentoController extends BaseController {
 
 	@Wire
 	Window winmantrub;
+	Window window;
 	// llenar tabla
 	List<GmGesDepartamento> listaInte = new ArrayList<GmGesDepartamento>();
 	GmGesDepartamentoDao intDao = new GmGesDepartamentoDao();
@@ -51,30 +49,26 @@ public class MantDepartamentoController extends BaseController {
 	public void nuevo() {
 
 		Sessions.getCurrent().setAttribute("opcion", 0);
-		Tabbox tabs = (Tabbox) winmantrub.getParent().getParent().getParent()
-				.getParent().getParent().getParent();
-		Tabpanels tabpanels = (Tabpanels) winmantrub.getParent().getParent()
-				.getParent().getParent().getParent();
-		Borderlayout bl = new Borderlayout();
-		if (tabs.hasFellow("/catastroadm/cat_002_A.zul")) {
-			Tab tab2 = (Tab) tabs.getFellow("/catastroadm/cat_002_A.zul");
-			tab2.close();
+		if (window == null) {
+			window = (Window) Executions.createComponents(
+					"/catastroadm/cat_002_A.zul", null, null);
+			window.doModal();
+			window.setMaximizable(true);
+			window.setClosable(true);
+			window.setWidth("60%");
+			window.setHeight("60%");
+			window.addEventListener(Events.ON_CLOSE,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event arg0) throws Exception {
+							window = null;
+							buscar();
+							BindUtils.postNotifyChange(null, null,
+									MantDepartamentoController.this,
+									"listaInte");
+						}
+					});
 		}
-		// Nombre del tab
-		Tab tab = new Tab("INGRESO DE DEPARTAMENTO");
-		tab.setClosable(true);
-		tab.setSelected(true);
-		// Id del tab
-		tab.setId("/catastroadm/cat_002_A.zul");
-		tabs.getTabs().appendChild(tab);
-		Tabpanel tabpanel = new Tabpanel();
-		tabpanels.appendChild(tabpanel);
-		Include include = new Include("/catastroadm/cat_002_A.zul");
-		Center c = new Center();
-		c.setAutoscroll(true);
-		c.appendChild(include);
-		bl.appendChild(c);
-		tabpanel.appendChild(bl);
 	}
 
 	@Command
@@ -85,36 +79,45 @@ public class MantDepartamentoController extends BaseController {
 
 				Sessions.getCurrent().setAttribute("opcion", 1);
 				Sessions.getCurrent().setAttribute("cod_int", intereselect);
-				Tabbox tabs = (Tabbox) winmantrub.getParent().getParent()
-						.getParent().getParent().getParent().getParent();
-				Tabpanels tabpanels = (Tabpanels) winmantrub.getParent()
-						.getParent().getParent().getParent().getParent();
-				Borderlayout bl = new Borderlayout();
-				if (tabs.hasFellow("/catastroadm/cat_002_A.zul")) {
-					Tab tab2 = (Tab) tabs
-							.getFellow("/catastroadm/cat_002_A.zul");
-					tab2.close();
+				if (window == null) {
+					window = (Window) Executions.createComponents(
+							"/catastroadm/cat_002_A.zul", null, null);
+					window.doModal();
+					window.setMaximizable(true);
+					window.setClosable(true);
+					window.setWidth("60%");
+					window.setHeight("60%");
+					window.addEventListener(Events.ON_CLOSE,
+							new EventListener<Event>() {
+								@Override
+								public void onEvent(Event arg0) throws Exception {
+									window = null;
+									buscar();
+									BindUtils.postNotifyChange(null, null,
+											MantDepartamentoController.this,
+											"listaInte");
+								}
+							});
 				}
-				// Nombre del tab
-				Tab tab = new Tab("MODIFICACION DE DEPARTAMENTO");
-				tab.setClosable(true);
-				tab.setSelected(true);
-				// Id del tab
-				tab.setId("/catastroadm/cat_002_A.zul");
-				tabs.getTabs().appendChild(tab);
-				Tabpanel tabpanel = new Tabpanel();
-				tabpanels.appendChild(tabpanel);
-				Include include = new Include("/catastroadm/cat_002_A.zul");
-				Center c = new Center();
-				c.setAutoscroll(true);
-				c.appendChild(include);
-				bl.appendChild(c);
-				tabpanel.appendChild(bl);
 			} else
-				Messagebox
-						.show("Debe Seleccionar el registro que desea modificar");
+				Messagebox.show(
+						"Debe Seleccionar el registro que desea modificar",
+						"Informe", Messagebox.OK, Messagebox.EXCLAMATION,
+						new EventListener<Event>() {
+							@Override
+							public void onEvent(Event e) throws Exception {
+
+							}
+						});
 		else
-			Messagebox.show("Debe Seleccionar el registro que desea modificar");
+			Messagebox.show("Debe Seleccionar el registro que desea modificar",
+					"Informe", Messagebox.OK, Messagebox.EXCLAMATION,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event e) throws Exception {
+
+						}
+					});
 	}
 
 	@AfterCompose
@@ -126,7 +129,9 @@ public class MantDepartamentoController extends BaseController {
 	@NotifyChange("listaInte")
 	public void buscar() {
 		listaInte = intDao.getPreFreAct();
-
+		BindUtils.postNotifyChange(null, null,
+				MantDepartamentoController.this,
+				"listaInte");
 	}
 
 	public List<GmGesDepartamento> getListaInte() {
@@ -141,7 +146,7 @@ public class MantDepartamentoController extends BaseController {
 	@NotifyChange("listaInte")
 	@Command
 	public void getPorRubro() {
-		
+
 		if (bndanio.getText().isEmpty()) {
 			buscar();
 		} else {
@@ -165,8 +170,23 @@ public class MantDepartamentoController extends BaseController {
 				BindUtils.postNotifyChange(null, null,
 						MantDepartamentoController.this, "listaInte");
 			} else
-				Messagebox.show("Debe Seleccionar el Item que desea Eliminar");
+				Messagebox.show(
+						"Debe Seleccionar el registro que desea Eliminar",
+						"Informe", Messagebox.OK, Messagebox.EXCLAMATION,
+						new EventListener<Event>() {
+							@Override
+							public void onEvent(Event e) throws Exception {
+
+							}
+						});
 		else
-			Messagebox.show("Debe Seleccionar el Item que desea Eliminar");
+			Messagebox.show("Debe Seleccionar el registro que desea Eliminar",
+					"Informe", Messagebox.OK, Messagebox.EXCLAMATION,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event e) throws Exception {
+
+						}
+					});
 	}
 }

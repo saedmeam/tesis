@@ -1,8 +1,8 @@
 <?page title="Catastro" contentType="text/html;charset=UTF-8"?>
 <?init class="net.macrosigma.general.Validador"?>
 <zk>
-	<window title="Politica de Seguridad [par_025]" border="normal" 
-		height="98%" apply="org.zkoss.bind.BindComposer" id="winpolseg"
+	<window title="Politica de Seguridad [par_025]" border="normal" closable="true"
+		height="98%" apply="org.zkoss.bind.BindComposer" id="winpolseg" contentStyle="overflow:auto"
 		viewModel="@id('vm') @init('net.macrosigma.parametro.controller.PoliticaSeguridadController')">
 		<toolbar>
 			<toolbarbutton id="tbbguardar" label="Guardar"
@@ -20,7 +20,7 @@
 				<rows>
 					<row>
 						<label style="color:black">
-							Longuitud Maximo de Usuario:
+							Longuitud Máximo de Usuario:
 						</label>
 						<intbox id="intlongmaxusu" width="50%"
 							value="@bind(vm.polSegBean.polSegLonMaxUsu)"
@@ -48,13 +48,13 @@
 				<rows>
 					<row>
 						<label style="color:black">
-							Longuitud Minimo de Contraseña:
+							Longuitud Mínimo de Contraseña:
 						</label>
 						<intbox id="intlongmincont" width="50%"
 							value="@bind(vm.polSegBean.polSegLongMinCon)"
 							onFocus='nombrerol.open(intlongmincont,"end_before")' />
 						<label style="color:black">
-							Longuitud Maximo de Contraseña:
+							Longuitud Máximo de Contraseña:
 						</label>
 						<intbox id="intlongmaxcont" width="50%"
 							value="@bind(vm.polSegBean.polSegLongMaxCon)"
@@ -93,7 +93,7 @@
 					<row>
 						<cell>
 							<label style="color:black">
-								Solicitar Simbolos
+								Solicitar Símbolos
 							</label>
 						</cell>
 						<cell>
@@ -103,7 +103,7 @@
 					<row>
 						<cell>
 							<label style="color:black">
-								Solicitar Numeros
+								Solicitar Números
 							</label>
 						</cell>
 						<cell>
@@ -113,7 +113,7 @@
 					<row>
 						<cell>
 							<label style="color:black">
-								Solicitar Minisculas
+								Solicitar Minúsculas
 							</label>
 						</cell>
 						<cell>
@@ -123,7 +123,7 @@
 					<row>
 						<cell>
 							<label style="color:black">
-								Solicitar Mayusculas
+								Solicitar Mayúsculas
 							</label>
 						</cell>
 						<cell>
@@ -133,164 +133,36 @@
 				</rows>
 			</grid>
 		</groupbox>
-		<popup id="usuario" width="150px" style="background:#FACD05">
+		<popup id="usuario" width="150px" sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-				
-				<![CDATA[ ingresar la longuitud ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+				<![CDATA[ Ingresar la longitud ]]>
 		</html>
 		</popup>
-		<popup id="intento" width="150px" style="background:#FACD05">
+		<popup id="intento" width="150px" sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ ingresar el número de intento ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
 		<popup id="nombrerol" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-				
-				<![CDATA[ ingresar la longuitud minimo ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+				<![CDATA[ ingresar la longitud mínima ]]>
 			</html>
 		</popup>
 		<popup id="descripcion" width="180px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-				
-				<![CDATA[ ingresar la longuitud maximo ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+				<![CDATA[ ingresar la longitud máximo ]]>
 			</html>
 		</popup>
-		<popup id="recordar" width="150px" style="background:#FACD05">
+		<popup id="recordar" width="150px" sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ ingresar los días de cambio ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
-		<popup id="vigencia" width="150px" style="background:#FACD05">
+		<popup id="vigencia" width="150px" sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ ingresar los días de vigencia ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
 	</window>

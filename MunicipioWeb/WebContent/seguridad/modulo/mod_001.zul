@@ -1,7 +1,7 @@
 <?page title="Ingreso_Modulo" contentType="text/html;charset=UTF-8"?>
 <?init class="net.macrosigma.general.Validador"?>
 <zk>
-	<window title="Ingreso_Modulo[mod_001]" border="none"
+	<window title="Ingreso_Modulo[mod_001]" border="none" contentStyle="overflow:auto"
 		height="100%" apply="org.zkoss.bind.BindComposer" id="winMod"
 		viewModel="@id('vm') @init('net.macrosigma.seguridad.controller.IngresoModuloController')">
 		<toolbar>
@@ -100,17 +100,17 @@
 			</rows>
 		</grid>
 		<popup id="nombrerol" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
 
 				
-				<![CDATA[ Ingresar el Nombre ]]>
+				<![CDATA[ Ingresar el Nombre del Módulo]]>
 				
 									
 			</html>
 		</popup>
 		<popup id="descripcion" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
 
 				
@@ -119,7 +119,7 @@
 									
 			</html>
 		</popup>
-		<popup id="ruta" width="150px" style="background:#FACD05">
+		<popup id="ruta" width="150px" sclass="popinform">
 			<html>
 
 				
@@ -128,16 +128,16 @@
 									
 			</html>
 		</popup>
-		<popup id="numero" width="150px" style="background:#FACD05">
+		<popup id="numero" width="150px" sclass="popinform">
 			<html>
 
 				
-				<![CDATA[ Ingresar el Número  ]]>
+				<![CDATA[ Ingresar el Número del Módulo ]]>
 				
 									
 			</html>
 		</popup>
-		<popup id="estado" width="150px" style="background:#FACD05">
+		<popup id="estado" width="150px" sclass="popinform">
 			<html>
 
 				

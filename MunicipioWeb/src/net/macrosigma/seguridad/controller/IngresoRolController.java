@@ -16,6 +16,7 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Combobox;
@@ -83,16 +84,23 @@ public class IngresoRolController extends BaseController {
 		rol.setUsuario(((GmSegUsuario) Sessions.getCurrent().getAttribute(
 				"usuario")).getUsuUsuario());
 		rol.setFechaModificacion(new Date());
-		if (tipop == "N")
+		String msg ="";
+		if (tipop == "N"){
 			rolDao.crear(rol);
-		else
+		msg="Rol ingresado con éxito";
+		}
+		else{
 			rolDao.actualizar(rol);
-		Messagebox.show("Rol ingresado con exito", "Informe",
+			msg="Rol actualizado con éxito";
+		}
+		Messagebox.show(msg, "Informe",
 				Messagebox.OK, Messagebox.INFORMATION,
 				new EventListener<Event>() {
 					@Override
 					public void onEvent(Event e) throws Exception {
 						if ("onOK".equals(e.getName())) {
+							Events.postEvent(new Event(Events.ON_CLOSE,
+									winMantRol));
 						}
 						
 					}

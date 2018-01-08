@@ -7,6 +7,7 @@ import net.macrosigma.seguridad.dao.GmSegUsuarioDao;
 import net.macrosigma.seguridad.ent.GmSegUsuario;
 import net.macrosigma.util.controller.BaseController;
 
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
@@ -14,23 +15,21 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zhtml.Messagebox;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Bandbox;
-import org.zkoss.zul.Borderlayout;
-import org.zkoss.zul.Center;
-import org.zkoss.zul.Include;
-import org.zkoss.zul.Tab;
-import org.zkoss.zul.Tabbox;
-import org.zkoss.zul.Tabpanel;
-import org.zkoss.zul.Tabpanels;
 import org.zkoss.zul.Window;
 
 public class MantenimientoUsuarioController extends BaseController {
 
 	@Wire
 	Window winManUsu;
+	Window window;
 	@Wire
 	Bandbox txtbusqueda;
 
@@ -47,30 +46,26 @@ public class MantenimientoUsuarioController extends BaseController {
 	@Command
 	public void nuevo() {
 		Sessions.getCurrent().setAttribute("opcion", 0);
-		Tabbox tabs = (Tabbox) winManUsu.getParent().getParent().getParent()
-				.getParent().getParent().getParent();
-		Tabpanels tabpanels = (Tabpanels) winManUsu.getParent().getParent()
-				.getParent().getParent().getParent();
-		Borderlayout bl = new Borderlayout();
-		if (tabs.hasFellow("/seguridad/usuario/usu_001.zul")) {
-			Tab tab2 = (Tab) tabs.getFellow("/seguridad/usuario/usu_001.zul");
-			tab2.close();
+		if (window == null) {
+			window = (Window) Executions.createComponents(
+					"/seguridad/usuario/usu_001.zul", null, null);
+			window.doModal();
+			window.setMaximizable(true);
+			window.setClosable(true);
+			window.setWidth("60%");
+			window.setHeight("60%");
+			window.addEventListener(Events.ON_CLOSE,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event arg0) throws Exception {
+							window = null;
+							buscar(null);
+							BindUtils.postNotifyChange(null, null,
+									MantenimientoUsuarioController.this, "listaUsuario");
+						}
+					});
 		}
-		// Nombre del tab
-		Tab tab = new Tab("INGRESO DE USUARIOS");
-		tab.setClosable(true);
-		tab.setSelected(true);
-		// Id del tab
-		tab.setId("/seguridad/usuario/usu_001.zul");
-		tabs.getTabs().appendChild(tab);
-		Tabpanel tabpanel = new Tabpanel();
-		tabpanels.appendChild(tabpanel);
-		Include include = new Include("/seguridad/usuario/usu_001.zul");
-		Center c = new Center();
-		c.setAutoscroll(true);
-		c.appendChild(include);
-		bl.appendChild(c);
-		tabpanel.appendChild(bl);
+
 	}
 
 	@Command
@@ -80,39 +75,42 @@ public class MantenimientoUsuarioController extends BaseController {
 			Sessions.getCurrent().setAttribute("usuarioModificar",
 					usuarioSelecionado);
 			Sessions.getCurrent().setAttribute("opcion", 1);
-			Tabbox tabs = (Tabbox) winManUsu.getParent().getParent()
-					.getParent().getParent().getParent().getParent();
-			Tabpanels tabpanels = (Tabpanels) winManUsu.getParent().getParent()
-					.getParent().getParent().getParent();
-			Borderlayout bl = new Borderlayout();
-			if (tabs.hasFellow("/seguridad/usuario/usu_001.zul")) {
-				Tab tab2 = (Tab) tabs
-						.getFellow("/seguridad/usuario/usu_001.zul");
-				tab2.close();
+			if (window == null) {
+				window = (Window) Executions.createComponents(
+						"/seguridad/usuario/usu_001.zul", null, null);
+				window.doModal();
+				window.setClosable(true);
+				window.setMaximizable(true);
+				window.setWidth("60%");
+				window.setHeight("60%");
+				window.addEventListener(Events.ON_CLOSE,
+						new EventListener<Event>() {
+							@Override
+							public void onEvent(Event arg0) throws Exception {
+								window = null;
+								buscar(null);
+								BindUtils.postNotifyChange(null, null,
+										MantenimientoUsuarioController.this, "listaUsuario");
+							}
+						});
 			}
-			// Nombre del tab
-			Tab tab = new Tab("MODIFICACION DE USUARIOS");
-			tab.setClosable(true);
-			tab.setSelected(true);
-			// Id del tab
-			tab.setId("/seguridad/usuario/usu_001.zul");
-			tabs.getTabs().appendChild(tab);
-			Tabpanel tabpanel = new Tabpanel();
-			tabpanels.appendChild(tabpanel);
-			Include include = new Include("/seguridad/usuario/usu_001.zul");
-			Center c = new Center();
-			c.setAutoscroll(true);
-			c.appendChild(include);
-			bl.appendChild(c);
-			tabpanel.appendChild(bl);
 		} else {
-			Messagebox.show("Debe Seleccionar el registro que desea modificar");
+			Messagebox.show("Debe Seleccionar el registro que desea modificar",
+					"Informe", Messagebox.OK, Messagebox.EXCLAMATION,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event e) throws Exception {
+
+						}
+					});
 		}
 	}
 
 	@SuppressWarnings("static-access")
 	public void buscar(String nombre) {
 		listaUsuario = usuarioDao.getUsuarioPorNombre(nombre);
+		BindUtils.postNotifyChange(null, null,
+				MantenimientoUsuarioController.this, "listaUsuario");
 	}
 
 	@Command

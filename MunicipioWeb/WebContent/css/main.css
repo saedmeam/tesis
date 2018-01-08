@@ -14,12 +14,12 @@ html {
 }
 
 ::-moz-selection {
-	background: #FBEB3C;
+	background: #155CF5;
 	text-shadow: none;
 }
 
 ::selection {
-	background: #FBEB3C;
+	background: #155CF5;
 	text-shadow: none;
 }
 
@@ -88,8 +88,8 @@ a,a:hover {
 }
 
 .border-top-bottom1 {
-	border-top: 1px solid #ffd006;
-	border-bottom: 1px solid #ffd006;
+	border-top: 1px solid #77AADD;
+	border-bottom: 1px solid #77AADD;
 }
 
 .bold {
@@ -111,7 +111,8 @@ a,a:hover {
 	-webkit-border-radius: 0 !important;
 	-moz-border-radius: 0 !important;
 	border-radius: 10px !important;
-	background: #FCDF01 !important;
+	color: #FFFFFF;
+	background: #004484 !important;
 	text-transform: uppercase;
 	-webkit-box-shadow: 5px 4px 2px rgba(0, 0, 0, .50) !important;
 	-moz-box-shadow: 5px 4px 2px rgba(0, 0, 0, .50) !important;
@@ -156,7 +157,7 @@ a,a:hover {
 }
 
 .btn-min:hover {
-	background: #fff !important;
+	background: #77AADD !important;
 }
 
 .no-btn {
@@ -333,39 +334,42 @@ a,a:hover {
 	width: 100%;
 	padding: 0;
 }
+.popinform {
+	background: #77AADD;
+}
 
 .tablas th {
-	background: #686765;
+	background: #004484;
 	padding: 5px;
 	color: #fff;
 }
 
 .tablas td {
-	background: #FCF38E;
+	background: #77AADD;
 	color: #000;
 	padding: 5px;
 }
 
 .z-toolbar {
-	/*background: #FCF38E !important;*/
-	background-image: url(../img/fondo2.jpg) !important;
+	background: #004484 !important;	
+	color: #FFFFFF !important;
 }
 
 .z-toolbarbutton-content {
 	font-weight: bold;
-	/*color: #FFF !important;*/
+	color: #FFF !important;
 }
 
 .z-combobox-input {
-	background: #FCF38E !important;
+	background: #77AADD !important;
 }
 
 .z-bandbox-input {
-	background: #FCF38E !important;
+	background: #77AADD !important;
 }
 
 .tab {
-	background: #FCF38E !important;
+	background: #77AADD !important;
 }
 
 .btn {
@@ -390,12 +394,12 @@ a,a:hover {
 }
 
 #left .nav-pills>li>a:hover,#left .nav-pills>li>a:focus {
-	color: #ffd006;
+	color: #77AADD;
 }
 
 #left .nav-pills>li.active>a,#left .nav-pills>li.active>a:hover,#left .nav-pills>li.active>a:focus
 	{
-	color: #ffd006;
+	color: #77AADD;
 }
 
 .home-icons {
@@ -773,7 +777,8 @@ span.z-upload {
 
 .z-button :hover {
 	background: none;
-	border-bottom: #ffd006;
+	color: #FFFFFF;
+	border-bottom: #004484;
 }
 
 
@@ -855,9 +860,12 @@ span.z-upload {
 .panel1 {
 	width: 100%;
 	height: 65px;
-	background-image: url(../img/fondo1.png);
+	background-color: rgb(0, 68, 132);
+	font-weight: bold; 
+	color: #F7F7F7
+	/*background-image: url(../img/fondo1.png);
 	background-repeat: repeat-x;
-	position: relative;
+	position: relative;*/
 }
 
 .panel_botones {
@@ -905,7 +913,8 @@ span.z-upload {
 	width: 100%;
 	height: 20px;
 	position: relative;
-	background-image: url(../img/fondo2.jpg);
+	background-color: #77AADD;
+	color: #F7F7F7;
 	background-repeat: repeat-x;
 }
 
@@ -1110,7 +1119,7 @@ h1 {
 
 .z-navbar-vertical>ul .z-nav-content:hover,.z-navbar-vertical>ul .z-navitem-content:hover
 	{
-	background: #ffd006;
+	background: #77AADD;
 }
 
 .z-navbar-vertical {
@@ -1128,7 +1137,7 @@ h1 {
 }
 
 .z-navbar>ul ul .z-navitem-content:hover {
-	background: #ffd006;
+	background: #77AADD;
 }
 
 /*principal*/
@@ -1206,26 +1215,26 @@ color:#FFFFFF;
 
 .z-borderlayout .z-west-header {
 	background: transparent repeat-x 0 0;
-	background-color: #ffd006;
-	color: #000;
+	background-color: #004484;
+	color: #F7F7F7;
 	font-family: arial, "Times New Roman", Times, serif;
 }
 
 .z-borderlayout .z-east-header {
 	background: transparent repeat-x 0 0;
-	background-color: #ffd006;
+	background-color: #77AADD;
 	color: #000;
 	font-family: arial, "Times New Roman", Times, serif;
 }
 
 .z-west {
-	border: 1px solid #ffd006;
+	border: 1px solid #77AADD;
 	position: absolute;
 	overflow: hidden;
 }
 
 .z-east {
-	border: 1px solid #ffd006;
+	border: 1px solid #77AADD;
 	position: absolute;
 	overflow: hidden;
 }

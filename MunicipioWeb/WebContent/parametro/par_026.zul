@@ -3,7 +3,7 @@
 	apply="org.zkoss.bind.BindComposer" border="normal"
 	viewModel="@id('vm') @init('net.macrosigma.parametro.controller.CambiarClaveController')"
 	width="60%" onOK="@command('aceptar')" closable="true"
-	id="winCambioClave">
+	id="winCambioClave" contentStyle="overflow:auto">
 	<div align="center">
 		<div align="center">
 			<html>

@@ -87,7 +87,7 @@ public class CambiarClaveController extends BaseController {
 		}
 		if (ban2 == 1) {
 			nuevaClave
-					.setErrorMessage("La clave debe tener minimo 8 caracters.");
+					.setErrorMessage("La clave debe tener mínimo 8 caracters.");
 			return;
 		}
 		if (ban3 == 1) {
@@ -135,29 +135,29 @@ public class CambiarClaveController extends BaseController {
 			if (polSeg.getPolSegPerMin().equals("S")) {
 				if (polSeg.getPolSegPerNum().equals("S")) {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas, minusculas, números y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: mayúsculas, minúsculas, números y símbolos.";
 					} else {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas, minusculas y números.";
+						mensaje = "La clave debe contener los siguientes elementos: mayúsculas, minúsculas y números.";
 					}
 				} else {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas, minusculas y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: mayúsculas, minúsculas y símbolos.";
 					} else {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas y minusculas.";
+						mensaje = "La clave debe contener los siguientes elementos: mayúsculas y minúsculas.";
 					}
 				}
 			} else {
 				if (polSeg.getPolSegPerNum().equals("S")) {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas, números y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: mayúsculas, números y símbolos.";
 					} else {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas y números.";
+						mensaje = "La clave debe contener los siguientes elementos: maúsculas y números.";
 					}
 				} else {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: mayúsculas y símbolos.";
 					} else {
-						mensaje = "La clave debe contener al menos: mayusculas.";
+						mensaje = "La clave debe contener al menos: mayúsculas.";
 					}
 				}
 			}
@@ -166,15 +166,15 @@ public class CambiarClaveController extends BaseController {
 			if (polSeg.getPolSegPerMin().equals("S")) {
 				if (polSeg.getPolSegPerNum().equals("S")) {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: minusculas, números y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: minúsculas, números y símbolos.";
 					} else {
-						mensaje = "La clave debe contener los siguientes elementos: minusculas y números.";
+						mensaje = "La clave debe contener los siguientes elementos: minúsculas y números.";
 					}
 				} else {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: minusculas y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: minúsculas y símbolos.";
 					} else {
-						mensaje = "La clave debe contener almenos: minusculas.";
+						mensaje = "La clave debe contener almenos: minúsculas.";
 					}
 				}
 			} else {
@@ -198,8 +198,8 @@ public class CambiarClaveController extends BaseController {
 			if (nuevaClave.getText().length() < polSeg.getPolSegLongMinCon()
 					|| nuevaClave.getText().length() > polSeg
 							.getPolSegLongMaxCon()) {
-				nuevaClave.setErrorMessage("La clave debe tener minimo "
-						+ polSeg.getPolSegLongMinCon() + " caracters y maximo "
+				nuevaClave.setErrorMessage("La clave debe tener mínimo "
+						+ polSeg.getPolSegLongMinCon() + " caracters y máximo "
 						+ polSeg.getPolSegLongMaxCon() + " caracteres.");
 				ban2 = 1;
 			} else {

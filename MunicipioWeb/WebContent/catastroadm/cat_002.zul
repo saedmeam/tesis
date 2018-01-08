@@ -3,7 +3,7 @@
 <zk>
 	<window title="Departamento [cat_002]" border="normal"
 		height="98%" closable="true" apply="org.zkoss.bind.BindComposer"
-		id="winmantrub"
+		id="winmantrub" contentStyle="overflow:auto"
 		viewModel="@id('vm') @init('net.macrosigma.gestion.controller.MantDepartamentoController')">
 		<toolbar>
 			<toolbarbutton id="tbbnuevo" label="Nuevo"

@@ -192,10 +192,11 @@ public class LoginController extends BaseController {
 	public void init(@ContextParam(ContextType.VIEW) Component view) {
 		Selectors.wireComponents(view, this, false);
 	}
+
 	@Command
 	public void crearUsuario() {
 		if (window == null) {
-			
+
 			window = (Window) Executions.createComponents(
 					"/seguridad/usuario/usu_003.zul", null, null);
 			window.setClosable(true);
@@ -204,16 +205,20 @@ public class LoginController extends BaseController {
 					new EventListener<Event>() {
 						@Override
 						public void onEvent(Event arg0) throws Exception {
+							if ("onOK".equals(arg0.getName())) {
+								Events.postEvent(new Event(Events.ON_CLOSE,
+										window));
+							}
 							window = null;
 						}
 					});
 		}
 	}
-	
+
 	@Command
 	public void recuperar() {
 		if (window == null) {
-			
+
 			window = (Window) Executions.createComponents(
 					"/seguridad/usuario/usu_004.zul", null, null);
 			window.setClosable(true);
@@ -222,11 +227,39 @@ public class LoginController extends BaseController {
 					new EventListener<Event>() {
 						@Override
 						public void onEvent(Event arg0) throws Exception {
+							if ("onOK".equals(arg0.getName())) {
+								Events.postEvent(new Event(Events.ON_CLOSE,
+										window));
+							}
 							window = null;
 						}
 					});
 		}
 	}
+
+	@Command
+	public void requisitos() {
+		if (window == null) {
+
+			window = (Window) Executions.createComponents(
+					"/parametro/par_001.zul", null, null);
+			window.setClosable(true);
+			window.doModal();
+			window.addEventListener(Events.ON_CLOSE,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event arg0) throws Exception {
+							if ("onOK".equals(arg0.getName())) {
+								Events.postEvent(new Event(Events.ON_CLOSE,
+										window));
+							}
+							window = null;
+
+						}
+					});
+		}
+	}
+
 	public void cambioClave() {
 		if (window == null) {
 			window = (Window) Executions.createComponents(
@@ -236,9 +269,14 @@ public class LoginController extends BaseController {
 					new EventListener<Event>() {
 						@Override
 						public void onEvent(Event arg0) throws Exception {
+							if ("onOK".equals(arg0.getName())) {
+								Events.postEvent(new Event(Events.ON_CLOSE,
+										window));
+							}
 							window = null;
 							Sessions.getCurrent().invalidate();
 							Executions.sendRedirect("/Login.zul");
+
 						}
 					});
 		}

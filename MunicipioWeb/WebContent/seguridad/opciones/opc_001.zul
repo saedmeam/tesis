@@ -100,7 +100,7 @@
 							<comboitem label="INACTIVO" value="INA" />
 						</combobox>
 					</cell>
-					<cell>Ruta de icono:</cell>
+					<cell>Ruta de ícono:</cell>
 					<cell>
 						<textbox id="txtRutaIcono" width="90%"
 							onFocus='icono.open(txtRutaIcono,"end_before")'
@@ -137,16 +137,16 @@
 			</rows>
 		</grid>
 		<popup id="nombre" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
 
 				
-				<![CDATA[ Ingresar el Nombre ]]>
+				<![CDATA[ Ingresar el Nombre de la Opción ]]>
 				
 				
 			</html>
 		</popup>
-		<popup id="descripcion" width="150px" style="background:#FACD05">
+		<popup id="descripcion" width="150px" sclass="popinform">
 			<html>
 
 				
@@ -156,16 +156,16 @@
 			</html>
 		</popup>
 		<popup id="modulo" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
 
 				
-				<![CDATA[ Seleccionar el Modulo ]]>
+				<![CDATA[ Seleccionar el Módulo ]]>
 				
 				
 			</html>
 		</popup>
-		<popup id="ruta" width="150px" style="background:#FACD05">
+		<popup id="ruta" width="150px" sclass="popinform">
 			<html>
 
 				
@@ -175,7 +175,7 @@
 			</html>
 		</popup>
 		<popup id="estado" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
 
 				
@@ -185,21 +185,21 @@
 			</html>
 		</popup>
 		<popup id="icono" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
 
 				
-				<![CDATA[ Ingresar la Icono ]]>
+				<![CDATA[ Ingresar el Ícono ]]>
 				
 				
 			</html>
 		</popup>
 		<popup id="opcion" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
 
 				
-				<![CDATA[ ingresar el Número  ]]>
+				<![CDATA[ Ingresar el Número  ]]>
 				
 				
 			</html>

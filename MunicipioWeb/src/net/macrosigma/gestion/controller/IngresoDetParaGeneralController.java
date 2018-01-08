@@ -11,15 +11,21 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.zhtml.Messagebox;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Textbox;
+import org.zkoss.zul.Window;
 
 public class IngresoDetParaGeneralController extends BaseController {
 
 	@Wire
 	Textbox txtnom, txtdes;
+	@Wire
+	Window winpar;
 
 	@Wire
 	Combobox cmbtestado;
@@ -40,9 +46,9 @@ public class IngresoDetParaGeneralController extends BaseController {
 	public void init(@ContextParam(ContextType.VIEW) Component view) {
 		Selectors.wireComponents(view, this, false);
 		tipop = ((String) Sessions.getCurrent().getAttribute("tip_op"));
-		if(!tipop.equals("N"))
-			para = ((GmParParametros) Sessions.getCurrent()
-					.getAttribute("pargen"));
+		if (!tipop.equals("N"))
+			para = ((GmParParametros) Sessions.getCurrent().getAttribute(
+					"pargen"));
 	}
 
 	@Command
@@ -70,11 +76,27 @@ public class IngresoDetParaGeneralController extends BaseController {
 		para.setEstado(cmbtestado.getSelectedItem().getValue().toString());
 		if (tipop.equals("M")) {
 			paraDao.actualizar(para);
+			Messagebox.show("Parametro Modificado", "Informe", Messagebox.OK,
+					Messagebox.INFORMATION, new EventListener<Event>() {
+						@Override
+						public void onEvent(Event e) throws Exception {
+							Events.postEvent(new Event(Events.ON_CLOSE,
+									winpar));
+						}
+					});
+
 		} else {
 			paraDao.crear(para);
+			Messagebox.show("Parametro Ingresado", "Informe", Messagebox.OK,
+					Messagebox.INFORMATION, new EventListener<Event>() {
+						@Override
+						public void onEvent(Event e) throws Exception {
+							Events.postEvent(new Event(Events.ON_CLOSE,
+									winpar));
+						}
+					});
 		}
 		limpiar();
-		Messagebox.show("parametro ingresado");
 
 	}
 

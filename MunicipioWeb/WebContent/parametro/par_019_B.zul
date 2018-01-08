@@ -2,8 +2,8 @@
 <?init class="net.macrosigma.general.Validador"?>
 <zk>
 	<window
-		title="Ingresar Actualizar Detalle Parametro General [par_019_B]"
-		border="none" apply="org.zkoss.bind.BindComposer" height="100%"
+		title="Ingresar Actualizar Detalle Parametro General [par_019_B]" id="winpar"
+		border="none" apply="org.zkoss.bind.BindComposer" height="100%" contentStyle="overflow:auto"
 		viewModel="@id('vm') @init('net.macrosigma.gestion.controller.IngresoDetParaGeneralController')">
 		<toolbar>
 			<toolbarbutton id="tbbgrabar" label="Guardar"
@@ -70,18 +70,18 @@
 				</row>
 			</rows>
 		</grid>
-		<popup id="nombre" width="150px" style="background:#FACD05">
+		<popup id="nombre" width="150px" sclass="popinform">
 			<html>
 				<![CDATA[ ingresar el valor ]]>
 			</html>
 		</popup>
 		<popup id="descripcion" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
 				<![CDATA[ ingresar la descripcion ]]>
 			</html>
 		</popup>
-		<popup id="estado" width="150px" style="background:#FACD05">
+		<popup id="estado" width="150px" sclass="popinform">
 			<html>
 				<![CDATA[ seleccione el estado ]]>
 			</html>

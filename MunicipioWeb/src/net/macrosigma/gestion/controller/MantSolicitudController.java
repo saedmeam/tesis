@@ -18,23 +18,21 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zhtml.Messagebox;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Bandbox;
-import org.zkoss.zul.Borderlayout;
-import org.zkoss.zul.Center;
-import org.zkoss.zul.Include;
-import org.zkoss.zul.Tab;
-import org.zkoss.zul.Tabbox;
-import org.zkoss.zul.Tabpanel;
-import org.zkoss.zul.Tabpanels;
 import org.zkoss.zul.Window;
 
 public class MantSolicitudController extends BaseController {
 
 	@Wire
 	Window winmantrub;
+	Window window;
 	// llenar tabla
 	List<GmGesSolicitud> listaInte = new ArrayList<GmGesSolicitud>();
 	GmGesSolicitudDao intDao = new GmGesSolicitudDao();
@@ -93,70 +91,130 @@ public class MantSolicitudController extends BaseController {
 	public void nuevo() {
 
 		Sessions.getCurrent().setAttribute("tip_op", "N");
-		Tabbox tabs = (Tabbox) winmantrub.getParent().getParent().getParent()
-				.getParent().getParent().getParent();
-		Tabpanels tabpanels = (Tabpanels) winmantrub.getParent().getParent()
-				.getParent().getParent().getParent();
-		Borderlayout bl = new Borderlayout();
-		if (tabs.hasFellow("/catastroadm/cat_001_A.zul")) {
-			Tab tab2 = (Tab) tabs.getFellow("/catastroadm/cat_001_A.zul");
-			tab2.close();
+		if (window == null) {
+			window = (Window) Executions.createComponents(
+					"/catastroadm/cat_001_A.zul", null, null);
+			window.doModal();
+			window.setMaximizable(true);
+			window.setClosable(true);
+			window.setWidth("60%");
+			window.setHeight("60%");
+			window.addEventListener(Events.ON_CLOSE,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event arg0) throws Exception {
+							window = null;
+							buscar();
+							intereselect = new GmGesSolicitud();
+							BindUtils.postNotifyChange(null, null,
+									MantSolicitudController.this, "listaInte");
+						}
+					});
 		}
-		// Nombre del tab
-		Tab tab = new Tab("INGRESO DE RECEPCION DE SOLICITUD");
-		tab.setClosable(true);
-		tab.setSelected(true);
-		// Id del tab
-		tab.setId("/catastroadm/cat_001_A.zul");
-		tabs.getTabs().appendChild(tab);
-		Tabpanel tabpanel = new Tabpanel();
-		tabpanels.appendChild(tabpanel);
-		Include include = new Include("/catastroadm/cat_001_A.zul");
-		Center c = new Center();
-		c.setAutoscroll(true);
-		c.appendChild(include);
-		bl.appendChild(c);
-		tabpanel.appendChild(bl);
 	}
 
 	@Command
 	public void modificar() {
 		// @BindingParam("objeto") GmParInteres interes) {
-		if (intereselect != null)
+		if (intereselect != null) {
 			if (intereselect.getSolId() != null) {
+				if (intereselect.getSolEstado().equals("ACT")
+						|| intereselect.getSolEstado().equals("OBS")
+						|| intereselect.getSolEstado().equals("ING")) {
+					Sessions.getCurrent().setAttribute("tip_op", "M");
+					Sessions.getCurrent().setAttribute("cod_int", intereselect);
+					if (window == null) {
+						window = (Window) Executions.createComponents(
+								"/catastroadm/cat_001_A.zul", null, null);
+						window.doModal();
+						window.setMaximizable(true);
+						window.setClosable(true);
+						window.setWidth("60%");
+						window.setHeight("60%");
+						window.addEventListener(Events.ON_CLOSE,
+								new EventListener<Event>() {
+									@Override
+									public void onEvent(Event arg0)
+											throws Exception {
+										window = null;
+										buscar();
+										intereselect = new GmGesSolicitud();
+										BindUtils.postNotifyChange(null, null,
+												MantSolicitudController.this,
+												"listaInte");
+									}
+								});
+					}
+				} else {
+					Messagebox
+							.show("No se puede modificar el registro ya que esta siendo procesado",
+									"Informe", Messagebox.OK, Messagebox.ERROR,
+									new EventListener<Event>() {
+										@Override
+										public void onEvent(Event e)
+												throws Exception {
 
-				Sessions.getCurrent().setAttribute("tip_op", "M");
-				Sessions.getCurrent().setAttribute("cod_int", intereselect);
-				Tabbox tabs = (Tabbox) winmantrub.getParent().getParent()
-						.getParent().getParent().getParent().getParent();
-				Tabpanels tabpanels = (Tabpanels) winmantrub.getParent()
-						.getParent().getParent().getParent().getParent();
-				Borderlayout bl = new Borderlayout();
-				if (tabs.hasFellow("/catastroadm/cat_001_A.zul")) {
-					Tab tab2 = (Tab) tabs
-							.getFellow("/catastroadm/cat_001_A.zul");
-					tab2.close();
+										}
+									});
 				}
-				// Nombre del tab
-				Tab tab = new Tab("MODIFICACION DE SOLICITUD");
-				tab.setClosable(true);
-				tab.setSelected(true);
-				// Id del tab
-				tab.setId("/catastroadm/cat_001_A.zul");
-				tabs.getTabs().appendChild(tab);
-				Tabpanel tabpanel = new Tabpanel();
-				tabpanels.appendChild(tabpanel);
-				Include include = new Include("/catastroadm/cat_001_A.zul");
-				Center c = new Center();
-				c.setAutoscroll(true);
-				c.appendChild(include);
-				bl.appendChild(c);
-				tabpanel.appendChild(bl);
 			} else
-				Messagebox
-						.show("Debe Seleccionar el registro que desea modificar");
-		else
-			Messagebox.show("Debe Seleccionar el registro que desea modificar");
+				Messagebox.show("Debe Seleccionar el Ítem que desea Modificar",
+						"Informe", Messagebox.OK, Messagebox.ERROR,
+						new EventListener<Event>() {
+							@Override
+							public void onEvent(Event e) throws Exception {
+
+							}
+						});
+		} else
+			Messagebox.show("Debe Seleccionar el Ítem que desea Modificar",
+					"Informe", Messagebox.OK, Messagebox.ERROR,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event e) throws Exception {
+
+						}
+					});
+	}
+
+	@Command
+	public void verdet() {
+		// @BindingParam("objeto") GmParInteres interes) {
+		if (intereselect.getSolId() != null) {
+
+			Sessions.getCurrent().setAttribute("tip_op", "M");
+			Sessions.getCurrent().setAttribute("cod_int", intereselect);
+			if (window == null) {
+				window = (Window) Executions.createComponents(
+						"/catastroadm/cat_001_B.zul", null, null);
+				window.doModal();
+				window.setMaximizable(true);
+				window.setWidth("60%");
+				window.setClosable(true);
+				window.setHeight("60%");
+				window.addEventListener(Events.ON_CLOSE,
+						new EventListener<Event>() {
+							@Override
+							public void onEvent(Event arg0) throws Exception {
+								window = null;
+								buscar();
+								intereselect = new GmGesSolicitud();
+								BindUtils.postNotifyChange(null, null,
+										MantSolicitudController.this,
+										"listaInte");
+							}
+						});
+			}
+		} else
+			Messagebox.show(
+					"Debe Seleccionar el Ítem que desea ver el detalle",
+					"Informe", Messagebox.OK, Messagebox.ERROR,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event e) throws Exception {
+
+						}
+					});
 	}
 
 	@SuppressWarnings("static-access")
@@ -173,18 +231,17 @@ public class MantSolicitudController extends BaseController {
 
 	}
 
-	@SuppressWarnings("static-access")
 	@NotifyChange("listaInte")
 	@Command
 	public void InteresPorAño() {
-		if (bndanio.getText().isEmpty()) {
-			buscar();
-		} else {
-			if (bndanio.getText() != null) {
-				listaInte = intDao.getSolbyTipSol(usu, parSolSel);
-			} else
-				buscar();
-		}
+		// if (bndanio.getText().isEmpty()) {
+		buscar();
+		// } else {
+		// if (bndanio.getText() != null) {
+		// listaInte = intDao.getSolbyTipSol(usu, parSolSel);
+		// } else
+		// buscar();
+		// }
 	}
 
 	// eliminar
@@ -193,19 +250,42 @@ public class MantSolicitudController extends BaseController {
 		// @BindingParam("objeto") GmParInteres interes) {
 		if (intereselect != null)
 			if (intereselect.getSolId() != null) {
-				if (intereselect.getSolEstado().equals("ACT")
-						|| intereselect.getSolEstado().equals("OBS")) {
+				if (intereselect.getSolEstado().equals("ACT")) {
 					intereselect.setEstado("INA");
 					intDao.actualizar(intereselect);
 					buscar();
+					intereselect = new GmGesSolicitud();
 					BindUtils.postNotifyChange(null, null,
 							MantSolicitudController.this, "listaInte");
-				}else{
-					Messagebox.show("No se puede eliminar el registro ya que esta siendo procesado");
+				} else {
+					Messagebox
+							.show("No se puede eliminar el registro ya que esta siendo procesado",
+									"Informe", Messagebox.OK, Messagebox.ERROR,
+									new EventListener<Event>() {
+										@Override
+										public void onEvent(Event e)
+												throws Exception {
+
+										}
+									});
 				}
 			} else
-				Messagebox.show("Debe Seleccionar el Item que desea Eliminar");
+				Messagebox.show("Debe Seleccionar el Ítem que desea Eliminar",
+						"Informe", Messagebox.OK, Messagebox.ERROR,
+						new EventListener<Event>() {
+							@Override
+							public void onEvent(Event e) throws Exception {
+
+							}
+						});
 		else
-			Messagebox.show("Debe Seleccionar el Item que desea Eliminar");
+			Messagebox.show("Debe Seleccionar el Ítem que desea Eliminar",
+					"Informe", Messagebox.OK, Messagebox.ERROR,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event e) throws Exception {
+
+						}
+					});
 	}
 }

@@ -45,25 +45,14 @@
 					</listbox>
 				</div>
 			</north>
-			<west width="49%" autoscroll="true" maxsize="494"
-				minsize="494" title="NOMBRE DE MODULOS" splittable="true"
-				collapsible="true" id="westmodulos" visible="false">
+			<west width="100%" autoscroll="true" maxsize="494"
+				minsize="494" title="NOMBRE DE MODULOS" 
+				id="westmodulos" visible="false">
 				<div>
 					<listbox sclass="tablas" id="lbxModulos"></listbox>
 				</div>
 			</west>
-			<east autoscroll="true" width="49%" title="ACCIONES"
-				maxsize="494" minsize="494" splittable="true" collapsible="true"
-				id="eastacciones" visible="false">
-				<div>
-					<listbox id="lbxacciones" sclass="tablas"
-						width="50%">
-						<listhead>
-							<listheader label="ACCIONES"></listheader>
-						</listhead>
-					</listbox>
-				</div>
-			</east>
+			
 		</borderlayout>
 	</window>
 </zk>

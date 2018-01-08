@@ -3,7 +3,7 @@
 <zk>
 	<window title="Mantenimiento_Usuario [usu_002]" border="normal"
 		id="winManUsu" height="100%" apply="org.zkoss.bind.BindComposer"
-		onOK="@command('buscarUsuario')"
+		onOK="@command('buscarUsuario')" contentStyle="overflow:auto"
 		viewModel="@id('vm') @init('net.macrosigma.seguridad.controller.MantenimientoUsuarioController')">
 		<toolbar>
 			<toolbarbutton id="tbbnuevo" label="Nuevo"

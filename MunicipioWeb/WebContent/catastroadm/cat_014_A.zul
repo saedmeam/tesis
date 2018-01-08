@@ -1,8 +1,8 @@
 <?page title="Parámetros" contentType="text/html;charset=UTF-8"?>
 <?init class="net.macrosigma.general.Validador"?>
 <zk>
-	<window title="Preguntas Seguridad [cat_014_A]" border="none"
-		apply="org.zkoss.bind.BindComposer" height="100%"
+	<window title="Preguntas Seguridad [cat_014_A]" border="none" id="winpregseg"
+		apply="org.zkoss.bind.BindComposer" height="100%" contentStyle="overflow:auto"
 		viewModel="@id('vm') @init('net.macrosigma.gestion.controller.IngPreguntasSeguridadController')">
 		<toolbar>
 			<toolbarbutton id="tbbgrabar" label="Guardar"
@@ -15,7 +15,7 @@
 		<div align="center">
 			<html>
 				<FONT FACE="Segoe UI" SIZE="6" COLOR="293B65">
-					Rubros
+					Preguntas de Seguridad
 				</FONT>
 				<br></br>
 			</html>
@@ -59,10 +59,10 @@
 			</rows>
 		</grid>
 
-		<popup id="interes" width="170px" style="background:#FACD05">
+		<popup id="interes" width="170px" sclass="popinform">
 			<html>
 				
-				<![CDATA[ ingresar la pregunta de seguridad ]]>
+				<![CDATA[ Ingresar la pregunta de seguridad ]]>
 				
 			</html>
 		</popup>

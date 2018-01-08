@@ -3,7 +3,7 @@
 <zk>
 	<window title="Mantenimiento de Solicitud [cat_001]" border="normal"
 		height="98%" closable="true" apply="org.zkoss.bind.BindComposer"
-		id="winmantrub"
+		id="winmantrub" contentStyle="overflow:auto"
 		viewModel="@id('vm') @init('net.macrosigma.gestion.controller.MantSolicitudController')">
 		<toolbar>
 			<toolbarbutton id="tbbnuevo" label="Nuevo"
@@ -14,6 +14,9 @@
 			<image src="img/fondo4.png" height="22px"></image>
 			<toolbarbutton id="tbbeli" label="Eliminar"
 				image="/img/elimina.png" onClick="@command('eliminar')" />
+			<image src="img/fondo4.png" height="22px"></image>
+			<toolbarbutton id="tbverdet" label="Ver Detalle"
+				image="/img/new.png" onClick="@command('verdet')" />
 			<image src="img/fondo4.png" height="22px"></image>
 		</toolbar>
 		<groupbox closable="false">
@@ -29,18 +32,9 @@
 				<rows>
 					<row>
 
-						<label>Tipo de Solicitud</label>
-						<combobox id="cmbtiposolicitud"
-							model="@load(vm.listparSol)" width="98%" readonly="true"
-							value="@load(vm.parSolSel.parDes)"
-							onSelect="@command('getPorRubro')"
-							onBlur="@command('getPorRubro')" onOK="@command('getPorRubro')"
-							selectedItem="@bind(vm.parSolSel)">
-							<template name="model">
-								<comboitem value="@load(each.par_id)"
-									label="@load(each.parDes)" />
-							</template>
-						</combobox>
+						<button label="Buscar"
+							onClick="@command('InteresPorAño')" />
+
 
 					</row>
 				</rows>
@@ -55,7 +49,8 @@
 				<listheader label="Solicitud" />
 				<listheader label="Nombres" />
 				<listheader label="Apellidos" />
-				<listheader label="Identificacion" />
+				<listheader label="Identificación" />
+				<listheader label="Responsable" />
 				<listheader label="Estado Solicitud" />
 			</listhead>
 			<template name="model">
@@ -67,7 +62,9 @@
 					<listcell label="@load(each.solUsu.usuApellidos)" />
 					<listcell label="@load(each.solUsu.usuario)" />
 					<listcell
-						label="@load(each.solEstado.equals('ING')?'INGRESADO': each.solEstado.equals('OBS')?'OBSERVADO':each.solEstado.equals('PRO')?'PROCESANDO':each.solEstado.equals('TER')?'TERMINADO':'RECHAZADO')" />
+						label="@load(each.solTipoSolicitud.depTipSolUsuId.depDepUsuId.usuNomComp)" />
+					<listcell
+						label="@load(each.solEstado.equals('ING')?'INGRESADO': each.solEstado.equals('OBS')?'OBSERVADO':each.solEstado.equals('PRO')?'PROCESANDO':each.solEstado.equals('APR')?'APROBADO':'RECHAZADO')" />
 				</listitem>
 			</template>
 		</listbox>

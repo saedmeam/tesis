@@ -48,9 +48,9 @@ import org.zkoss.zul.Window;
 public class IngresoUsuarioEstudianteController extends BaseController {
 
 	@Wire
-	Window winNuevoUsu, window;
+	Window winNuevoUsu, window, winCreaUsuEst;
 	@Wire
-	Listbox lbxRolesAgregados, lbxAgregarRoles, lbxdet;
+	Listbox lbxdet;
 	@Wire
 	Textbox txtusuario, txtClave, txtClave2, txtnombre, txtapellido, txtemail,
 			txtrol, txtres;
@@ -73,6 +73,7 @@ public class IngresoUsuarioEstudianteController extends BaseController {
 	GmParPolitSeguridadDao polSegDao = new GmParPolitSeguridadDao();
 	GmParPolitSeguridadBean polSeg = polSegDao.getPolSegAct();
 	List<GmSegRol> listaRoles = new ArrayList<GmSegRol>();
+	GmSegRol rolSel = new GmSegRol();
 	GmSegRolDao rolDao = new GmSegRolDao();
 	List<GmSegRolUsuario> listaRolUsuarioGuardar = new ArrayList<GmSegRolUsuario>();
 	List<GmSegRolUsuario> listaRolUsuarioBorrar = new ArrayList<GmSegRolUsuario>();
@@ -84,6 +85,14 @@ public class IngresoUsuarioEstudianteController extends BaseController {
 	GmGesPreguntasUsuario pregUsuSel = new GmGesPreguntasUsuario();
 	GmGesPreguntasUsuario pregUsuElim = new GmGesPreguntasUsuario();
 	GmGesPreguntaUsuarioDao pregUsuDao = new GmGesPreguntaUsuarioDao();
+
+	public GmSegRol getRolSel() {
+		return rolSel;
+	}
+
+	public void setRolSel(GmSegRol rolSel) {
+		this.rolSel = rolSel;
+	}
 
 	public GmGesPreguntasUsuario getPregUsuElim() {
 		return pregUsuElim;
@@ -141,6 +150,7 @@ public class IngresoUsuarioEstudianteController extends BaseController {
 
 		listpardes = pregFreDao.getPreFreAct();
 		listaRoles = rolDao.getPorRol("ESTUDIANTE");
+		rolSel = listaRoles.get(0);
 	}
 
 	public List<GmSegRol> getListaRoles() {
@@ -213,7 +223,7 @@ public class IngresoUsuarioEstudianteController extends BaseController {
 			return;
 		}
 		if (ban2 == 1) {
-			txtClave.setErrorMessage("La clave debe tener minimo 8 caracters.");
+			txtClave.setErrorMessage("La clave debe tener mínimo 8 caracters.");
 			return;
 		}
 		if (ban3 == 1) {
@@ -240,7 +250,7 @@ public class IngresoUsuarioEstudianteController extends BaseController {
 		usuario.setUsuFechaCambioClave(new Date());
 		agregarRoles();
 		if (listaRolUsuarioGuardar.size() == 0) {
-			Messagebox.show("Debe escojer almenos un ROL", "Información",
+			Messagebox.show("Debe escoger almenos un ROL", "Información",
 					Messagebox.OK, Messagebox.INFORMATION);
 			return;
 		} else {
@@ -250,8 +260,8 @@ public class IngresoUsuarioEstudianteController extends BaseController {
 		usuario.setUsuario(usuario.getUsuUsuario().toUpperCase());
 		usuario.setPreUsu(listPreguntaUsuario);
 		usuarioDao.crear(usuario);
-		if (listPreguntaUsuario.size() <= 3) {
-			Messagebox.show("Debe escojer al menos tres preguntas ",
+		if (listPreguntaUsuario.size() < 3) {
+			Messagebox.show("Debe escoger al menos tres preguntas ",
 					"Información", Messagebox.OK, Messagebox.INFORMATION);
 			return;
 		} else {
@@ -262,14 +272,14 @@ public class IngresoUsuarioEstudianteController extends BaseController {
 			}
 		}
 		Messagebox.show(
-				"Usuario ingresado con exito, su usuario es "
+				"Usuario ingresado con éxito, su usuario es "
 						+ usuario.getUsuUsuario(), "Informe", Messagebox.OK,
 				Messagebox.INFORMATION, new EventListener<Event>() {
 					@Override
 					public void onEvent(Event e) throws Exception {
-						if ("onOK".equals(e.getName())) {
-						}
-						Events.postEvent(new Event(Events.ON_CLOSE, winNuevoUsu));
+						Events.postEvent(new Event(Events.ON_CLOSE,
+								winCreaUsuEst));
+
 					}
 				});
 	}
@@ -296,10 +306,18 @@ public class IngresoUsuarioEstudianteController extends BaseController {
 		if (!b) {
 			pregUsuSel.setPreFreUsu(pregFreSel);
 			listPreguntaUsuario.add(pregUsuSel);
-		} else
+		} else {
 			cmbdesc.setErrorMessage("No se puede Ingresar 2 veces la misma pregunta");
+			return;
+		}
+		pregUsuSel = new GmGesPreguntasUsuario();
+		pregFreSel = new GmGesPreguntaFrecuente();
 		BindUtils.postNotifyChange(null, null,
 				IngresoUsuarioEstudianteController.this, "listPreguntaUsuario");
+		BindUtils.postNotifyChange(null, null,
+				IngresoUsuarioEstudianteController.this, "pregUsuSel");
+		BindUtils.postNotifyChange(null, null,
+				IngresoUsuarioEstudianteController.this, "pregFreSel");
 	}
 
 	@Command
@@ -315,27 +333,27 @@ public class IngresoUsuarioEstudianteController extends BaseController {
 			if (polSeg.getPolSegPerMin().equals("S")) {
 				if (polSeg.getPolSegPerNum().equals("S")) {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas, minusculas, números y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: mayúsculas, minúsculas, números y simbolos.";
 					} else {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas, minusculas y números.";
+						mensaje = "La clave debe contener los siguientes elementos: mayúsculas, minúsculas y números.";
 					}
 				} else {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas, minusculas y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: mayúsculas, minúsculas y simbolos.";
 					} else {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas y minusculas.";
+						mensaje = "La clave debe contener los siguientes elementos: mayúsculas y minúsculas.";
 					}
 				}
 			} else {
 				if (polSeg.getPolSegPerNum().equals("S")) {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas, números y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: mayúsculas, números y simbolos.";
 					} else {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas y números.";
+						mensaje = "La clave debe contener los siguientes elementos: mayúsculas y números.";
 					}
 				} else {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: mayúsculas y simbolos.";
 					} else {
 						mensaje = "La clave debe contener al menos: mayusculas.";
 					}
@@ -345,27 +363,27 @@ public class IngresoUsuarioEstudianteController extends BaseController {
 			if (polSeg.getPolSegPerMin().equals("S")) {
 				if (polSeg.getPolSegPerNum().equals("S")) {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: minusculas, números y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: minúsculas, números y simbolos.";
 					} else {
-						mensaje = "La clave debe contener los siguientes elementos: minusculas y números.";
+						mensaje = "La clave debe contener los siguientes elementos: minúsculas y números.";
 					}
 				} else {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: minusculas y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: minúsculas y simbolos.";
 					} else {
-						mensaje = "La clave debe contener almenos: minusculas.";
+						mensaje = "La clave debe contener almenos: minúsculas.";
 					}
 				}
 			} else {
 				if (polSeg.getPolSegPerNum().equals("S")) {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: números y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: números y simbolos.";
 					} else {
 						mensaje = "La clave debe contener almenos: números.";
 					}
 				} else {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener al menos: símbolos.";
+						mensaje = "La clave debe contener al menos: simbolos.";
 					} else {
 						mensaje = "";
 					}
@@ -512,7 +530,7 @@ public class IngresoUsuarioEstudianteController extends BaseController {
 	public void validarCorreo() {
 		if (!txtemail.getText().isEmpty()) {
 			if (!validarEmail(txtemail.getText())) {
-				txtemail.setErrorMessage("La direccion de correo no es valida");
+				txtemail.setErrorMessage("La dirección de correo no es válida");
 				ban6 = 1;
 				img3.setVisible(false);
 				return;

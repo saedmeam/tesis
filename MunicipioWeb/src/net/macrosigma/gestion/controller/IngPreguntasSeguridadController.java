@@ -12,15 +12,22 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.zhtml.Messagebox;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Textbox;
+import org.zkoss.zul.Window;
 
 public class IngPreguntasSeguridadController extends BaseController {
 
 	@Wire
 	Textbox txtpreg;
 	String tipop;
+	
+	@Wire
+	Window winpregseg;
 
 	GmGesPreguntaFrecuente interes = new GmGesPreguntaFrecuente();
 	GmGesPreguntaFrecuenteDao intDao = new GmGesPreguntaFrecuenteDao();
@@ -63,12 +70,32 @@ public class IngPreguntasSeguridadController extends BaseController {
 			return;
 		}
 		interes.setEstado("ACT");
-		if (tipop == "M")
+		if (tipop == "M"){
 			intDao.actualizar(interes);
-		else
+			Messagebox.show("Pregunta Frecuente Modificada", "Informe",
+					Messagebox.OK, Messagebox.INFORMATION,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event e) throws Exception {
+							Events.postEvent(new Event(Events.ON_CLOSE,
+									winpregseg));
+						}
+					});
+		}
+		else{
 			intDao.crear(interes);
+			Messagebox.show("Pregunta Frecuente Ingresada", "Informe",
+					Messagebox.OK, Messagebox.INFORMATION,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event e) throws Exception {
+							Events.postEvent(new Event(Events.ON_CLOSE,
+									winpregseg));
+						}
+					});
+		}
 		limpiar();
-		Messagebox.show("Pregunta Frecuente Ingresada");
+		
 
 	}
 

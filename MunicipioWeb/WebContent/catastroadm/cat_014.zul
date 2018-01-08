@@ -3,7 +3,7 @@
 <zk>
 	<window title="Preguntas de Seguridad [cat_014]" border="normal"
 		height="98%" closable="true" apply="org.zkoss.bind.BindComposer"
-		id="winmantrub"
+		contentStyle="overflow:auto" id="winmantrub"
 		viewModel="@id('vm') @init('net.macrosigma.gestion.controller.MantPreguntasSeguridadController')">
 		<toolbar>
 			<toolbarbutton id="tbbnuevo" label="Nuevo"
@@ -29,10 +29,12 @@
 				<rows>
 					<row>
 						<label>Búsqueda por Pregunta</label>
-						<bandbox id="intanio" width="98%" instant="true"
+						<bandbox id="bndanio" width="98%" instant="true"
 							onChange="self.setValue(self.getValue().toUpperCase());"
-							onBlur="@command('getPorRubro')"
-							onOpen="@command('getPorRubro')" />
+							onBlur="@command('InteresPorAño')"
+							onOpen="@command('InteresPorAño')" />
+
+
 					</row>
 				</rows>
 			</grid>

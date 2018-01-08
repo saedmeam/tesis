@@ -15,18 +15,15 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zhtml.Messagebox;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Bandbox;
-import org.zkoss.zul.Borderlayout;
-import org.zkoss.zul.Center;
-import org.zkoss.zul.Include;
 import org.zkoss.zul.Label;
-import org.zkoss.zul.Tab;
-import org.zkoss.zul.Tabbox;
-import org.zkoss.zul.Tabpanel;
-import org.zkoss.zul.Tabpanels;
 import org.zkoss.zul.Tree;
 import org.zkoss.zul.Treecell;
 import org.zkoss.zul.Treechildren;
@@ -38,7 +35,7 @@ public class ManteParamGeneralController extends BaseController {
 
 	@Wire
 	Window winmantparamgen;
-
+Window window;
 	List<GmParParametros> listaPara = new ArrayList<GmParParametros>();
 	GmParParametros Paraselect = new GmParParametros();
 	GmParParametroDao paraDao = new GmParParametroDao();
@@ -128,6 +125,7 @@ public class ManteParamGeneralController extends BaseController {
 			cell.setLabel(hij.get(i).getParValor());
 			row.appendChild(cell);
 			cell = new Treecell();
+
 			cell.setLabel(hij.get(i).getEstado().equals("ACT") ? "ACTIVO"
 					: "INACTIVO");
 			row.appendChild(cell);
@@ -149,30 +147,26 @@ public class ManteParamGeneralController extends BaseController {
 	public void nuevo() {
 
 		Sessions.getCurrent().setAttribute("tip_op", "N");
-		Tabbox tabs = (Tabbox) winmantparamgen.getParent().getParent()
-				.getParent().getParent().getParent().getParent();
-		Tabpanels tabpanels = (Tabpanels) winmantparamgen.getParent()
-				.getParent().getParent().getParent().getParent();
-		Borderlayout bl = new Borderlayout();
-		if (tabs.hasFellow("/parametro/par_019_B.zul")) {
-			Tab tab2 = (Tab) tabs.getFellow("/parametro/par_019_B.zul");
-			tab2.close();
+		if (window == null) {
+			window = (Window) Executions.createComponents(
+					"/parametro/par_019_B.zul", null, null);
+			window.doModal();
+			window.setMaximizable(true);
+			window.setClosable(true);
+			window.setWidth("60%");
+			window.setHeight("60%");
+			window.addEventListener(Events.ON_CLOSE,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event arg0) throws Exception {
+							window = null;
+							listaPara();
+							BindUtils.postNotifyChange(null, null,
+									ManteParamGeneralController.this, "listaPara");
+						}
+					});
 		}
-		// Nombre del tab
-		Tab tab = new Tab("INGRESO DE PARAMETROS GENERAL");
-		tab.setClosable(true);
-		tab.setSelected(true);
-		// Id del tab
-		tab.setId("/parametro/par_019_B.zul");
-		tabs.getTabs().appendChild(tab);
-		Tabpanel tabpanel = new Tabpanel();
-		tabpanels.appendChild(tabpanel);
-		Include include = new Include("/parametro/par_019_B.zul");
-		Center c = new Center();
-		c.setAutoscroll(true);
-		c.appendChild(include);
-		bl.appendChild(c);
-		tabpanel.appendChild(bl);
+		
 	}
 
 	@Command
@@ -184,30 +178,25 @@ public class ManteParamGeneralController extends BaseController {
 
 		Sessions.getCurrent().setAttribute("tip_op", "M");
 		Sessions.getCurrent().setAttribute("pargen", Paraselect);
-		Tabbox tabs = (Tabbox) winmantparamgen.getParent().getParent()
-				.getParent().getParent().getParent().getParent();
-		Tabpanels tabpanels = (Tabpanels) winmantparamgen.getParent()
-				.getParent().getParent().getParent().getParent();
-		Borderlayout bl = new Borderlayout();
-		if (tabs.hasFellow("/parametro/par_019_B.zul")) {
-			Tab tab2 = (Tab) tabs.getFellow("/parametro/par_019_B.zul");
-			tab2.close();
+		if (window == null) {
+			window = (Window) Executions.createComponents(
+					"/parametro/par_019_B.zul", null, null);
+			window.doModal();
+			window.setMaximizable(true);
+			window.setWidth("60%");
+			window.setClosable(true);
+			window.setHeight("60%");
+			window.addEventListener(Events.ON_CLOSE,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event arg0) throws Exception {
+							window = null;
+							listaPara();
+							BindUtils.postNotifyChange(null, null,
+									ManteParamGeneralController.this, "listaPara");
+						}
+					});
 		}
-		// Nombre del tab
-		Tab tab = new Tab("MODIFICACION DE PARAMETROS GENERAL");
-		tab.setClosable(true);
-		tab.setSelected(true);
-		// Id del tab
-		tab.setId("/parametro/par_019_B.zul");
-		tabs.getTabs().appendChild(tab);
-		Tabpanel tabpanel = new Tabpanel();
-		tabpanels.appendChild(tabpanel);
-		Include include = new Include("/parametro/par_019_B.zul");
-		Center c = new Center();
-		c.setAutoscroll(true);
-		c.appendChild(include);
-		bl.appendChild(c);
-		tabpanel.appendChild(bl);
 	}
 
 	@Command
@@ -216,13 +205,44 @@ public class ManteParamGeneralController extends BaseController {
 			Messagebox.show("Debe selccionar un registro a eliminar");
 			return;
 		}
-//		Paraselect.setEstado("I");
-		try {
-			paraDao.eliminar(Paraselect);
-		} catch (Exception e) {
-			Messagebox.show("No se puede eliminar");
+		if (Paraselect.getCarIdHij().size() > 0) {
+			Messagebox
+					.show("No se puede eliminar el parámetro si ya tiene alguna dependencia ",
+							"Información", Messagebox.OK, Messagebox.ERROR);
+			return;
 		}
+		if (Paraselect.getDepCarreraId().size() > 0) {
+			Messagebox
+					.show("No se puede eliminar el parámetro si ya tiene alguna dependencia ",
+							"Información", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
+		if (Paraselect.getSolCarrera().size() > 0) {
+			Messagebox
+					.show("No se puede eliminar el parámetro si ya tiene alguna dependencia ",
+							"Información", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
+		if (Paraselect.getSolReqTipSol().size() > 0) {
+			Messagebox
+					.show("No se puede eliminar el parámetro si ya tiene alguna dependencia ",
+							"Información", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
+		
+		Paraselect.setEstado("INA");
+		try {
+			paraDao.actualizar(Paraselect);
+		} catch (Exception e) {
+			Messagebox.show("No se puede eliminar", "Informe", Messagebox.OK,
+					Messagebox.ERROR, new EventListener<Event>() {
+						@Override
+						public void onEvent(Event e) throws Exception {
 
+						}
+					});
+		}
+		listaPara();
 		BindUtils.postNotifyChange(null, null,
 				ManteParamGeneralController.this, "listaPara");
 
@@ -231,7 +251,14 @@ public class ManteParamGeneralController extends BaseController {
 	@Command
 	public void agregardet() {
 		if (Paraselect.getParDes() == null || Paraselect.getParDes() == "") {
-			Messagebox.show("Debe selccionar un registro a modificar");
+			
+			Messagebox.show("Debe selccionar un registro a modificar", "Informe", Messagebox.OK,
+					Messagebox.ERROR, new EventListener<Event>() {
+						@Override
+						public void onEvent(Event e) throws Exception {
+							
+						}
+					});
 			return;
 		}
 
@@ -240,30 +267,25 @@ public class ManteParamGeneralController extends BaseController {
 
 		Sessions.getCurrent().setAttribute("tip_op", "AD");
 		Sessions.getCurrent().setAttribute("pargen", par);
-		Tabbox tabs = (Tabbox) winmantparamgen.getParent().getParent()
-				.getParent().getParent().getParent().getParent();
-		Tabpanels tabpanels = (Tabpanels) winmantparamgen.getParent()
-				.getParent().getParent().getParent().getParent();
-		Borderlayout bl = new Borderlayout();
-		if (tabs.hasFellow("/parametro/par_019_B.zul")) {
-			Tab tab2 = (Tab) tabs.getFellow("/parametro/par_019_B.zul");
-			tab2.close();
+		if (window == null) {
+			window = (Window) Executions.createComponents(
+					"/parametro/par_019_B.zul", null, null);
+			window.doModal();
+			window.setMaximizable(true);
+			window.setClosable(true);
+			window.setWidth("60%");
+			window.setHeight("60%");
+			window.addEventListener(Events.ON_CLOSE,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event arg0) throws Exception {
+							window = null;
+							listaPara();
+							BindUtils.postNotifyChange(null, null,
+									ManteParamGeneralController.this, "listaPara");
+						}
+					});
 		}
-		// Nombre del tab
-		Tab tab = new Tab("MANTENIMIENTO PARAMETROS GENERAL");
-		tab.setClosable(true);
-		tab.setSelected(true);
-		// Id del tab
-		tab.setId("/parametro/par_019_B.zul");
-		tabs.getTabs().appendChild(tab);
-		Tabpanel tabpanel = new Tabpanel();
-		tabpanels.appendChild(tabpanel);
-		Include include = new Include("/parametro/par_019_B.zul");
-		Center c = new Center();
-		c.setAutoscroll(true);
-		c.appendChild(include);
-		bl.appendChild(c);
-		tabpanel.appendChild(bl);
 	}
 
 	@Command
@@ -311,6 +333,7 @@ public class ManteParamGeneralController extends BaseController {
 	@SuppressWarnings("static-access")
 	@NotifyChange("listaPara")
 	public void buscar() {
+		paraDao = new GmParParametroDao();
 		listaPara = paraDao.getParametropad();
 	}
 
@@ -322,6 +345,7 @@ public class ManteParamGeneralController extends BaseController {
 		if (txtbusqueda.getText().isEmpty()) {
 			buscar();
 		} else {
+			paraDao = new GmParParametroDao();
 			listaPara = paraDao.getParametroByDes(txtbusqueda.getText());
 		}
 		listdetpara();

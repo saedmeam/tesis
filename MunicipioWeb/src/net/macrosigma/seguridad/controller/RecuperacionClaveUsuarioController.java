@@ -46,7 +46,7 @@ import org.zkoss.zul.Window;
 public class RecuperacionClaveUsuarioController extends BaseController {
 
 	@Wire
-	Window winNuevoUsu, window;
+	Window winNuevoUsu, window,winRecClaUsu;
 	@Wire
 	Listbox lbxRolesAgregados, lbxAgregarRoles, lbxdet;
 	@Wire
@@ -247,7 +247,7 @@ public class RecuperacionClaveUsuarioController extends BaseController {
 		usuario.setUsuFechaCambioClave(new Date());
 		agregarRoles();
 		if (listaRolUsuarioGuardar.size() == 0) {
-			Messagebox.show("Debe escojer almenos un ROL", "Información",
+			Messagebox.show("Debe escoger almenos un ROL", "Información",
 					Messagebox.OK, Messagebox.INFORMATION);
 			return;
 		} else {
@@ -264,14 +264,15 @@ public class RecuperacionClaveUsuarioController extends BaseController {
 		}
 
 		Messagebox.show(
-				"Usuario ingresado con exito, su usuario es "
+				"Usuario ingresado con éxito, su usuario es "
 						+ usuario.getUsuUsuario(), "Informe", Messagebox.OK,
 				Messagebox.INFORMATION, new EventListener<Event>() {
 					@Override
 					public void onEvent(Event e) throws Exception {
 						if ("onOK".equals(e.getName())) {
+							Events.postEvent(new Event(Events.ON_CLOSE, winRecClaUsu));
 						}
-						Events.postEvent(new Event(Events.ON_CLOSE, winNuevoUsu));
+						
 					}
 				});
 	}
@@ -282,13 +283,13 @@ public class RecuperacionClaveUsuarioController extends BaseController {
 			if (polSeg.getPolSegPerMin().equals("S")) {
 				if (polSeg.getPolSegPerNum().equals("S")) {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas, minusculas, números y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: mayusculas, minusculas, números y simbolos.";
 					} else {
 						mensaje = "La clave debe contener los siguientes elementos: mayusculas, minusculas y números.";
 					}
 				} else {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas, minusculas y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: mayusculas, minusculas y simbolos.";
 					} else {
 						mensaje = "La clave debe contener los siguientes elementos: mayusculas y minusculas.";
 					}
@@ -296,13 +297,13 @@ public class RecuperacionClaveUsuarioController extends BaseController {
 			} else {
 				if (polSeg.getPolSegPerNum().equals("S")) {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas, números y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: mayusculas, números y simbolos.";
 					} else {
 						mensaje = "La clave debe contener los siguientes elementos: mayusculas y números.";
 					}
 				} else {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: mayusculas y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: mayusculas y simbolos.";
 					} else {
 						mensaje = "La clave debe contener al menos: mayusculas.";
 					}
@@ -312,13 +313,13 @@ public class RecuperacionClaveUsuarioController extends BaseController {
 			if (polSeg.getPolSegPerMin().equals("S")) {
 				if (polSeg.getPolSegPerNum().equals("S")) {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: minusculas, números y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: minusculas, números y simbolos.";
 					} else {
 						mensaje = "La clave debe contener los siguientes elementos: minusculas y números.";
 					}
 				} else {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: minusculas y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: minusculas y simbolos.";
 					} else {
 						mensaje = "La clave debe contener almenos: minusculas.";
 					}
@@ -326,13 +327,13 @@ public class RecuperacionClaveUsuarioController extends BaseController {
 			} else {
 				if (polSeg.getPolSegPerNum().equals("S")) {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener los siguientes elementos: números y símbolos.";
+						mensaje = "La clave debe contener los siguientes elementos: números y simbolos.";
 					} else {
 						mensaje = "La clave debe contener almenos: números.";
 					}
 				} else {
 					if (polSeg.getPolSegPerSim().equals("S")) {
-						mensaje = "La clave debe contener al menos: símbolos.";
+						mensaje = "La clave debe contener al menos: simbolos.";
 					} else {
 						mensaje = "";
 					}
@@ -438,12 +439,16 @@ public class RecuperacionClaveUsuarioController extends BaseController {
 				listpardes.add(listPreguntaUsuario.get(i).getPreFreUsu());
 			}
 
-			if (!listaRoles.get(0).getRolDescripcion().equals("ESTUDIANTE")) {
-				Messagebox
-						.show("La recuperación de Clave es solo para los estudiantes, porfavor solicitar al administrador del sistema le asigne una nueva clave");
-			}
 		} else {
-			Messagebox.show("El usuario no existe");
+			Messagebox.show(
+					"El Usuario no existe",
+					"Informe", Messagebox.OK, Messagebox.EXCLAMATION,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event e) throws Exception {
+
+						}
+					});
 		}
 
 		BindUtils.postNotifyChange(null, null,
@@ -464,6 +469,14 @@ public class RecuperacionClaveUsuarioController extends BaseController {
 				if (pregUsuSel.getResPreg().equals(
 						listPreguntaUsuario.get(i).getResPreg())) {
 					b = true;
+				} else {
+					b = false;
+					Messagebox
+							.show("La respuesta a la pregunta de seguridad es incorrecta.",
+									"Error", Messagebox.OK,
+									Messagebox.ERROR);
+
+					pregUsuSel.setResPreg("");
 				}
 			}
 		}
@@ -478,6 +491,8 @@ public class RecuperacionClaveUsuarioController extends BaseController {
 				RecuperacionClaveUsuarioController.this, "listpardes");
 		BindUtils.postNotifyChange(null, null,
 				RecuperacionClaveUsuarioController.this, "b");
+		BindUtils.postNotifyChange(null, null,
+				RecuperacionClaveUsuarioController.this, "pregUsuSel");
 	}
 
 	public String quitarSignos(String quitar) {

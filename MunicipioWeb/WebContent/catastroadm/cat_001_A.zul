@@ -1,8 +1,8 @@
 <?page title="Parámetros" contentType="text/html;charset=UTF-8"?>
 <?init class="net.macrosigma.general.Validador"?>
 <zk>
-	<window title="Crear Solicitud [cat_001_A]" border="none"
-		apply="org.zkoss.bind.BindComposer" height="100%"
+	<window title="Ingreso de Solicitud [cat_001_A]" border="none" id="winingsol"
+		apply="org.zkoss.bind.BindComposer" height="100%" contentStyle="overflow:auto"
 		viewModel="@id('vm') @init('net.macrosigma.gestion.controller.IngSolicitudesController')">
 		<toolbar>
 			<toolbarbutton id="tbbgrabar" label="Guardar"
@@ -98,7 +98,7 @@
 										<listcell
 											label="@load(each.solReqTipSol.parDes)" />
 										<listcell>
-											<button label="Carga de Solicitud"
+											<button label="Adjuntar Archivo"
 												upload="true,maxsize=801192"
 												onUpload="@command('uploadFile',upload=event,obj=each)"
 												autodisable="self" sclass="btn" image="/img/agrega.png" />
@@ -125,107 +125,14 @@
 				</row>
 			</rows>
 		</grid>
-		<popup id="carrera" width="170px" style="background:#FACD05">
+		<popup id="carrera" width="170px" sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ seleccione la carrera ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-								
 			</html>
 		</popup>
-		<popup id="solicitud" width="170px"
-			style="background:#FACD05">
+		<popup id="solicitud" width="170px" sclass="popinform" >
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ seleccione la solicitud ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-								
 			</html>
 		</popup>
 	</window>

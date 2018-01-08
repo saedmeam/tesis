@@ -1,54 +1,113 @@
 package net.macrosigma.reporte.controller;
 
-import net.macrosigma.util.controller.BaseController;
+import java.io.ByteArrayOutputStream;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import net.macrosigma.db.Conexion;
+import net.macrosigma.gestion.dao.GmGesPreguntaFrecuenteDao;
+import net.macrosigma.gestion.ent.GmGesPreguntaFrecuente;
+import net.macrosigma.util.controller.BaseController;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.select.Selectors;
+import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Filedownload;
+import org.zkoss.zul.Iframe;
 
 public class MantenimientoRecaudacionController extends BaseController {
 
-	//private Window window;
+	@Wire("#iframerep")
+	Iframe iframerep;
 
-	double value1 = 22.1D;
-	double value2 = 10.2D;
-	double value3 = 40.4D;
-	double value4 = 28.2D;
+	String path = Sessions.getCurrent().getWebApp().getRealPath("/report");
 
-	public double getValue1() {
-		return value1;
+	@Command
+	public void imprimir() {
+		ByteArrayOutputStream baos = getReport();
+
+		AMedia amedia = new AMedia("preguntas_frecuentes", "pdf", null,
+				baos.toByteArray());
+		iframerep.setContent(amedia);
+
+		getReportExcel();
 	}
 
-	public double getValue2() {
-		return value2;
+	@AfterCompose
+	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
+		Selectors.wireComponents(view, this, false);
 	}
 
-	public double getValue3() {
-		return value3;
-	}
+	public ByteArrayOutputStream getReport() throws NumberFormatException {
 
-	public double getValue4() {
-		return value4;
-	}
+		ByteArrayOutputStream printStream = null;
 
-	public void setValue1(double value1) {
-		this.value1 = value1;
-	}
+		Map<String, Object> paramRpt = new HashMap<String, Object>();
+		paramRpt.put("id", 1);
+		Connection cn = new Conexion().getConexion();
+		try {
 
-	public void setValue2(double value2) {
-		this.value2 = value2;
-	}
-
-	public void setValue3(double value3) {
-		this.value3 = value3;
-	}
-
-	public void setValue4(double value4) {
-		this.value4 = value4;
+			JasperPrint jprint = JasperFillManager.fillReport(path
+					+ "/preguntas_frecuentes.jasper", paramRpt, cn);
+			printStream = new ByteArrayOutputStream();
+			JasperExportManager.exportReportToPdfStream(jprint, printStream);
+		} catch (Exception e) {
+			System.err.println("Error:No fue posible elaborar el reporte :"
+					+ e.getMessage());
+		} finally {
+			try {
+				cn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return printStream;
 	}
 
 	@Override
 	public void init(Component view) {
-		// TODO Auto-generated method stub
+		Selectors.wireComponents(view, this, false);
+	}
 
+	public void getReportExcel() {
+		org.apache.poi.ss.usermodel.Workbook workbook = new HSSFWorkbook();
+		Sheet listSheet = workbook.createSheet("preguntas");
+		List<GmGesPreguntaFrecuente> lprefre = new ArrayList<>();
+		lprefre = new GmGesPreguntaFrecuenteDao().getPreFreAct();
+		int rowIndex = 0;
+		for (GmGesPreguntaFrecuente kp : lprefre) {
+			Row row = listSheet.createRow(rowIndex++);
+			int cellIndex = 0;
+			row.createCell(cellIndex++).setCellValue(kp.getInsId());
+			row.createCell(cellIndex++).setCellValue(kp.getDesPregunta());
+		}
+
+		try {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			workbook.write(baos);
+			AMedia amedia = new AMedia("preguntas_frecuentes.xls", "xls",
+					"application/file", baos.toByteArray());
+			Filedownload.save(amedia);
+			baos.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

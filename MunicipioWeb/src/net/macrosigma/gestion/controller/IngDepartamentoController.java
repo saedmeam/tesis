@@ -24,18 +24,12 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zul.Borderlayout;
-import org.zkoss.zul.Center;
-import org.zkoss.zul.Include;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Popup;
-import org.zkoss.zul.Tab;
-import org.zkoss.zul.Tabbox;
-import org.zkoss.zul.Tabpanel;
-import org.zkoss.zul.Tabpanels;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
@@ -132,7 +126,7 @@ public class IngDepartamentoController extends BaseController {
 		}
 		if (listaRolUsuarioGuardar.size() == 0) {
 			Messagebox.show("Debe escojer almenos un ROL", "Información",
-					Messagebox.OK, Messagebox.INFORMATION);
+					Messagebox.OK, Messagebox.EXCLAMATION);
 			return;
 		} else {
 			usuario.setDepCarreraDepId(listaRolUsuarioGuardar);
@@ -143,12 +137,13 @@ public class IngDepartamentoController extends BaseController {
 
 		if (opcion == 0) {
 			usuarioDao.crear(usuario);
-			Messagebox.show("Departamento ingresado con exito", "Informe",
+			Messagebox.show("Departamento ingresado con éxito", "Informe",
 					Messagebox.OK, Messagebox.INFORMATION,
 					new EventListener<Event>() {
 						@Override
 						public void onEvent(Event e) throws Exception {
-
+							Events.postEvent(new Event(Events.ON_CLOSE,
+									winNuevoUsu));
 						}
 					});
 			for (GmGesDepartamentoCarrera rolUsuBorrar : listaRolUsuarioGuardar) {
@@ -172,11 +167,13 @@ public class IngDepartamentoController extends BaseController {
 				gmSegRolUsuarioDao.actualizar(rolUsuBorrar);
 				gmSegRolUsuarioDao = new GmGesDepartamentoCarreraDao();
 			}
-			Messagebox.show("Departamento modificado con exito", "Informe",
+			Messagebox.show("Departamento modificado con éxito", "Informe",
 					Messagebox.OK, Messagebox.INFORMATION,
 					new EventListener<Event>() {
 						@Override
 						public void onEvent(Event e) throws Exception {
+							Events.postEvent(new Event(Events.ON_CLOSE,
+									winNuevoUsu));
 						}
 					});
 		}
@@ -234,35 +231,6 @@ public class IngDepartamentoController extends BaseController {
 		BindUtils.postNotifyChange(null, null, IngDepartamentoController.this,
 				"listaRolUsuarioGuardar");
 
-	}
-
-	@Command
-	public void nuevo() {
-		Sessions.getCurrent().setAttribute("tip_op", "N");
-		Tabbox tabs = (Tabbox) winNuevoUsu.getParent().getParent().getParent()
-				.getParent().getParent().getParent();
-		Tabpanels tabpanels = (Tabpanels) winNuevoUsu.getParent().getParent()
-				.getParent().getParent().getParent();
-		Borderlayout bl = new Borderlayout();
-		if (tabs.hasFellow("/seguridad/rol/rol_001.zul")) {
-			Tab tab2 = (Tab) tabs.getFellow("/seguridad/rol/rol_001.zul");
-			tab2.close();
-		}
-		// Nombre del tab
-		Tab tab = new Tab("INGRESO DE ROLES");
-		tab.setClosable(true);
-		tab.setSelected(true);
-		// Id del tab
-		tab.setId("/seguridad/rol/rol_001.zul");
-		tabs.getTabs().appendChild(tab);
-		Tabpanel tabpanel = new Tabpanel();
-		tabpanels.appendChild(tabpanel);
-		Include include = new Include("/seguridad/rol/rol_001.zul");
-		Center c = new Center();
-		c.setAutoscroll(true);
-		c.appendChild(include);
-		bl.appendChild(c);
-		tabpanel.appendChild(bl);
 	}
 
 }

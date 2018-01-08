@@ -15,23 +15,21 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zhtml.Messagebox;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Bandbox;
-import org.zkoss.zul.Borderlayout;
-import org.zkoss.zul.Center;
-import org.zkoss.zul.Include;
-import org.zkoss.zul.Tab;
-import org.zkoss.zul.Tabbox;
-import org.zkoss.zul.Tabpanel;
-import org.zkoss.zul.Tabpanels;
 import org.zkoss.zul.Window;
 
 public class MantPreguntasSeguridadController extends BaseController {
 
 	@Wire
 	Window winmantrub;
+	Window window;
 	// llenar tabla
 	List<GmGesPreguntaFrecuente> listaInte = new ArrayList<GmGesPreguntaFrecuente>();
 	GmGesPreguntaFrecuenteDao intDao = new GmGesPreguntaFrecuenteDao();
@@ -51,30 +49,25 @@ public class MantPreguntasSeguridadController extends BaseController {
 	public void nuevo() {
 
 		Sessions.getCurrent().setAttribute("tip_op", "N");
-		Tabbox tabs = (Tabbox) winmantrub.getParent().getParent().getParent()
-				.getParent().getParent().getParent();
-		Tabpanels tabpanels = (Tabpanels) winmantrub.getParent().getParent()
-				.getParent().getParent().getParent();
-		Borderlayout bl = new Borderlayout();
-		if (tabs.hasFellow("/catastroadm/cat_014_A.zul")) {
-			Tab tab2 = (Tab) tabs.getFellow("/catastroadm/cat_014_A.zul");
-			tab2.close();
+		if (window == null) {
+			window = (Window) Executions.createComponents(
+					"/catastroadm/cat_014_A.zul", null, null);
+			window.doModal();
+			window.setMaximizable(true);
+			window.setWidth("60%");
+			window.setClosable(true);
+			window.setHeight("60%");
+			window.addEventListener(Events.ON_CLOSE,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event arg0) throws Exception {
+							window = null;
+							buscar();
+							BindUtils.postNotifyChange(null, null,
+									MantPreguntasSeguridadController.this, "listaInte");
+						}
+					});
 		}
-		// Nombre del tab
-		Tab tab = new Tab("INGRESO DE RECEPCION DE PAQUETE");
-		tab.setClosable(true);
-		tab.setSelected(true);
-		// Id del tab
-		tab.setId("/catastroadm/cat_014_A.zul");
-		tabs.getTabs().appendChild(tab);
-		Tabpanel tabpanel = new Tabpanel();
-		tabpanels.appendChild(tabpanel);
-		Include include = new Include("/catastroadm/cat_014_A.zul");
-		Center c = new Center();
-		c.setAutoscroll(true);
-		c.appendChild(include);
-		bl.appendChild(c);
-		tabpanel.appendChild(bl);
 	}
 
 	@Command
@@ -85,35 +78,44 @@ public class MantPreguntasSeguridadController extends BaseController {
 
 				Sessions.getCurrent().setAttribute("tip_op", "M");
 				Sessions.getCurrent().setAttribute("cod_int", intereselect);
-				Tabbox tabs = (Tabbox) winmantrub.getParent().getParent()
-						.getParent().getParent().getParent().getParent();
-				Tabpanels tabpanels = (Tabpanels) winmantrub.getParent()
-						.getParent().getParent().getParent().getParent();
-				Borderlayout bl = new Borderlayout();
-				if (tabs.hasFellow("/catastroadm/cat_014_A.zul")) {
-					Tab tab2 = (Tab) tabs.getFellow("/catastroadm/cat_014_A.zul");
-					tab2.close();
+				if (window == null) {
+					window = (Window) Executions.createComponents(
+							"/catastroadm/cat_014_A.zul", null, null);
+					window.doModal();
+					window.setMaximizable(true);
+					window.setWidth("60%");
+					window.setClosable(true);
+					window.setHeight("60%");
+					window.addEventListener(Events.ON_CLOSE,
+							new EventListener<Event>() {
+								@Override
+								public void onEvent(Event arg0) throws Exception {
+									window = null;
+									buscar();
+									BindUtils.postNotifyChange(null, null,
+											MantPreguntasSeguridadController.this, "listaInte");
+								}
+							});
 				}
-				// Nombre del tab
-				Tab tab = new Tab("MODIFICACION DE RECEPCION DE PAQUETE");
-				tab.setClosable(true);
-				tab.setSelected(true);
-				// Id del tab
-				tab.setId("/catastroadm/cat_014_A.zul");
-				tabs.getTabs().appendChild(tab);
-				Tabpanel tabpanel = new Tabpanel();
-				tabpanels.appendChild(tabpanel);
-				Include include = new Include("/catastroadm/cat_014_A.zul");
-				Center c = new Center();
-				c.setAutoscroll(true);
-				c.appendChild(include);
-				bl.appendChild(c);
-				tabpanel.appendChild(bl);
 			} else
-				Messagebox
-						.show("Debe Seleccionar el registro que desea modificar");
+				Messagebox.show(
+						"Debe Seleccionar el registro que desea modificar",
+						"Informe", Messagebox.OK, Messagebox.ERROR,
+						new EventListener<Event>() {
+							@Override
+							public void onEvent(Event e) throws Exception {
+
+							}
+						});
 		else
-			Messagebox.show("Debe Seleccionar el registro que desea modificar");
+			Messagebox.show("Debe Seleccionar el registro que desea modificar",
+					"Informe", Messagebox.OK, Messagebox.ERROR,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event e) throws Exception {
+
+						}
+					});
 	}
 
 	@AfterCompose
@@ -154,16 +156,27 @@ public class MantPreguntasSeguridadController extends BaseController {
 	@Command
 	public void eliminar() {
 		// @BindingParam("objeto") GmParInteres interes) {
-		if (intereselect != null)
+		if (intereselect != null) {
 			if (intereselect.getInsId() != null) {
-				intereselect.setEstado("INA");
-				intDao.actualizar(intereselect);
-				buscar();
-				BindUtils.postNotifyChange(null, null,
-						MantPreguntasSeguridadController.this, "listaInte");
+				if (intereselect.getPreFreUsu().size() == 0) {
+
+					intereselect.setEstado("INA");
+					intDao.actualizar(intereselect);
+					buscar();
+					BindUtils.postNotifyChange(null, null,
+							MantPreguntasSeguridadController.this, "listaInte");
+
+				} else {
+					Messagebox
+							.show("No se puede eliminar la pregunta si ya se relaciono con algun usuario ",
+									"Información", Messagebox.OK,
+									Messagebox.ERROR);
+				}
 			} else
-				Messagebox.show("Debe Seleccionar el Item que desea Eliminar");
-		else
-			Messagebox.show("Debe Seleccionar el Item que desea Eliminar");
+				Messagebox.show("Debe Seleccionar el Ítem que desea Eliminar",
+						"Información", Messagebox.OK, Messagebox.INFORMATION);
+		} else
+			Messagebox.show("Debe Seleccionar el Ítem que desea Eliminar",
+					"Información", Messagebox.OK, Messagebox.INFORMATION);
 	}
 }

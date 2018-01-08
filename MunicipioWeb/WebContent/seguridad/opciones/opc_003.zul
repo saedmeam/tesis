@@ -1,7 +1,7 @@
 <?page title="Asignacion_Opciones a Roles" contentType="text/html;charset=UTF-8"?>
 <?init class="net.macrosigma.general.Validador"?>
 <zk>
-	<window title="Asignacion_Opciones a Roles [opc_003]"
+	<window title="Asignacion_Opciones a Roles [opc_003]" contentStyle="overflow:auto"
 		border="normal" height="98%" closable="true">
 		
 		<toolbar>

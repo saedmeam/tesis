@@ -1,7 +1,7 @@
 <?page title="Mantenimiento_Roles" contentType="text/html;charset=UTF-8"?>
 <?init class="net.macrosigma.general.Validador"?>
 <zk>
-	<window title="Mantenimiento_Roles [rol_001]" border="none"
+	<window title="Mantenimiento_Roles [rol_001]" border="none" contentStyle="overflow:auto"
 		id="winMantRol" apply="org.zkoss.bind.BindComposer" height="100%"
 		viewModel="@id('vm') @init('net.macrosigma.seguridad.controller.IngresoRolController')">
 		<toolbar>
@@ -90,138 +90,25 @@
 						</div>
 					</cell>
 				</row>
-
-
-
-
-
-
 			</rows>
 		</grid>
-
-
-
-
-
 		<popup id="nombrerol" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
-				<![CDATA[ Ingresar el Rol ]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+				<![CDATA[ Ingresar el Nombre del Rol ]]>
 			</html>
 		</popup>
-
-
 		<popup id="descripcion" width="150px"
-			style="background:#FACD05">
+			sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
-				<![CDATA[ Ingresar la Descripción]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+				<![CDATA[ Ingresar la Descripción del Rol]]>
 			</html>
 		</popup>
 
-		<popup id="estado" width="150px" style="background:#FACD05">
+		<popup id="estado" width="150px" sclass="popinform">
 			<html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
 				<![CDATA[ Seleccionar el Estado]]>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			</html>
 		</popup>
-
-	
 	</window>
 </zk>

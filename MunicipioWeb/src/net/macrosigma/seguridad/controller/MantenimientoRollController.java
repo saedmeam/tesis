@@ -17,6 +17,7 @@ import net.macrosigma.seguridad.ent.GmSegRolMenuAccion;
 import net.macrosigma.seguridad.ent.GmSegUsuario;
 import net.macrosigma.util.controller.BaseController;
 
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
@@ -24,6 +25,7 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zhtml.Messagebox;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -31,29 +33,21 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Bandbox;
-import org.zkoss.zul.Borderlayout;
-import org.zkoss.zul.Center;
 import org.zkoss.zul.Checkbox;
-import org.zkoss.zul.East;
-import org.zkoss.zul.Include;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listhead;
 import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Listitem;
-import org.zkoss.zul.Tab;
-import org.zkoss.zul.Tabbox;
-import org.zkoss.zul.Tabpanel;
-import org.zkoss.zul.Tabpanels;
 import org.zkoss.zul.West;
 import org.zkoss.zul.Window;
 
 public class MantenimientoRollController extends BaseController {
-	@Wire
-	East eastacciones;
+
 	@Wire
 	West westmodulos;
+	Window window;
 	@Wire
 	Listbox lbxRoles, lbxModulos = new Listbox(), lbxacciones = new Listbox();
 	@Wire
@@ -111,37 +105,34 @@ public class MantenimientoRollController extends BaseController {
 	@Command
 	public void nuevo() {
 		Sessions.getCurrent().setAttribute("tip_op", "N");
-		Tabbox tabs = (Tabbox) winMonRol.getParent().getParent().getParent()
-				.getParent().getParent().getParent();
-		Tabpanels tabpanels = (Tabpanels) winMonRol.getParent().getParent()
-				.getParent().getParent().getParent();
-		Borderlayout bl = new Borderlayout();
-		if (tabs.hasFellow("/seguridad/rol/rol_001.zul")) {
-			Tab tab2 = (Tab) tabs.getFellow("/seguridad/rol/rol_001.zul");
-			tab2.close();
+		if (window == null) {
+			window = (Window) Executions.createComponents(
+					"/seguridad/rol/rol_001.zul", null, null);
+			window.doModal();
+			window.setMaximizable(true);
+			window.setClosable(true);
+			window.setWidth("60%");
+			window.setHeight("60%");
+			window.addEventListener(Events.ON_CLOSE,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event arg0) throws Exception {
+							window = null;
+							buscar();
+							BindUtils.postNotifyChange(null, null,
+									MantenimientoRollController.this,
+									"listaRol");
+						}
+					});
 		}
-		// Nombre del tab
-		Tab tab = new Tab("INGRESO DE ROLES");
-		tab.setClosable(true);
-		tab.setSelected(true);
-		// Id del tab
-		tab.setId("/seguridad/rol/rol_001.zul");
-		tabs.getTabs().appendChild(tab);
-		Tabpanel tabpanel = new Tabpanel();
-		tabpanels.appendChild(tabpanel);
-		Include include = new Include("/seguridad/rol/rol_001.zul");
-		Center c = new Center();
-		c.setAutoscroll(true);
-		c.appendChild(include);
-		bl.appendChild(c);
-		tabpanel.appendChild(bl);
-
 	}
 
 	@AfterCompose
 	public void init(@ContextParam(ContextType.VIEW) Component view) {
 		Selectors.wireComponents(view, this, false);
 		buscar();
+		BindUtils.postNotifyChange(null, null,
+				MantenimientoRollController.this, "listaRol");
 	}
 
 	@NotifyChange("listaRol")
@@ -174,39 +165,36 @@ public class MantenimientoRollController extends BaseController {
 		if (rolselect != null) {
 			Sessions.getCurrent().setAttribute("tip_op", "M");
 			Sessions.getCurrent().setAttribute("rol", rolselect);
-			Tabbox tabs = (Tabbox) winMonRol.getParent().getParent()
-					.getParent().getParent().getParent().getParent();
-			Tabpanels tabpanels = (Tabpanels) winMonRol.getParent().getParent()
-					.getParent().getParent().getParent();
-			Borderlayout bl = new Borderlayout();
-			if (tabs.hasFellow("/seguridad/rol/rol_001.zul")) {
-				Tab tab2 = (Tab) tabs.getFellow("/seguridad/rol/rol_001.zul");
-				tab2.close();
+			if (window == null) {
+				window = (Window) Executions.createComponents(
+						"/seguridad/rol/rol_001.zul", null, null);
+				window.doModal();
+				window.setMaximizable(true);
+				window.setWidth("60%");
+				window.setHeight("60%");
+				window.setClosable(true);
+				window.addEventListener(Events.ON_CLOSE,
+						new EventListener<Event>() {
+							@Override
+							public void onEvent(Event arg0) throws Exception {
+								window = null;
+								buscar();
+								BindUtils.postNotifyChange(null, null,
+										MantenimientoRollController.this,
+										"listaRol");
+							}
+						});
 			}
-			// Nombre del tab
-			Tab tab = new Tab("MODIFICACION DE ROLES");
-			tab.setClosable(true);
-			tab.setSelected(true);
-			// Id del tab
-			tab.setId("/seguridad/rol/rol_001.zul");
-			tabs.getTabs().appendChild(tab);
-			Tabpanel tabpanel = new Tabpanel();
-			tabpanels.appendChild(tabpanel);
-			Include include = new Include("/seguridad/rol/rol_001.zul");
-			Center c = new Center();
-			c.setAutoscroll(true);
-			c.appendChild(include);
-			bl.appendChild(c);
-			tabpanel.appendChild(bl);
 		} else {
-			Messagebox.show("Debe Seleccionar el registro que desea modificar");
-		}
-	}
+			Messagebox.show("Debe Seleccionar el registro que desea modificar",
+					"Informe", Messagebox.OK, Messagebox.EXCLAMATION,
+					new EventListener<Event>() {
+						@Override
+						public void onEvent(Event e) throws Exception {
 
-	@Command
-	public void acciones(GmSegMenu objeto) {
-		eastacciones.setVisible(true);
-		dibujarAcciones(objeto);
+						}
+					});
+		}
 	}
 
 	@Command
@@ -223,7 +211,6 @@ public class MantenimientoRollController extends BaseController {
 		}
 		dibujarOpcionesRol();
 		westmodulos.setVisible(true);
-		eastacciones.setVisible(false);
 	}
 
 	@Command
@@ -260,8 +247,17 @@ public class MantenimientoRollController extends BaseController {
 				rolMenuAccionDao.crear(rmaGuardar);
 			}
 		}
-		Messagebox.show("Registros Guardados exitosamente", "Informe",
-				Messagebox.OK, Messagebox.INFORMATION);
+		Messagebox.show("Registros Procesados exitosamente", "Informe",
+				Messagebox.OK, Messagebox.INFORMATION,
+				new EventListener<Event>() {
+					@Override
+					public void onEvent(Event e) throws Exception {
+						buscar();
+						BindUtils.postNotifyChange(null, null,
+								MantenimientoRollController.this, "listaRol");
+					}
+				});
+
 	}
 
 	@Command
@@ -343,107 +339,11 @@ public class MantenimientoRollController extends BaseController {
 					cellInterno.appendChild(label);
 					itemInterno.appendChild(cellInterno);
 					lbxListaInterna.appendChild(itemInterno);
-					itemInterno.addEventListener(Events.ON_CLICK,
-							new EventListener<Event>() {
-								@Override
-								public void onEvent(Event arg0)
-										throws Exception {
-									acciones((GmSegMenu) itemInterno.getValue());
-								}
-							});
 				}
 			}
 			cell.appendChild(lbxListaInterna);
 			item.appendChild(cell);
 			lbxModulos.appendChild(item);
-		}
-	}
-
-	public void dibujarAcciones(GmSegMenu objeto) {
-		rolMenuSeleccionado.setMenu(objeto);
-		rolMenuSeleccionado.setRol(rolSeleccionado);
-		List<GmSegRolMenuAccion> accionesOpcion = new ArrayList<>();
-		menuAntes = objeto;
-		for (GmSegRolMenuAccion ac : listaRolMenuAccionGuardar) {
-			if (ac.getRolMenu().getRol().equals(rolMenuSeleccionado.getRol())
-					&& ac.getRolMenu().getMenu().equals(objeto)) {
-				accionesOpcion.add(ac);
-			}
-		}
-		getListaAcciones();
-		lbxacciones.getItems().clear();
-		for (GmSegAcciones acc : listaAcciones) {
-			final Listitem item = new Listitem();
-			Listcell cell = new Listcell();
-			Checkbox check = new Checkbox();
-			Label label = new Label();
-			label.setValue(acc.getAccionEnum().getDescripcion());
-			cell.appendChild(check);
-			cell.appendChild(label);
-			item.appendChild(cell);
-			item.setValue(acc);
-			lbxacciones.appendChild(item);
-			for (GmSegRolMenuAccion acccheck : accionesOpcion) {
-				if (acccheck.getAccion().equals(acc)
-						&& acccheck.getEstado().equals("ACT")) {
-					check.setChecked(true);
-				}
-			}
-			check.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
-				@Override
-				public void onEvent(Event arg0) throws Exception {
-					checkAccion((GmSegAcciones) item.getValue());
-				}
-			});
-		}
-	}
-
-	@Command
-	public void checkAccion(GmSegAcciones objeto) {
-		int band = 0;
-		GmSegRolMenuAccion rma = rolMenuAccionDao.getPorRolMenuyAccion(
-				rolMenuSeleccionado.getRol(), rolMenuSeleccionado.getMenu(),
-				objeto);
-		if (rma != null) {
-			for (GmSegRolMenuAccion rmacomp : listaRolMenuAccionGuardar) {
-				if (rma.getRolMenu().getRol()
-						.equals(rmacomp.getRolMenu().getRol())
-						&& rma.getRolMenu().getMenu()
-								.equals(rmacomp.getRolMenu().getMenu())
-						&& rma.getAccion().equals(rmacomp.getAccion())) {
-					if (rmacomp.getEstado().equals("ACT")) {
-						rmacomp.setEstado("INA");
-					} else {
-						rmacomp.setEstado("ACT");
-					}
-				}
-			}
-		} else {
-			for (GmSegRolMenuAccion rmacomp : listaRolMenuAccionGuardar) {
-				if (rmacomp.getRolMenu().getRol()
-						.equals(rolMenuSeleccionado.getRol())
-						&& rmacomp.getRolMenu().getMenu()
-								.equals(rolMenuSeleccionado.getMenu())
-						&& rmacomp.getAccion().equals(objeto)) {
-					if (rmacomp.getEstado().equals("ACT")) {
-						rmacomp.setEstado("INA");
-						band = 1;
-					} else {
-						rmacomp.setEstado("ACT");
-						band = 1;
-					}
-				}
-
-			}
-			if (band == 0) {
-				GmSegRolMenuAccion rmanuevo = new GmSegRolMenuAccion();
-				rmanuevo.setAccion(objeto);
-				GmSegRolMenu rmnuevo = new GmSegRolMenu();
-				rmnuevo.setRol(rolSeleccionado);
-				rmnuevo.setMenu(menuAntes);
-				rmanuevo.setRolMenu(rmnuevo);
-				listaRolMenuAccionGuardar.add(rmanuevo);
-			}
 		}
 	}
 }

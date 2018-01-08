@@ -18,6 +18,7 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Combobox;
@@ -110,28 +111,28 @@ public class IngresoOpcionController extends BaseController {
 				"usuario")).getUsuUsuario());
 		if (op == 0) {
 			opcionDao.crear(opcion);
-			Messagebox.show("Opción ingresada con exito", "Informe",
+			Messagebox.show("Opción ingresada con éxito", "Informe",
 					Messagebox.OK, Messagebox.INFORMATION,
 					new EventListener<Event>() {
 						@Override
 						public void onEvent(Event e) throws Exception {
 							if ("onOK".equals(e.getName())) {
 							}
-//							Events.postEvent(new Event(Events.ON_CLOSE,
-//									winNuevaOpc));
+							Events.postEvent(new Event(Events.ON_CLOSE,
+									winNuevaOpc));
 						}
 					});
 		} else {
 			opcionDao.actualizar(opcion);
-			Messagebox.show("Opción ingresada con exito", "Informe",
+			Messagebox.show("Opción ingresada con éxito", "Informe",
 					Messagebox.OK, Messagebox.INFORMATION,
 					new EventListener<Event>() {
 						@Override
 						public void onEvent(Event e) throws Exception {
 							if ("onOK".equals(e.getName())) {
 							}
-//							Events.postEvent(new Event(Events.ON_CLOSE,
-//									winNuevaOpc));
+							Events.postEvent(new Event(Events.ON_CLOSE,
+									winNuevaOpc));
 						}
 					});
 		}

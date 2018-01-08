@@ -2,7 +2,7 @@
 <?init class="net.macrosigma.general.Validador"?>
 <?link href="/css/main.css" rel="stylesheet" type="text/css"?>
 <zk>
-	<window title="Mantenimiento_Perfil [per_002]" border="normal"
+	<window title="Mantenimiento_Perfil [per_002]" border="normal" contentStyle="overflow:auto"
 		height="98%" closable="true" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('net.macrosigma.seguridad.controller.MantenimientoPerfilController')">
 		<toolbar>
