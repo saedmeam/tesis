@@ -7,9 +7,11 @@
 		<non-jta-data-source>java:jboss/municipio</non-jta-data-source>
 		<class>net.macrosigma.gestion.ent.GmGesDepartamento</class>
 		<class>net.macrosigma.gestion.ent.GmGesDepartamentoCarrera</class>
+		<class>net.macrosigma.gestion.ent.GmGesDepartamentoTipSolicitud</class>
 		<class>net.macrosigma.gestion.ent.GmGesFoto</class>
 		<class>net.macrosigma.gestion.ent.GmGesPreguntaFrecuente</class>
 		<class>net.macrosigma.gestion.ent.GmGesPreguntasUsuario</class>
+		<class>net.macrosigma.gestion.ent.GmGesProcesoSolicitud</class>
 		<class>net.macrosigma.gestion.ent.GmGesSolicitud</class>
 		<class>net.macrosigma.gestion.ent.GmGesSolicitudRequisitoDocumento</class>
 		<class>net.macrosigma.parametro.ent.GmParParametros</class>

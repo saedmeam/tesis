@@ -13,11 +13,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Where;
-
 import net.macrosigma.parametro.ent.GmParParametros;
 import net.macrosigma.seguridad.ent.GmSegUsuario;
 import net.macrosigma.util.ent.EntityBase;
+
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "gm_ges_solicitud")
@@ -32,6 +32,10 @@ public class GmGesSolicitud extends EntityBase {
 	@ManyToOne
 	@JoinColumn(name = "sol_id_usu")
 	private GmSegUsuario solUsu;
+	
+	@ManyToOne
+	@JoinColumn(name = "sol_id_usu_asig")
+	private GmSegUsuario solUsuAsig;
 
 	@ManyToOne
 	@JoinColumn(name = "sol_id_carrera")
@@ -44,8 +48,12 @@ public class GmGesSolicitud extends EntityBase {
 	@OneToMany(mappedBy = "solReqDoc")
 	@Where(clause = "aud_estado = 'ACT'")
 	private List<GmGesSolicitudRequisitoDocumento> solReqDoc;
-	
-	@Column ( name="sol_estado")
+
+	@OneToMany(mappedBy = "procSolSolid")
+	@Where(clause = "aud_estado = 'ACT'")
+	private List<GmGesProcesoSolicitud> procSolSolid;
+
+	@Column(name = "sol_estado")
 	private String solEstado;
 
 	public Long getSolId() {
@@ -94,6 +102,22 @@ public class GmGesSolicitud extends EntityBase {
 
 	public void setSolEstado(String solEstado) {
 		this.solEstado = solEstado;
+	}
+
+	public List<GmGesProcesoSolicitud> getProcSolSolid() {
+		return procSolSolid;
+	}
+
+	public void setProcSolSolid(List<GmGesProcesoSolicitud> procSolSolid) {
+		this.procSolSolid = procSolSolid;
+	}
+
+	public GmSegUsuario getSolUsuAsig() {
+		return solUsuAsig;
+	}
+
+	public void setSolUsuAsig(GmSegUsuario solUsuAsig) {
+		this.solUsuAsig = solUsuAsig;
 	}
 
 }

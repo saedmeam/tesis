@@ -14,12 +14,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Where;
 
 import net.macrosigma.gestion.ent.GmGesDepartamentoCarrera;
+import net.macrosigma.gestion.ent.GmGesDepartamentoTipSolicitud;
 import net.macrosigma.gestion.ent.GmGesSolicitud;
 import net.macrosigma.gestion.ent.GmGesSolicitudRequisitoDocumento;
+import net.macrosigma.seguridad.ent.GmSegUsuario;
 import net.macrosigma.util.ent.EntityBase;
 
 @Entity
@@ -42,21 +45,35 @@ public class GmParParametros extends EntityBase {
 	private String parDes;
 
 	@OneToMany(mappedBy = "carIdPad", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@Where(clause = "aud_estado = 'ACT'")
 	private List<GmParParametros> carIdHij;
 
 	@OneToMany(mappedBy = "solCarrera")
 	@Where(clause = "aud_estado = 'ACT'")
 	private List<GmGesSolicitud> solCarrera;
 
+	@OneToMany(mappedBy = "usuCarrId")
+	@Where(clause = "aud_estado = 'ACT'")
+	private List<GmSegUsuario> usuCarrId;
+
 	@OneToMany(mappedBy = "depCarreraId")
 	@Where(clause = "aud_estado = 'ACT'")
 	private List<GmGesDepartamentoCarrera> depCarreraId;
 
+	@OneToMany(mappedBy = "depTipSolCarreraId")
+	@Where(clause = "aud_estado = 'ACT'")
+	private List<GmGesDepartamentoTipSolicitud> depTipSolCarreraId;
+
+	@OneToMany(mappedBy = "depTipSolTipSolId")
+	@Where(clause = "aud_estado = 'ACT'")
+	private List<GmGesDepartamentoTipSolicitud> depTipSolTipSolId;
+	
+	@Transient
+	private GmGesDepartamentoTipSolicitud depTipSolUsuId;
+
 	@OneToMany(mappedBy = "solTipoSolicitud")
 	@Where(clause = "aud_estado = 'ACT'")
 	private List<GmGesSolicitud> solTipoSolicitud;
-	
+
 	@OneToMany(mappedBy = "solReqTipSol")
 	@Where(clause = "aud_estado = 'ACT'")
 	private List<GmGesSolicitudRequisitoDocumento> solReqTipSol;
@@ -144,6 +161,41 @@ public class GmParParametros extends EntityBase {
 
 	public void setDepCarreraId(List<GmGesDepartamentoCarrera> depCarreraId) {
 		this.depCarreraId = depCarreraId;
+	}
+
+	public List<GmSegUsuario> getUsuCarrId() {
+		return usuCarrId;
+	}
+
+	public void setUsuCarrId(List<GmSegUsuario> usuCarrId) {
+		this.usuCarrId = usuCarrId;
+	}
+
+	public List<GmGesDepartamentoTipSolicitud> getDepTipSolCarreraId() {
+		return depTipSolCarreraId;
+	}
+
+	public void setDepTipSolCarreraId(
+			List<GmGesDepartamentoTipSolicitud> depTipSolCarreraId) {
+		this.depTipSolCarreraId = depTipSolCarreraId;
+	}
+
+	public GmGesDepartamentoTipSolicitud getDepTipSolUsuId() {
+		depTipSolUsuId = depTipSolTipSolId.get(0);
+		return depTipSolUsuId;
+	}
+
+	public void setDepTipSolUsuId(GmGesDepartamentoTipSolicitud depTipSolUsuId) {
+		this.depTipSolUsuId = depTipSolUsuId;
+	}
+
+	public List<GmGesDepartamentoTipSolicitud> getDepTipSolTipSolId() {
+		return depTipSolTipSolId;
+	}
+
+	public void setDepTipSolTipSolId(
+			List<GmGesDepartamentoTipSolicitud> depTipSolTipSolId) {
+		this.depTipSolTipSolId = depTipSolTipSolId;
 	}
 
 }

@@ -1,16 +1,19 @@
 package net.macrosigma.seguridad.ent;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import net.macrosigma.util.ent.EntityBase;
+
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "gm_seg_rol")
@@ -28,9 +31,9 @@ public class GmSegRol extends EntityBase {
 	@Column(name = "rol_descripcion")
 	private String rolDescripcion;
 
-	@ManyToOne
-	@JoinColumn(name = "rol_rol_usu_id")
-	private GmSegRolUsuario rolRolUsuId;
+	@OneToMany(mappedBy = "gmSegRol")
+	@Where(clause = "aud_estado = 'ACT'")
+	private List<GmSegRolUsuario> rolRolUsuId;
 
 	public String getRolDescripcion() {
 		return rolDescripcion;
@@ -56,11 +59,11 @@ public class GmSegRol extends EntityBase {
 		this.rolNombre = rolNombre;
 	}
 
-	public GmSegRolUsuario getRolRolUsuId() {
+	public List<GmSegRolUsuario> getRolRolUsuId() {
 		return rolRolUsuId;
 	}
 
-	public void setRolRolUsuId(GmSegRolUsuario rolRolUsuId) {
+	public void setRolRolUsuId(List<GmSegRolUsuario> rolRolUsuId) {
 		this.rolRolUsuId = rolRolUsuId;
 	}
 

@@ -11,7 +11,8 @@ public enum RutaFileEnum {
 	RUTA_DOC_PROYECTO(File.separator + "reuniones" + File.separator
 			+ "documento_proyecto" + File.separator), RUTA_ACTOR(getPath(
 			"MantenimientoPersona", "Actor")), RUTA_PROYECTO_DEPLOYED(
-			getPathProyecto()), RUTA_IMAGEN_TEMPORAL("img" + File.separator
+			getPathProyecto()),RUTA_EXCEL(
+					getPathExcel()), RUTA_IMAGEN_TEMPORAL("img" + File.separator
 			+ "tmp"), RUTA_IMAGEN_TEMP(""), SubCarpeta("Ganado"), Server("C:"
 			+ File.separator + "documentos");
 
@@ -39,14 +40,26 @@ public enum RutaFileEnum {
 		String pathLocal = null;
 
 		// Local
-		pathLocal = "C:" + File.separator + "documentos";
+//		pathLocal = "C:" + File.separator + "documentos";
 
 		// Servidor
-		// pathLocal = File.separator + "jboss" + File.separator
-		// + "jboss-as-7.1.0.Final-N" + File.separator + "standalone"
-		// + File.separator + "deployments" + File.separator
-		// + "GanaderoEar.ear" + File.separator + "GanaderoWeb.war";
+		 pathLocal = File.separator +"opt" + File.separator + "documentos";
 
 		return pathLocal;
 	}
+	
+	public static String getPathExcel(String... path) {
+		// C:\workspace\ganado\jboss-as-7.1.1.Final\standalone\deployments\GanaderoWeb.war\img\temp
+		String pathLocal = null;
+
+		// Local
+//		pathLocal = "C:" + File.separator + "archivos";
+
+		// Servidor
+		pathLocal = File.separator +"opt" + File.separator + "archivos";
+
+		return pathLocal;
+	}
+	
+	
 }

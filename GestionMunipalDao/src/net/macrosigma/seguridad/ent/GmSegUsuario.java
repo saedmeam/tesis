@@ -15,13 +15,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Where;
+import javax.persistence.Transient;
 
 import net.macrosigma.gestion.ent.GmGesDepartamento;
+import net.macrosigma.gestion.ent.GmGesDepartamentoTipSolicitud;
 import net.macrosigma.gestion.ent.GmGesPreguntasUsuario;
 import net.macrosigma.gestion.ent.GmGesSolicitud;
+import net.macrosigma.parametro.ent.GmParParametros;
 import net.macrosigma.util.ent.EntityBase;
+
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "gm_seg_usuario")
@@ -38,6 +41,8 @@ public class GmSegUsuario extends EntityBase {
 
 	@Column(name = "usu_clave")
 	private String usuClave;
+	@Transient
+	private String usuNomComp;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "gmSegUsuario")
 	@Where(clause = "aud_estado = 'ACT'")
@@ -51,9 +56,21 @@ public class GmSegUsuario extends EntityBase {
 	@Where(clause = "aud_estado = 'ACT'")
 	private List<GmGesSolicitud> solUsu;
 
+	@OneToMany(mappedBy = "solUsuAsig")
+	@Where(clause = "aud_estado = 'ACT'")
+	private List<GmGesSolicitud> solUsuAsig;
+
+	@OneToMany(mappedBy = "depDepUsuId")
+	@Where(clause = "aud_estado = 'ACT'")
+	private List<GmGesDepartamentoTipSolicitud> depDepUsuId;
+
 	@ManyToOne
 	@JoinColumn(name = "usu_dep_id")
 	private GmGesDepartamento usuDepId;
+
+	@ManyToOne
+	@JoinColumn(name = "usu_carr_id")
+	private GmParParametros usuCarrId;
 
 	@Column(name = "usu_nombres")
 	private String usuNombres;
@@ -69,6 +86,19 @@ public class GmSegUsuario extends EntityBase {
 
 	@Column(name = "usu_intentos_fallidos")
 	private int usuIntentosFallidos;
+
+	public String getUsuNomComp() {
+		if (usuApellidos != null)
+			usuNomComp = this.usuApellidos + " " + this.usuNombres;
+		else {
+			usuNomComp = "";
+		}
+		return usuNomComp;
+	}
+
+	public void setUsuNomComp(String usuNomComp) {
+		this.usuNomComp = usuNomComp;
+	}
 
 	public List<GmGesSolicitud> getSolUsu() {
 		return solUsu;
@@ -164,6 +194,30 @@ public class GmSegUsuario extends EntityBase {
 
 	public void setUsuDepId(GmGesDepartamento usuDepId) {
 		this.usuDepId = usuDepId;
+	}
+
+	public GmParParametros getUsuCarrId() {
+		return usuCarrId;
+	}
+
+	public void setUsuCarrId(GmParParametros usuCarrId) {
+		this.usuCarrId = usuCarrId;
+	}
+
+	public List<GmGesDepartamentoTipSolicitud> getDepDepUsuId() {
+		return depDepUsuId;
+	}
+
+	public void setDepDepUsuId(List<GmGesDepartamentoTipSolicitud> depDepUsuId) {
+		this.depDepUsuId = depDepUsuId;
+	}
+
+	public List<GmGesSolicitud> getSolUsuAsig() {
+		return solUsuAsig;
+	}
+
+	public void setSolUsuAsig(List<GmGesSolicitud> solUsuAsig) {
+		this.solUsuAsig = solUsuAsig;
 	}
 
 }

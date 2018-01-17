@@ -58,6 +58,15 @@ public class GmParParametroDao extends GenericDao<GmParParametros, Long> {
 		List<GmParParametros> result = query.getResultList();
 		return result == null || result.isEmpty() ? null : result;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public static List<GmParParametros> getParametroComp() {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select o from GmParParametros o where o.carIdPad is null order by o.parDes");
+		Query query = em.createQuery(sql.toString());
+		List<GmParParametros> result = query.getResultList();
+		return result == null || result.isEmpty() ? null : result;
+	}
 
 	@SuppressWarnings("unchecked")
 	public static List<GmParParametros> getParametroByDes(String grupo) {

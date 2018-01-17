@@ -56,6 +56,25 @@ public class GmGesSolicitudDao extends GenericDao<GmGesSolicitud, Long> {
 		List<GmGesSolicitud> result = query.getResultList();
 		return result;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public static List<GmGesSolicitud> getSolbyTipSolValEst(GmSegUsuario usu,
+			GmParParametros tipSol) {
+		StringBuilder sql = new StringBuilder();
+		String select = "";
+		select = "select o from GmGesSolicitud o where (o.solTipoSolicitud = :tipSol or :tipSol =null)";
+		select += "and (o.solUsu = :usu or :usu = null)";
+		select += "and o.estado = 'ACT'";
+		select += "and o.solEstado in ('ING','OBS','PRO')";
+		
+		sql.append(select);
+		Query query = em.createQuery(sql.toString());
+		query.setParameter("tipSol", tipSol);
+		query.setParameter("usu", usu);
+
+		List<GmGesSolicitud> result = query.getResultList();
+		return result;
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<GmGesSolicitud> getPreFreAct(GmSegUsuario usu) {
@@ -65,6 +84,18 @@ public class GmGesSolicitudDao extends GenericDao<GmGesSolicitud, Long> {
 		sql.append(select);
 		Query query = em.createQuery(sql.toString());
 		query.setParameter("usu", usu);
+
+		List<GmGesSolicitud> result = query.getResultList();
+		return result;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<GmGesSolicitud> getPreFreAct() {
+		StringBuilder sql = new StringBuilder();
+		String select = "";
+		select = "select o from GmGesSolicitud o where o.estado = 'ACT'";
+		sql.append(select);
+		Query query = em.createQuery(sql.toString());
 
 		List<GmGesSolicitud> result = query.getResultList();
 		return result;

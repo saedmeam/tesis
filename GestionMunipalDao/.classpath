@@ -16,5 +16,7 @@
 	<classpathentry kind="lib" path="lib/jaxb-jxc.jar"/>
 	<classpathentry kind="lib" path="lib/jaxb-xjc.jar"/>
 	<classpathentry kind="lib" path="lib/jaxp-ri-1.4.2.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate-core-3.6.5.Final.jar"/>
+	<classpathentry kind="lib" path="lib/jta-1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

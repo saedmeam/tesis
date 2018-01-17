@@ -27,12 +27,14 @@ public class GmGesDepartamento extends EntityBase {
 	private Long depId;
 
 	@OneToMany(mappedBy = "usuDepId")
+	@Where(clause = "aud_estado = 'ACT'")
 	private List<GmSegUsuario> usuDepId;
 
 	@OneToMany(mappedBy = "DepCarreraDepId")
 	@Where(clause = "aud_estado = 'ACT'")
 	private List<GmGesDepartamentoCarrera> DepCarreraDepId;
 
+	
 	@Column(name = "dep_nom_dep")
 	private String depNomDep;
 

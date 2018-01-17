@@ -56,6 +56,17 @@ public class GeneralUtilsDao extends
 		return folder.getPath().toString() + File.separator;
 	}
 
+	public String creaRutaExcel(String pathFolder) {
+
+		File folder = new File(pathFolder + File.separator);
+		System.out.println("crea carpeta folder ==> " + folder);
+		folder.mkdirs();
+		folder.setWritable(true);
+		System.out.println("retorna carpeta folder ==> "
+				+ folder.getPath().toString());
+		return folder.getPath().toString() + File.separator;
+	}
+
 	public void copyFile(String fileName, InputStream in, String destino) {
 		try {
 			OutputStream out = new FileOutputStream(
