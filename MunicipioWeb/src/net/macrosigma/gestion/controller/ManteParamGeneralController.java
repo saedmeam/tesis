@@ -334,7 +334,7 @@ Window window;
 	@NotifyChange("listaPara")
 	public void buscar() {
 		paraDao = new GmParParametroDao();
-		listaPara = paraDao.getParametropad();
+		listaPara = paraDao.getParametroComp();
 	}
 
 	@SuppressWarnings("static-access")

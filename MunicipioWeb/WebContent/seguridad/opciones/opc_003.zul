@@ -5,9 +5,6 @@
 		border="normal" height="98%" closable="true">
 		
 		<toolbar>
-			
-			<toolbarbutton id="tbbsalir" label="Salir"
-				image="/img/sal.png" />
 		</toolbar>
 		<groupbox>
 			<caption label="Criterio Búsqueda" />

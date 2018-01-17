@@ -58,13 +58,9 @@
 					</cell>
 					<cell>Email:</cell>
 					<cell>
-						<textbox id="txtemail" width="98%" readonly="true"
-							onFocus='email.open(txtemail,"end_before")'
-							value="@bind(vm.usuario.usuEmail)"
-							onBlur="@command('validarCorreo')" />
-						<image id="img3" src="img/accept.png"
-							visible="false">
-						</image>
+						<textbox id="txtemail" width="98%"
+							readonly="true" onFocus='email.open(txtemail,"end_before")'
+							value="@bind(vm.usuario.usuEmail)" />
 					</cell>
 				</row>
 				<row>
@@ -74,16 +70,16 @@
 					<cell></cell>
 					<cell>Nombres:</cell>
 					<cell>
-						<textbox id="txtnombre" width="98%" readonly="true"
-							instant="true"
+						<textbox id="txtnombre" width="98%"
+							readonly="true" instant="true"
 							onChange="self.setValue(self.getValue().toUpperCase());"
 							onFocus='nombre.open(txtnombre,"end_before")'
 							value="@bind(vm.usuario.usuNombres)" />
 					</cell>
 					<cell>Apellidos:</cell>
 					<cell>
-						<textbox id="txtapellido" width="98%" readonly="true"
-							instant="true"
+						<textbox id="txtapellido" width="98%"
+							readonly="true" instant="true"
 							onChange="self.setValue(self.getValue().toUpperCase());"
 							onFocus='apellido.open(txtapellido,"end_before")'
 							value="@bind(vm.usuario.usuApellidos)" />
@@ -153,62 +149,81 @@
 		</grid>
 		<popup id="nombre" width="150px" sclass="popinform">
 			<html>
+				
 				<![CDATA[ Ingrese los Nombres ]]>
+				
 			</html>
 		</popup>
 		<popup id="preg" width="150px" sclass="popinform">
 			<html>
+				
 				<![CDATA[ Seleccione su pregunta de Seguridad ]]>
+				
 			</html>
 		</popup>
 		<popup id="apellido" width="150px" sclass="popinform">
 			<html>
+				
 				<![CDATA[ Ingresar los Apellidos ]]>
+				
 			</html>
 		</popup>
 		<popup id="res" width="150px" sclass="popinform">
 			<html>
+				
 				<![CDATA[ Respuesta de La Pregunta ]]>
+				
 			</html>
 		</popup>
-		<popup id="departamento" width="150px"
-			sclass="popinform">
+		<popup id="departamento" width="150px" sclass="popinform">
 			<html>
+				
 				<![CDATA[ Ingresar el Departamento ]]>
+				
 			</html>
 		</popup>
 		<popup id="estado" width="150px" sclass="popinform">
 			<html>
+				
 				<![CDATA[ Seleccionar el Estado ]]>
+				
 			</html>
 		</popup>
 		<popup id="email" width="150px" sclass="popinform">
 			<html>
+				
 				<![CDATA[ Ingresar el Email]]>
+				
 			</html>
 		</popup>
-		<popup id="nombrerol" width="150px"
-			sclass="popinform">
+		<popup id="nombrerol" width="150px" sclass="popinform">
 			<html>
+				
 				<![CDATA[ Seleccionar el Rol]]>
+				
 			</html>
 		</popup>
-		<popup id="ingresarusuario" width="150px"
-			sclass="popinform">
+		<popup id="ingresarusuario" width="150px" sclass="popinform">
 			<html>
+				
 				<![CDATA[ Ingresar el Número de Cédula ]]>
+				
 			</html>
 		</popup>
 		<popup id="ingresarcontrasena" width="150px"
 			sclass="popinform">
 			<html>
+				
 				<![CDATA[ Ingresar la Clave ]]>
+				
 			</html>
 		</popup>
 		<popup id="confirmarcontrasena" width="150px"
 			sclass="popinform">
 			<html>
+				
 				<![CDATA[ Confirmar la Clave ]]>
+				
 			</html>
 		</popup>
 		<popup id="popRoles" width="300px"

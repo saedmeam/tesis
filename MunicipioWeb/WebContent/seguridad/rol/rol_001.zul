@@ -73,7 +73,6 @@
 					<cell>
 						<combobox id="cmbestado" width="70%"
 							onFocus='estado.open(cmbestado,"end_before")' readonly="true"
-							onCreate="cmbestado.setSelectedIndex(0)"
 							value="@load(vm.usuario.estado)">
 							<comboitem value="ACT" label="Activo" />
 							<comboitem value="INA" label="Inactivo" />

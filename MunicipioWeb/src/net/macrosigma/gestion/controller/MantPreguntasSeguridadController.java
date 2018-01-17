@@ -168,7 +168,7 @@ public class MantPreguntasSeguridadController extends BaseController {
 
 				} else {
 					Messagebox
-							.show("No se puede eliminar la pregunta si ya se relaciono con algun usuario ",
+							.show("No se puede eliminar la pregunta si ya se relacionó con algún usuario ",
 									"Información", Messagebox.OK,
 									Messagebox.ERROR);
 				}

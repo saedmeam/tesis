@@ -55,7 +55,7 @@ public class RecuperacionClaveUsuarioController extends BaseController {
 	@Wire
 	Combobox cmbdesc;
 	@Wire
-	Image img0, img1, img2, img3;
+	Image img0, img1, img2;
 
 	@Wire
 	Cell cellClave;
@@ -505,23 +505,6 @@ public class RecuperacionClaveUsuarioController extends BaseController {
 			}
 		}
 		return usuFiltrado;
-	}
-
-	@Command
-	public void validarCorreo() {
-		if (!txtemail.getText().isEmpty()) {
-			if (!validarEmail(txtemail.getText())) {
-				txtemail.setErrorMessage("La direccion de correo no es valida");
-				ban6 = 1;
-				img3.setVisible(false);
-				return;
-			} else {
-				ban6 = 0;
-				img3.setVisible(true);
-			}
-		} else {
-			img3.setVisible(false);
-		}
 	}
 
 	public static boolean validarEmail(String email) {

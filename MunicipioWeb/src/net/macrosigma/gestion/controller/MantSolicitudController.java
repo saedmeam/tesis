@@ -250,7 +250,7 @@ public class MantSolicitudController extends BaseController {
 		// @BindingParam("objeto") GmParInteres interes) {
 		if (intereselect != null)
 			if (intereselect.getSolId() != null) {
-				if (intereselect.getSolEstado().equals("ACT")) {
+				if (intereselect.getSolEstado().equals("ING")) {
 					intereselect.setEstado("INA");
 					intDao.actualizar(intereselect);
 					buscar();

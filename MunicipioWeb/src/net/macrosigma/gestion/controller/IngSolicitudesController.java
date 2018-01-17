@@ -235,16 +235,12 @@ public class IngSolicitudesController extends BaseController {
 				parCarreraSel);
 		if (ldepsol.size() > 0)
 			sol.setSolUsuAsig(ldepsol.get(0).getDepDepUsuId());
-		else
+		else {
 			Messagebox
 					.show("Esta solicitud no tiene responsable, favor comuniquese con el administrador",
-							"Informe", Messagebox.OK, Messagebox.ERROR,
-							new EventListener<Event>() {
-								@Override
-								public void onEvent(Event e) throws Exception {
-									return;
-								}
-							});
+							"Informe", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
 		if (tipop == "M") {
 			intDao.actualizar(sol);
 			for (int i = 0; i < listparReqSol.size(); i++) {

@@ -14,7 +14,7 @@
 		<div align="center">
 			<html>
 				<FONT FACE="Segoe UI" SIZE="6" COLOR="293B65">
-					Detalle Parametro General
+					Detalle Parámetro General
 				</FONT>
 				<br></br>
 			</html>
@@ -38,7 +38,7 @@
 					</cell>
 				</row>
 				<row>
-					<label>Descripcion</label>
+					<label>Descripción</label>
 					<textbox id="txtdes" width="75%"
 						value="@bind(vm.para.parDes)" instant="true"
 						onChange="self.setValue(self.getValue().toUpperCase());"

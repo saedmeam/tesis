@@ -1,65 +1,78 @@
 <?page title="Reportes" contentType="text/html;charset=UTF-8"?>
 <?init class="net.macrosigma.general.Validador"?>
 <zk>
-	<window title="Reporte Deudores [rep_002]"
-		border="normal" height="98%" closable="true" apply="org.zkoss.bind.BindComposer"
-    viewModel="@id('vm') @init('net.macrosigma.reporte.controller.ReporteDeudoresController')">
+	<window title="Reporte Historial Solicitudes [rep_002]" border="normal"
+		height="98%" closable="true" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('net.macrosigma.reporte.controller.ReporteHistorialSolicitudesController')">
 		<toolbar>
-			<toolbarbutton id="tbsalir" label="Salir"
-				image="/img/sal.png" />
+			<toolbarbutton id="tbbpdf" label="Generar PDF"
+				onClick="@command('imprimirpdf')" image="/img/sal.png" />
+			<toolbarbutton id="tbbexcel" label="Generar Excel"
+				onClick="@command('imprimirexcel')" image="/img/sal.png" />
+				<toolbarbutton id="tbblimpiar" label="Limpiar"
+				onClick="@command('limpiar')" image="/img/sal.png" />
 		</toolbar>
-		<groupbox>
-			<caption label="Deudores" />
-			<grid>
-				<columns>
-					<column width="25%" />
-					<column width="25%" />
-					<column width="25%" />
-					<column width="25%" />
+		<grid>
+			<columns>
+				<column width="25%" />
+				<column width="25%" />
+				<column width="25%" />
+				<column width="25%" />
 
-				</columns>
-				<rows>
-					<row>
-						<label>Deudores</label>
-						<combobox id="cmbprovincia" width="60%"
-							readonly="true">
-							<comboitem value="1" label="Zona" />
-							<comboitem value="2" label="Manzana" />
-						</combobox>
-						<textbox id="txtsector" width="60%" />
-						
-						<cell>
-							<space width="10px" height="10px"></space>
-							<button id="btnbuscar" label="Buscar"
-								image="/img/buscar.png" />
-						</cell>
-						
-					</row>
-					<row>
-						<div>
-						<space />
-							<image sclass="user-icon"
-								src="/img/estadistica.png">
-							</image>
-
-						</div>
-					</row>
-
-					<row>
-						<separator height="10px"></separator>
-						<separator height="10px"></separator>
-
-					</row>
-					<row>
-						<cell>
-							<space width="10px" height="10px"></space>
-							<button id="btnimprimirr" label="Imprimir"
-								image="/img/imprimir.png" />
-						</cell>
-					</row>
-
-				</rows>
-			</grid>
-		</groupbox>
+			</columns>
+			<rows>
+				<row>
+					<label>Usuario Solicita</label>
+					<combobox id="cmbususol"
+						model="@load(vm.listUsuSol)" width="98%" readonly="true"
+						value="@load(vm.usuSolSel.usuNomComp)"
+						selectedItem="@bind(vm.usuSolSel)">
+						<template name="model">
+							<comboitem value="@load(each.usuId)"
+								label="@load(each.usuNomComp)" />
+						</template>
+					</combobox>
+					<label>Tipo de Solicitud</label>
+					<combobox id="cmbtiposolicitud"
+						model="@load(vm.listparSol)" width="98%" readonly="true"
+						value="@load(vm.parSolSel.parDes)"
+						selectedItem="@bind(vm.parSolSel)">
+						<template name="model">
+							<comboitem value="@load(each.par_id)"
+								label="@load(each.parDes)" />
+						</template>
+					</combobox>
+				</row>
+				<row>
+					<label>Carrera</label>
+					<combobox id="cmbdesc"
+						model="@load(vm.listparCarrera)" width="98%" readonly="true"
+						value="@load(vm.parCarreraSel.parDes)"
+						selectedItem="@bind(vm.parCarreraSel)">
+						<template name="model">
+							<comboitem value="@load(each.par_id)"
+								label="@load(each.parDes)" />
+						</template>
+					</combobox>
+					<label>Usuario Asignado</label>
+					<combobox id="cmbusuasig"
+						model="@load(vm.listUsuAsig)" width="98%" readonly="true"
+						value="@load(vm.usuAsigSel.usuNomComp)"
+						selectedItem="@bind(vm.usuAsigSel)">
+						<template name="model">
+							<comboitem value="@load(each.usuId)"
+								label="@load(each.usuNomComp)" />
+						</template>
+					</combobox>
+				</row>
+				<row>
+					<label>Fecha Desde</label>
+					<datebox id="dtbfecdesd" readonly="true" />
+					<label>Fecha Hasta</label>
+					<datebox id="dtbfechast" readonly="true" />
+				</row>
+			</rows>
+		</grid>
+		<iframe id="iframerep" width="98%" height="98%"></iframe>
 	</window>
 </zk>

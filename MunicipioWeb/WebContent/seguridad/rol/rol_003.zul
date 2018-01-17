@@ -6,8 +6,6 @@
 		<toolbar>
 			<toolbarbutton id="tbbnuevo" label="Nuevo"
 				onClick="@command('nuevo')" image="/img/nuevo.png" />
-			<toolbarbutton id="tbbsalir" label="Salir"
-				image="/img/sal.png" />
 		</toolbar>
 		<groupbox>
 			<caption label="Criterio Búsqueda" />

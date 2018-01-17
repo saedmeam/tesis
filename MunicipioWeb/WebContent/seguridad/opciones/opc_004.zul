@@ -4,11 +4,6 @@
 	<window title="Asignacion_Opciones a Modulo [opc_004]" contentStyle="overflow:auto"
 		border="normal" height="98%" closable="true">
 		
-		<toolbar>
-			
-			<toolbarbutton id="tbbsalir" label="Salir"
-				image="/img/sal.png" />
-		</toolbar>
 		<groupbox>
 			<caption label="Criterio Búsqueda" />
 			<grid>

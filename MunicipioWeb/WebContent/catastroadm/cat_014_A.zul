@@ -7,8 +7,6 @@
 		<toolbar>
 			<toolbarbutton id="tbbgrabar" label="Guardar"
 				onClick="@command('createUsuario')" image="/img/save3.png" />
-			<toolbarbutton id="tbbsalir" label="Salir"
-				image="/img/sal.png" />
 			<image src="img/fondo4.png" height="22px"></image>
 		</toolbar>
 		<separator height="20px" />
