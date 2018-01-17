@@ -1,0 +1,154 @@
+<?page title="Parámetros" contentType="text/html;charset=UTF-8"?>
+<?init class="net.macrosigma.general.Validador"?>
+<zk>
+	<window title="Ver detalle Solicitud [cat_001_B]" border="none"
+		apply="org.zkoss.bind.BindComposer" height="100%"
+		viewModel="@id('vm') @init('net.macrosigma.gestion.controller.VerDetProcSolicitudesController')"
+		contentStyle="overflow:auto">
+		<separator height="20px" />
+		<grid>
+			<columns>
+				<column width="20%" />
+				<column width="30%" />
+				<column width="20%" />
+				<column width="30%" />
+			</columns>
+			<rows>
+
+				<row>
+					<cell colspan="8">
+						<div
+							sclass="form-group clearfix border-top-bottom">
+						</div>
+					</cell>
+				</row>
+				<row>
+					<label>Carrera</label>
+					<label value="@load(vm.parCarreraSel.parDes)" />
+					<label>Solicitud</label>
+					<label value="@load(vm.parSolSel.parDes)" />
+				</row>
+				<row>
+					<label value="Nombres" />
+					<textbox readonly="true"
+						value="@load(vm.sol.solUsu.usuNombres)" />
+					<label value="Apellidos" />
+					<textbox readonly="true"
+						value="@load(vm.sol.solUsu.usuApellidos)" />
+				</row>
+				<row>
+					<label value="Identificacion" />
+					<textbox readonly="true"
+						value="@load(vm.sol.solUsu.usuUsuario)" />
+					<label value="Responsable" />
+					<textbox readonly="true"
+						value="@load(vm.sol.solUsuAsig.usuUsuario)" />
+				</row>
+				<row>
+					<cell colspan="4">
+						<groupbox>
+							<caption label="Requisitos Por solicitud" />
+							<listbox id="lbxdet" mold="paging"
+								pageSize="5" sclass="tablas" model="@load(vm.listparReqSol)"
+								emptyMessage="no existen datos">
+								<listhead>
+									<listheader label="Requisito" />
+									<listheader label="Ruta Descarga" />
+								</listhead>
+								<template name="model">
+									<listitem>
+										<listcell
+											label="@load(each.solReqTipSol.parDes)" />
+										<listcell>
+											<a
+												label="@load(each.nombreImagen)"
+												onClick="@command('downloadFile',obj=each)">
+											</a>
+										</listcell>
+									</listitem>
+
+								</template>
+							</listbox>
+						</groupbox>
+					</cell>
+				</row>
+				<row>
+					<cell colspan="4">
+						<groupbox>
+							<caption label="Historial Solicitud" />
+							<grid>
+								<columns>
+									<column width="90%" />
+									<column width="10%" />
+								</columns>
+								<rows>
+									<row>
+										<listbox id="lbxdetsol"
+											width="98%" mold="paging" pageSize="5" sclass="tablas"
+											model="@load(vm.listProcSol)"
+											emptyMessage="no existen datos">
+											<listhead>
+												<listheader
+													label="Fecha" />
+												<listheader
+													label="Acción" />
+												<listheader
+													label="Usuario Anterior" />
+												<listheader
+													label="Usuario Actual" />
+												<listheader
+													label="Estado " />
+												<listheader
+													label="Observación" />
+
+											</listhead>
+											<template name="model">
+												<listitem>
+													<listcell>
+														<datebox
+															disabled="false" value="@load(each.fechaIngreso)" />
+													</listcell>
+													<listcell
+														label="@load(each.procSolTipProceso.equals('ASIG')?'ASIGNADO A':'CAMBIO DE ESTADO')" />
+													<listcell
+														label="@load(each.procSolUsuAnt.usuUsuario)" />
+													<listcell
+														label="@load(each.procSolUsuAct.usuUsuario)" />
+													<listcell
+														label="@load(each.procSolEstado.equals('ING')?'INGRESADO': each.procSolEstado.equals('OBS')?'OBSERVADO':each.procSolEstado.equals('PRO')?'PROCESANDO':each.procSolEstado.equals('TER')?'TERMINADO':'RECHAZADO')" />
+													<listcell
+														label="@load(each.procSolObs)" />
+
+												</listitem>
+											</template>
+										</listbox>
+									</row>
+								</rows>
+							</grid>
+						</groupbox>
+					</cell>
+				</row>
+				<row>
+					<cell colspan="4">
+						<div
+							sclass="form-group clearfix border-top-bottom">
+						</div>
+					</cell>
+				</row>
+			</rows>
+		</grid>
+		<popup id="carrera" width="170px" sclass="popinform">
+			<html>
+				<![CDATA[ seleccione la carrera ]]>
+			</html>
+		</popup>
+		<popup id="solicitud" width="170px"
+			sclass="popinform">
+			<html>
+				<![CDATA[ seleccione la solicitud ]]>
+			</html>
+		</popup>
+	</window>
+</zk>
+
+

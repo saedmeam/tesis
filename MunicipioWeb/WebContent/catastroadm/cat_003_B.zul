@@ -1,0 +1,165 @@
+<?page title="Parámetros" contentType="text/html;charset=UTF-8"?>
+<?init class="net.macrosigma.general.Validador"?>
+<zk>
+	<window title="Crear Solicitud [cat_003_B]" border="none" 
+		width="60%" apply="org.zkoss.bind.BindComposer" height="45%"
+		closable="true" id="wincreahist" contentStyle="overflow:auto"
+		viewModel="@id('vm') @init('net.macrosigma.gestion.controller.ProcSolicitudesController')">
+		<toolbar>
+			<toolbarbutton id="tbbgrabar" label="Guardar"
+				onClick="@command('createUsuario')" image="/img/save3.png" />
+			<image src="img/fondo4.png" height="22px"></image>
+		</toolbar>
+		<separator height="20px" />
+
+		<div align="center">
+
+		</div>
+
+		<grid>
+			<columns>
+				<column width="20%" />
+				<column width="30%" />
+				<column width="20%" />
+				<column width="30%" />
+			</columns>
+			<rows>
+
+				<row>
+					<cell colspan="4">
+						<div
+							sclass="form-group clearfix border-top-bottom">
+						</div>
+					</cell>
+				</row>
+				<row>
+					<cell colspan="4" align="center">
+						<grid>
+							<rows>
+								<row>
+									<cell>
+										<radiogroup id="rdgti">
+											<radio label="Asignar A"
+												id="rdbasig" onCheck="@command('valsel')" selected="true" />
+											<radio
+												label="Cambio de Estado" id="rdbcam"
+												onCheck="@command('valsel')" />
+										</radiogroup>
+									</cell>
+								</row>
+							</rows>
+						</grid>
+
+					</cell>
+				</row>
+				<row>
+					<cell colspan="4">
+						<groupbox width="98%" id="gpbasig"
+							visible="true">
+							<caption label="Asignar A" />
+							<grid>
+								<rows>
+									<row>
+										<label>Departamento</label>
+										<cell>
+											<combobox id="cmbdpto"
+												model="@load(vm.listdep)"
+												onFocus='dep.open(cmbdpto,"end_before")' width="98%"
+												readonly="true" value="@load(vm.depSel.depNomDep)"
+												selectedItem="@bind(vm.depSel)"
+												onSelect="@command('cargalistado')">
+												<template
+													name="model">
+													<comboitem
+														value="@load(each.depId)" label="@load(each.depNomDep)" />
+												</template>
+											</combobox>
+										</cell>
+										<label>Usuario</label>
+										<combobox id="cmbusr"
+											model="@load(vm.listUsu)"
+											onFocus='usu.open(cmbusr,"end_before")' width="98%"
+											readonly="true" value="@load(vm.usuSel.usuUsuario)"
+											selectedItem="@bind(vm.usuSel)">
+											<template name="model">
+												<comboitem
+													value="@load(each.usuId)" label="@load(each.usuUsuario)" />
+											</template>
+										</combobox>
+									</row>
+								</rows>
+							</grid>
+						</groupbox>
+					</cell>
+				</row>
+				<row>
+					<cell colspan="4">
+						<groupbox width="98%" id="gpbestado"
+							visible="false">
+							<caption label="Estados" />
+							<grid>
+								<rows>
+									<row>
+										<cell width="49%">
+											<radiogroup>
+												<radio
+													label="Observacion" id="rdbobs" />
+												<radio label="Rechazado"
+													id="rdbrec" />
+												<radio label="Aprobado"
+													id="rdbter" />
+											</radiogroup>
+										</cell>
+
+									</row>
+								</rows>
+							</grid>
+						</groupbox>
+					</cell>
+				</row>
+				<row>
+					<cell width="15%">
+						<label width="98%" value="Observación" />
+					</cell>
+					<cell width="44%">
+						<textbox width="98%" id="txtobs" instant="true"
+							onFocus='obs.open(txtobs,"end_before")'
+							onChange="self.setValue(self.getValue().toUpperCase());"
+							value="@bind(vm.procSol.procSolObs)" />
+					</cell>
+				</row>
+				<row>
+					<cell colspan="4">
+						<div
+							sclass="form-group clearfix border-top-bottom">
+						</div>
+					</cell>
+				</row>
+			</rows>
+		</grid>
+		<popup id="dep" width="170px" sclass="popinform">
+			<html>
+				
+				<![CDATA[ Seleccione el departamento ]]>
+				
+			</html>
+		</popup>
+		<popup id="usu" width="170px" sclass="popinform">
+			<html>
+				
+				<![CDATA[ Seleccione el usuario al cual se asignara la
+				solicitud ]]>
+				
+			</html>
+		</popup>
+		<popup id="obs" width="170px" sclass="popinform">
+			<html>
+				
+				<![CDATA[ Debe ingresar la observación ]]>
+				
+			</html>
+		</popup>
+	</window>
+</zk>
+
+

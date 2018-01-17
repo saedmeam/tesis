@@ -1,0 +1,184 @@
+<?page title="Ingreso_Usuario" contentType="text/html;charset=UTF-8"?>
+<?init class="net.macrosigma.general.Validador"?>
+<zk>
+	<window title="Usuario Solicitud [cat_004_A]" border="none"
+		id="winNuevoUsu" contentStyle="overflow:auto" height="100%"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('net.macrosigma.gestion.controller.IngDepartamentoTipSolicitudController')">
+		<toolbar>
+			<toolbarbutton id="tbbguardar" label="Guardar"
+				onClick="@command('crearUsuario')" image="/img/save3.png" />
+			<image src="img/fondo4.png" height="22px"></image>
+		</toolbar>
+		<separator height="10px"></separator>
+		<div align="center">
+			<html>
+				<FONT FACE="Segoe UI" SIZE="6" COLOR="293B65">
+					Usuario Solicitud
+				</FONT>
+				<br></br>
+			</html>
+		</div>
+		<grid>
+			<rows>
+				<row>
+					<cell colspan="4">
+						<div
+							sclass="form-group clearfix border-top-bottom">
+						</div>
+					</cell>
+				</row>
+				<row>
+					<cell>Departamento:</cell>
+					<cell>
+						<combobox id="cmbrol" model="@load(vm.listRol)"
+							onFocus='rol.open(cmbrol,"end_before")' width="98%"
+							readonly="true" value="@load(vm.rolSel.depNomDep)"
+							selectedItem="@bind(vm.rolSel)"
+							onSelect="@command('getUsuarioXRol')">
+							<template name="model">
+								<comboitem value="@load(each.depId)"
+									label="@load(each.depNomDep)" />
+							</template>
+						</combobox>
+					</cell>
+					<cell>Usuario:</cell>
+					<cell>
+						<combobox id="cmbdep" model="@load(vm.listdep)"
+							onFocus='dep.open(cmbdep,"end_before")' width="98%"
+							readonly="true" value="@load(vm.depSel.usuUsuario)"
+							selectedItem="@bind(vm.depSel)">
+							<template name="model">
+								<comboitem value="@load(each.usuId)"
+									label="@load(each.usuUsuario)" />
+							</template>
+						</combobox>
+					</cell>
+				</row>
+				<row>
+					<cell>Carrera:</cell>
+					<cell>
+						<combobox id="cmbdesc"
+							model="@load(vm.listparCarrera)"
+							onFocus='carrera.open(cmbdesc,"end_before")' width="98%"
+							readonly="true" value="@load(vm.parCarreraSel.parDes)"
+							selectedItem="@bind(vm.parCarreraSel)">
+							<template name="model">
+								<comboitem value="@load(each.par_id)"
+									label="@load(each.parDes)" />
+							</template>
+						</combobox>
+					</cell>
+					<cell>Solicitud:</cell>
+					<cell>
+						<combobox id="cmbtiposolicitud"
+							model="@load(vm.listparSol)"
+							onFocus='solicitud.open(cmbtiposolicitud,"end_before")'
+							width="98%" readonly="true" value="@load(vm.parSolSel.parDes)"
+							selectedItem="@bind(vm.parSolSel)">
+							<template name="model">
+								<comboitem value="@load(each.par_id)"
+									label="@load(each.parDes)" />
+							</template>
+						</combobox>
+					</cell>
+
+				</row>
+				<row>
+					<separator height="1px"></separator>
+				</row>
+				<row>
+					<cell colspan="4">
+						<div
+							sclass="form-group clearfix border-top-bottom">
+						</div>
+					</cell>
+				</row>
+			</rows>
+		</grid>
+		<popup id="rol" width="170px" sclass="popinform">
+			<html>
+
+
+
+
+
+
+
+				
+				<![CDATA[ seleccione el rol ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="solicitud" width="170px" sclass="popinform">
+			<html>
+
+
+
+
+
+
+
+				
+				<![CDATA[ seleccione la solicitud ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="dep" width="170px" sclass="popinform">
+			<html>
+
+
+
+
+
+
+
+				
+				<![CDATA[ seleccione el usuario]]>
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="carrera" width="170px" sclass="popinform">
+			<html>
+
+
+
+
+
+
+
+				
+				<![CDATA[ seleccione la carrera]]>
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+	</window>
+</zk>

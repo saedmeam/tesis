@@ -1,0 +1,68 @@
+<?page title="Parámetros" contentType="text/html;charset=UTF-8"?>
+<?init class="net.macrosigma.general.Validador"?>
+<zk>
+	<window title="Mantenimiento de Solicitud [cat_003]" border="normal"
+		height="98%" closable="true" apply="org.zkoss.bind.BindComposer"
+		id="winmantrub" contentStyle="overflow:auto"
+		viewModel="@id('vm') @init('net.macrosigma.gestion.controller.MantProcSolicitudController')">
+		<toolbar>
+			<image src="img/fondo4.png" height="22px"></image>
+			<toolbarbutton id="tbbmod" label="Ver Detalle Solicitud"
+				image="/img/editar.png" onClick="@command('modificar')" />
+			<image src="img/fondo4.png" height="22px"></image>
+		</toolbar>
+		<groupbox closable="false">
+			<caption label="Criterio Búsqueda" />
+			<grid>
+				<columns>
+					<column width="15%" />
+					<column width="25%" />
+					<column width="15%" />
+					<column width="25%" />
+					<column width="20%" />
+				</columns>
+				<rows>
+					<row>
+						<button label="Buscar"
+							onClick="@command('InteresPorAño')" />
+					</row>
+				</rows>
+			</grid>
+		</groupbox>
+		<separator height="5px" />
+		<listbox id="lbxdet" mold="paging" pageSize="5" sclass="tablas"
+			model="@load(vm.listaInte)" emptyMessage="no existen datos"
+			selectedItem="@bind(vm.intereselect)">
+			<listhead>
+				<listheader label="Carrera" />
+				<listheader label="Solicitud" />
+				<listheader label="Fecha de Solicitud" />
+				<listheader label="Identificacion" />
+				<listheader label="Nombres" />
+				<listheader label="Apellidos" />
+				<listheader label="Responsable" />
+				<listheader label="Estado Solicitud" />
+			</listhead>
+			<template name="model">
+				<listitem>
+					<listcell label="@load(each.solCarrera.parDes)" />
+					<listcell
+						label="@load(each.solTipoSolicitud.parDes)" />
+					<listcell>
+						<datebox value="@load(each.fechaIngreso)"
+							disabled="true" />
+					</listcell>
+					<listcell label="@load(each.solUsu.usuario)" />
+					<listcell label="@load(each.solUsu.usuNombres)" />
+					<listcell label="@load(each.solUsu.usuApellidos)" />
+
+					<listcell label="@load(each.solUsuAsig.usuNomComp)" />
+					<listcell
+						label="@load(each.solEstado.equals('ING')?'INGRESADO': each.solEstado.equals('OBS')?'OBSERVADO':each.solEstado.equals('PRO')?'PROCESANDO':each.solEstado.equals('TER')?'TERMINADO':'RECHAZADO')" />
+				</listitem>
+			</template>
+		</listbox>
+	</window>
+	<zscript>
+</zscript>
+</zk>
