@@ -77,6 +77,17 @@ public class GmParParametroDao extends GenericDao<GmParParametros, Long> {
 		List<GmParParametros> result = query.getResultList();
 		return result == null || result.isEmpty() ? null : result;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public static boolean valParametroByDes(String grupo) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select o from GmParParametros o where o.parDes like '%'||:grupo||'%' order by o.parDes");
+		Query query = em.createQuery(sql.toString());
+		query.setParameter("grupo", grupo);
+		List<GmParParametros> result = query.getResultList();
+		
+		return result == null || result.isEmpty() ? false : true;
+	}
 
 	public static List<GmParParametros> getParametroByDesPad(String grupo) {
 		List<GmParParametros> lpad = new ArrayList<>();

@@ -43,7 +43,7 @@ public class GmGesDepartamentoDao extends
 	public static List<GmGesDepartamento> getValPrebyPre(String claCat) {
 		StringBuilder sql = new StringBuilder();
 		String select = "";
-		select = "select o from GmGesDepartamento o where (o.depNomDep = :claCat or :claCat =null)";
+		select = "select o from GmGesDepartamento o where (o.depNomDep like concat('%',:claCat,'%') or :claCat =null)";
 		select += "and o.estado = 'ACT'";
 		sql.append(select);
 		Query query = em.createQuery(sql.toString());
