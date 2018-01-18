@@ -2,7 +2,6 @@ package net.macrosigma.seguridad.controller;
 
 import java.util.Date;
 
-import net.macrosigma.gestion.controller.ManteParamGeneralController;
 import net.macrosigma.seguridad.dao.GmSegRolDao;
 import net.macrosigma.seguridad.ent.GmSegRol;
 import net.macrosigma.seguridad.ent.GmSegUsuario;
@@ -53,14 +52,16 @@ public class IngresoRolController extends BaseController {
 		tipop = ((String) Sessions.getCurrent().getAttribute("tip_op"));
 		if (tipop == "M") {
 			rol = ((GmSegRol) Sessions.getCurrent().getAttribute("rol"));
-			if(rol.getEstado().equals("INA"))
-				rol.setEstado("Inactivo");
-			else
-				rol.setEstado("Activo");
-			// cargar();
-			BindUtils.postNotifyChange(null, null,
-					IngresoRolController.this, "rol");
+			
 		}
+		BindUtils.postNotifyChange(null, null,
+				IngresoRolController.this, "rol");
+		if(rol.getEstado().equals("INA"))
+			cmbestado.setSelectedIndex(1);
+		else
+			cmbestado.setSelectedIndex(0);
+		// cargar();
+		
 
 	}
 

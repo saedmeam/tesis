@@ -233,6 +233,13 @@ Window window;
 		Paraselect.setEstado("INA");
 		try {
 			paraDao.actualizar(Paraselect);
+			Messagebox.show("Registro Eliminado", "Informe", Messagebox.OK,
+					Messagebox.ERROR, new EventListener<Event>() {
+						@Override
+						public void onEvent(Event e) throws Exception {
+
+						}
+					});
 		} catch (Exception e) {
 			Messagebox.show("No se puede eliminar", "Informe", Messagebox.OK,
 					Messagebox.ERROR, new EventListener<Event>() {

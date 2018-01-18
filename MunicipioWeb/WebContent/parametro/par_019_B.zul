@@ -50,7 +50,7 @@
 						value="@bind(vm.para.parValor)" />
 				</row>
 				<row>
-					<label>Padre Parametros</label>
+					<label>Padre Parámetros</label>
 					<textbox id="txtpadre" width="75%" readonly="true"
 						value="@bind(vm.para.carIdPad.parDes)" />
 					<label>Estado</label>

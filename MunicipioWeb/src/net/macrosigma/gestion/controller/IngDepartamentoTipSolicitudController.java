@@ -166,7 +166,9 @@ public class IngDepartamentoTipSolicitudController extends BaseController {
 		listdep = new ArrayList<>();
 		if (rolSel != null) {
 			for (int i = 0; i < rolSel.getUsuDepId().size(); i++) {
-				listdep.add(rolSel.getUsuDepId().get(i));
+				if (rolSel.getUsuDepId().get(i).getUsuCarrId().getPar_id() == parCarreraSel
+						.getPar_id())
+					listdep.add(rolSel.getUsuDepId().get(i));
 			}
 		}
 

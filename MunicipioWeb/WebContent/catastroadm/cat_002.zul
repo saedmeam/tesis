@@ -28,7 +28,7 @@
 				</columns>
 				<rows>
 					<row>
-						<label>Búsqueda por Pregunta</label>
+						<label>Búsqueda por Descripción</label>
 						<bandbox id="bndanio" width="98%" instant="true"
 							onChange="self.setValue(self.getValue().toUpperCase());"
 							onBlur="@command('getPorRubro')"

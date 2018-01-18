@@ -13,7 +13,7 @@
 		<div align="center">
 			<html>
 				<FONT FACE="Segoe UI" SIZE="6" COLOR="293B65">
-					Modulo
+					Módulo
 				</FONT>
 				<br></br>
 			</html>
@@ -65,7 +65,7 @@
 							onFocus='ruta.open(txtRutaIcono,"end_before")'
 							value="@bind(vm.modulo.menIcono)" />
 					</cell>
-					<cell>Número de Modulo:</cell>
+					<cell>Número de Módulo:</cell>
 					<cell>
 						<intbox id="inbNumroModulo" width="95%"
 							onFocus='numero.open(inbNumroModulo,"end_before")'
@@ -81,6 +81,7 @@
 						<combobox id="cmbtestado" width="95%"
 							onFocus='estado.open(cmbtestado,"end_before")' readonly="true"
 							onCreate="cmbtestado.setSelectedIndex(0)"
+							
 							selectedItem="@bind(vm.modulo.estado)">
 							<comboitem value="ACT" label="ACTIVO" />
 							<comboitem value="INA" label="INACTIVO" />

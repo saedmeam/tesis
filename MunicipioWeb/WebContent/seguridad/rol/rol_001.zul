@@ -72,8 +72,7 @@
 					</cell>
 					<cell>
 						<combobox id="cmbestado" width="70%"
-							onFocus='estado.open(cmbestado,"end_before")' readonly="true"
-							value="@load(vm.usuario.estado)">
+							onFocus='estado.open(cmbestado,"end_before")' readonly="true">
 							<comboitem value="ACT" label="Activo" />
 							<comboitem value="INA" label="Inactivo" />
 						</combobox>

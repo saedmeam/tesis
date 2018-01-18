@@ -76,25 +76,27 @@ public class IngresoDetParaGeneralController extends BaseController {
 		para.setEstado(cmbtestado.getSelectedItem().getValue().toString());
 		if (tipop.equals("M")) {
 			paraDao.actualizar(para);
-			Messagebox.show("Parametro Modificado", "Informe", Messagebox.OK,
+			Messagebox.show("Parámetro Modificado", "Informe", Messagebox.OK,
 					Messagebox.INFORMATION, new EventListener<Event>() {
 						@Override
 						public void onEvent(Event e) throws Exception {
-							Events.postEvent(new Event(Events.ON_CLOSE,
-									winpar));
+							Events.postEvent(new Event(Events.ON_CLOSE, winpar));
 						}
 					});
 
 		} else {
-			paraDao.crear(para);
-			Messagebox.show("Parametro Ingresado", "Informe", Messagebox.OK,
-					Messagebox.INFORMATION, new EventListener<Event>() {
-						@Override
-						public void onEvent(Event e) throws Exception {
-							Events.postEvent(new Event(Events.ON_CLOSE,
-									winpar));
-						}
-					});
+			if (!paraDao.valParametroByDes(para.getParDes())) {
+				paraDao.crear(para);
+				Messagebox.show("Parámetro Ingresado", "Informe",
+						Messagebox.OK, Messagebox.INFORMATION,
+						new EventListener<Event>() {
+							@Override
+							public void onEvent(Event e) throws Exception {
+								Events.postEvent(new Event(Events.ON_CLOSE,
+										winpar));
+							}
+						});
+			}
 		}
 		limpiar();
 
