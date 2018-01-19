@@ -104,9 +104,16 @@ public class GmSegUsuarioDao extends GenericDao<GmSegUsuario, Long> {
 		// query.setParameter("rol", rol);
 		List<GmSegUsuario> result = new ArrayList<>();
 		for (int i = 0; i < rol.getRolRolUsuId().size(); i++) {
-			result.add(rol.getRolRolUsuId().get(i).getGmSegUsuario());
+			boolean b = false;
+			for (int j = 0; j < result.size(); j++) {
+				if (rol.getRolRolUsuId().get(i).getGmSegUsuario().getUsuId() == result
+						.get(j).getUsuId())
+					b = true;
+			}
+			if (!b)
+				result.add(rol.getRolRolUsuId().get(i).getGmSegUsuario());
 		}
-//		List<GmSegUsuario> result = query.getResultList();
+		// List<GmSegUsuario> result = query.getResultList();
 		return result == null || result.isEmpty() ? null : result;
 	}
 

@@ -165,7 +165,7 @@ public class GeneralUtilsDao extends
 			out.flush();
 			out.close();
 			// if (condicion) {
-			ubicacionImagen = "C:" + "/" + "documentos" + "/" + codObj;
+			ubicacionImagen = pathProyecto+ File.separator + codObj;
 			// } else {
 			// ubicacionImagen = "/img/tmp/" + nombreArchivo;
 			// }
