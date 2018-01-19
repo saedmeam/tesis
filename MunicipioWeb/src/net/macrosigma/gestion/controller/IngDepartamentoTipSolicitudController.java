@@ -187,7 +187,7 @@ public class IngDepartamentoTipSolicitudController extends BaseController {
 			depSel = usuario.getDepDepUsuId();
 			parSolSel = usuario.getDepTipSolCarreraId();
 			parCarreraSel = usuario.getDepTipSolCarreraId();
-
+			rolSel = usuario.getDepDepUsuId().getUsuDepId();
 			BindUtils.postNotifyChange(null, null,
 					IngDepartamentoTipSolicitudController.this, "usuario");
 		}

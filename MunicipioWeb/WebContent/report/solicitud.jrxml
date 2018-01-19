@@ -25,6 +25,9 @@
 		<defaultValueExpression><![CDATA["C:/Users/Santiago_Merino/Desktop/tareau/tareau/jboss-as-7.1.1.Final/standalone/deployments/MunicipioWeb.war/img/ug.jpg"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="pv_usuario" class="java.lang.String"/>
+	<parameter name="pnidsolsel" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[select (case when sol.sol_estado = 'ING' then 'INGRESADO'
 when sol.sol_estado = 'OBS' then 'OBSERVADO'
@@ -40,7 +43,7 @@ and ((aud_fecha_registra >= to_date($P{pdfecdesd},'ddmmyyyy') or $P{pdfecdesd} i
 and (aud_fecha_registra<= to_date($P{pdfechast},'ddmmyyyy') or $P{pdfechast} is null))
 and (sol_id_carrera = $P{pnidcarrera} or $P{pnidcarrera} = 0)
 and (sol_id_tipo_solicitud = $P{pnidtipsol} or $P{pnidtipsol} = 0)
-and (sol_id_usu = $P{pnidtipsol} or $P{pnidtipsol} = 0)
+and (sol_id_usu = $P{pnidsolsel} or $P{pnidsolsel} = 0)
 and aud_estado = 'ACT']]>
 	</queryString>
 	<field name="estado" class="java.lang.String"/>
@@ -55,7 +58,7 @@ and aud_estado = 'ACT']]>
 	<title>
 		<band height="79" splitType="Stretch">
 			<image>
-				<reportElement x="0" y="0" width="100" height="79"/>
+				<reportElement x="0" y="0" width="100" height="79" isRemoveLineWhenBlank="true"/>
 				<imageExpression class="java.lang.String"><![CDATA[$P{pv_img}]]></imageExpression>
 			</image>
 			<staticText>
@@ -272,8 +275,8 @@ and aud_estado = 'ACT']]>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{estado}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm" isBlankWhenNull="true">
-				<reportElement x="482" y="0" width="73" height="12"/>
+			<textField pattern="dd/MM/yyyy HH.mm" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="482" y="0" width="73" height="12"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>

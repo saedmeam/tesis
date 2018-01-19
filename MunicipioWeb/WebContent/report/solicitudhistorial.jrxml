@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="solicitud" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="118"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="pvidusuasig" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[0]]></defaultValueExpression>
@@ -28,6 +28,9 @@
 	<parameter name="SUBREPORT_DIR" class="java.lang.String">
 		<defaultValueExpression><![CDATA["C:\\Users\\Santiago_Merino\\Desktop\\"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="pnidsolsel" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[select (case when sol.sol_estado = 'ING' then 'INGRESADO'
 when sol.sol_estado = 'OBS' then 'OBSERVADO'
@@ -43,7 +46,7 @@ and ((aud_fecha_registra >= to_date($P{pdfecdesd},'ddmmyyyy') or $P{pdfecdesd} i
 and (aud_fecha_registra<= to_date($P{pdfechast},'ddmmyyyy') or $P{pdfechast} is null))
 and (sol_id_carrera = $P{pnidcarrera} or $P{pnidcarrera} = 0)
 and (sol_id_tipo_solicitud = $P{pnidtipsol} or $P{pnidtipsol} = 0)
-and (sol_id_usu = $P{pnidtipsol} or $P{pnidtipsol} = 0)
+and (sol_id_usu = $P{pnidsolsel} or $P{pnidsolsel} = 0)
 and aud_estado = 'ACT']]>
 	</queryString>
 	<field name="estado" class="java.lang.String"/>
@@ -277,7 +280,7 @@ and aud_estado = 'ACT']]>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{estado}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy HH.mm" isBlankWhenNull="true">
-				<reportElement x="482" y="0" width="73" height="12" isRemoveLineWhenBlank="true"/>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="482" y="0" width="73" height="12" isRemoveLineWhenBlank="true"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>

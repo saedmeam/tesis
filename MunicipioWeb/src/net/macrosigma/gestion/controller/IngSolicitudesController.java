@@ -142,10 +142,15 @@ public class IngSolicitudesController extends BaseController {
 			parCarreraSel = sol.getSolCarrera();
 			parSolSel = sol.getSolTipoSolicitud();
 			listparReqSol = sol.getSolReqDoc();
+			
 		}
 
 		BindUtils.postNotifyChange(null, null, IngSolicitudesController.this,
 				"interes");
+		parCarreraSel=usu.getUsuCarrId();
+		BindUtils.postNotifyChange(null, null, IngSolicitudesController.this,
+				"parCarreraSel");
+		cmbdesc.setDisabled(true);
 	}
 
 	@SuppressWarnings("static-access")
@@ -227,7 +232,7 @@ public class IngSolicitudesController extends BaseController {
 		sol.setSolTipoSolicitud(parSolSel);
 		sol.setSolUsu(usu);
 		sol.setUsuario(usu.getUsuario());
-		sol.setEstado("ACT");
+//		sol.setEstado("ACT");
 		sol.setSolEstado("ING");
 		List<GmGesDepartamentoTipSolicitud> ldepsol = new ArrayList<>();
 		GmGesDepartamentoTipSolicitudDao deptipsoldao = new GmGesDepartamentoTipSolicitudDao();
@@ -363,9 +368,9 @@ public class IngSolicitudesController extends BaseController {
 						+ parSolSel.getPar_id()
 						+ parSel.getSolReqTipSol().getPar_id() + "."
 						+ media.getFormat();
-				imgdao.creaRuta(parSel.getSolReqTipSol().getPar_id(),
+				String ruta = imgdao.creaRuta(parSel.getSolReqTipSol().getPar_id(),
 						pathProyecto + File.separatorChar);
-				String ruta = imgdao.guardaImagenTemporal(parSel.getImagen(),
+				ruta = imgdao.guardaImagenTemporal(parSel.getImagen(),
 						pathProyecto, parSel.getSolReqTipSol().getPar_id(),
 						nombre);
 				cont++;

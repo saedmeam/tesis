@@ -36,6 +36,7 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Iframe;
@@ -44,6 +45,8 @@ public class ReporteSolicitudController extends BaseController {
 
 	@Wire("#iframerep")
 	Iframe iframerep;
+	@Wire
+	Combobox cmbususol,cmbusuasig;
 
 	GmParParametros parCarreraSel = new GmParParametros();
 	GmParParametros parSolSel = new GmParParametros();
@@ -205,18 +208,21 @@ public class ReporteSolicitudController extends BaseController {
 			paramRpt.put("pnidcarrera", parCarreraSel.getPar_id());
 		else
 			paramRpt.put("pnidcarrera", 0L);
+		
 		if (parSolSel.getPar_id() != null)
 			paramRpt.put("pnidtipsol", parSolSel.getPar_id());
 		else
 			paramRpt.put("pnidtipsol", 0L);
+		
 		if (usuAsigSel.getUsuId() != null)
-			paramRpt.put("pnidusuasig", usuAsigSel.getUsuId());
+			paramRpt.put("pnidusuasig", Long.parseLong(cmbusuasig.getSelectedItem().getValue().toString()));
 		else
 			paramRpt.put("pnidusuasig", 0L);
+		
 		if (usuSolSel.getUsuId() != null)
-			paramRpt.put("pnidtipsol", usuSolSel.getUsuId());
+			paramRpt.put("pnidsolsel", Long.parseLong(cmbususol.getSelectedItem().getValue().toString()));
 		else
-			paramRpt.put("pnidtipsol", 0L);
+			paramRpt.put("pnidsolsel", 0L);
 		DateFormat df = new SimpleDateFormat("ddMMyyyy");
 		if (dtbfecdesd.getValue() != null) {
 			String reportDate = df.format(dtbfecdesd.getValue());

@@ -77,13 +77,6 @@ public class RequisitosTramiteController extends BaseController {
 				cell = new Treecell();
 				cell.appendChild(lbl);
 				row.appendChild(cell);
-				cell = new Treecell();
-				cell.setLabel(listaPara.get(i).getParValor());
-				row.appendChild(cell);
-				cell = new Treecell();
-				cell.setLabel(listaPara.get(i).getEstado().equals("ACT") ? "ACTIVO"
-						: "INACTIVO");
-				row.appendChild(cell);
 				item.appendChild(row);
 				if (listaPara.get(i).getCarIdHij() != null) {
 					if (listaPara.get(i).getCarIdHij().size() > 0) {
@@ -113,14 +106,6 @@ public class RequisitosTramiteController extends BaseController {
 			lbl.setValue(hij.get(i).getParDes());
 			cell = new Treecell();
 			cell.appendChild(lbl);
-			row.appendChild(cell);
-			cell = new Treecell();
-			cell.setLabel(hij.get(i).getParValor());
-			row.appendChild(cell);
-			cell = new Treecell();
-
-			cell.setLabel(hij.get(i).getEstado().equals("ACT") ? "ACTIVO"
-					: "INACTIVO");
 			row.appendChild(cell);
 			item.appendChild(row);
 			children.appendChild(item);
