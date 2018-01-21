@@ -79,7 +79,7 @@ public class GmParParametroDao extends GenericDao<GmParParametros, Long> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static boolean valParametroByDes(String grupo) {
+	public boolean valParametroByDes(String grupo) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("select o from GmParParametros o where o.parDes like '%'||:grupo||'%' and o.estado = 'ACT order by o.parDes");
 		Query query = em.createQuery(sql.toString());
