@@ -52,17 +52,19 @@ public class IngSolicitudesController extends BaseController {
 	Listbox lbxreqsol;
 
 	GmGesSolicitudDao intDao = new GmGesSolicitudDao();
+	GmParParametroDao parDao = new GmParParametroDao();
+	GeneralUtilsDao imgdao = new GeneralUtilsDao();
+	GmGesDepartamentoTipSolicitudDao deptipsoldao = new GmGesDepartamentoTipSolicitudDao();
+	GmGesSolicitudRequisitoDocumentoDao reqSolDao = new GmGesSolicitudRequisitoDocumentoDao();
 	GmSegUsuario usu = (GmSegUsuario) Sessions.getCurrent().getAttribute(
 			"usuario");
 	List<GmParParametros> listparCarrera = new ArrayList<GmParParametros>();
 	GmParParametros parCarreraSel = new GmParParametros();
-	GmParParametroDao parDao = new GmParParametroDao();
 	List<GmParParametros> listparSol = new ArrayList<GmParParametros>();
 	GmParParametros parSolSel = new GmParParametros();
 	List<GmGesSolicitudRequisitoDocumento> listparReqSol = new ArrayList<GmGesSolicitudRequisitoDocumento>();
 	GmGesSolicitud sol = new GmGesSolicitud();
 	Media media;
-	GeneralUtilsDao imgdao = new GeneralUtilsDao();
 
 	Long cont = 0L;
 
@@ -142,12 +144,12 @@ public class IngSolicitudesController extends BaseController {
 			parCarreraSel = sol.getSolCarrera();
 			parSolSel = sol.getSolTipoSolicitud();
 			listparReqSol = sol.getSolReqDoc();
-			
+
 		}
 
 		BindUtils.postNotifyChange(null, null, IngSolicitudesController.this,
 				"interes");
-		parCarreraSel=usu.getUsuCarrId();
+		parCarreraSel = usu.getUsuCarrId();
 		BindUtils.postNotifyChange(null, null, IngSolicitudesController.this,
 				"parCarreraSel");
 		cmbdesc.setDisabled(true);
@@ -194,7 +196,7 @@ public class IngSolicitudesController extends BaseController {
 	@SuppressWarnings("static-access")
 	@Command
 	public void createUsuario() {
-
+		intDao.newManager();
 		// campos para validar los si estan vacio
 
 		if (cmbdesc.getValue() == null) {
@@ -232,10 +234,10 @@ public class IngSolicitudesController extends BaseController {
 		sol.setSolTipoSolicitud(parSolSel);
 		sol.setSolUsu(usu);
 		sol.setUsuario(usu.getUsuario());
-//		sol.setEstado("ACT");
-		sol.setSolEstado("ING");
+		sol.setEstado("ACT");
+		// sol.setSolEstado("ING");
 		List<GmGesDepartamentoTipSolicitud> ldepsol = new ArrayList<>();
-		GmGesDepartamentoTipSolicitudDao deptipsoldao = new GmGesDepartamentoTipSolicitudDao();
+		deptipsoldao.newManager();
 		ldepsol = deptipsoldao.getDepTipSolXCarrTipSolAct(parSolSel,
 				parCarreraSel);
 		if (ldepsol.size() > 0)
@@ -250,8 +252,11 @@ public class IngSolicitudesController extends BaseController {
 			intDao.actualizar(sol);
 			for (int i = 0; i < listparReqSol.size(); i++) {
 				listparReqSol.get(i).setSolReqDoc(sol);
-				GmGesSolicitudRequisitoDocumentoDao reqSolDao = new GmGesSolicitudRequisitoDocumentoDao();
-				reqSolDao.crear(listparReqSol.get(i));
+				reqSolDao.newManager();
+				if (listparReqSol.get(i).getInsId() > 0)
+					reqSolDao.actualizar(listparReqSol.get(i));
+				else
+					reqSolDao.crear(listparReqSol.get(i));
 			}
 			limpiar();
 			Messagebox.show("Solicitud Procesada", "Informe", Messagebox.OK,
@@ -275,7 +280,7 @@ public class IngSolicitudesController extends BaseController {
 				intDao.crear(sol);
 				for (int i = 0; i < listparReqSol.size(); i++) {
 					listparReqSol.get(i).setSolReqDoc(sol);
-					GmGesSolicitudRequisitoDocumentoDao reqSolDao = new GmGesSolicitudRequisitoDocumentoDao();
+					reqSolDao.newManager();
 					reqSolDao.crear(listparReqSol.get(i));
 				}
 				limpiar();
@@ -368,8 +373,8 @@ public class IngSolicitudesController extends BaseController {
 						+ parSolSel.getPar_id()
 						+ parSel.getSolReqTipSol().getPar_id() + "."
 						+ media.getFormat();
-				String ruta = imgdao.creaRuta(parSel.getSolReqTipSol().getPar_id(),
-						pathProyecto + File.separatorChar);
+				String ruta = imgdao.creaRuta(parSel.getSolReqTipSol()
+						.getPar_id(), pathProyecto + File.separatorChar);
 				ruta = imgdao.guardaImagenTemporal(parSel.getImagen(),
 						pathProyecto, parSel.getSolReqTipSol().getPar_id(),
 						nombre);

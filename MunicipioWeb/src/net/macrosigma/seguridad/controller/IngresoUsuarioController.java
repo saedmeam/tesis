@@ -63,7 +63,7 @@ public class IngresoUsuarioController extends BaseController {
 	Listbox lbxRolesAgregados, lbxAgregarRoles;
 	@Wire
 	Textbox txtusuario, txtClave, txtClave2, txtnombre, txtapellido,
-			txtdepartamento, txtemail, txtrol,txtres;
+			txtdepartamento, txtemail, txtrol, txtres;
 	@Wire
 	Combobox cmbtestado, cmbtnombrrol, cmbdpto, cmbdesc;
 	@Wire
@@ -242,14 +242,17 @@ public class IngresoUsuarioController extends BaseController {
 			listaRolUsuarioGuardar = usuarioModificar.getUsuRolUsuId();
 			parCarreraSel = usuarioModificar.getUsuCarrId();
 			parSolSel = usuarioModificar.getUsuDepId();
+			listPreguntaUsuario = usuarioModificar.getPreUsu();
 			BindUtils.postNotifyChange(null, null,
 					IngresoUsuarioController.this, "usuario");
+			BindUtils.postNotifyChange(null, null,
+					IngresoUsuarioController.this, "listPreguntaUsuario");
 		}
 	}
 
 	@Command
 	public void crearUsuario() {
-		usuarioDao = new GmSegUsuarioDao();
+		usuarioDao.newManager();
 		if (usuario.getUsuNombres() == null) {
 			txtnombre.setErrorMessage("Por favor ingrese Nombres");
 			return;
@@ -347,30 +350,40 @@ public class IngresoUsuarioController extends BaseController {
 			} else {
 				for (int i = 0; i < listPreguntaUsuario.size(); i++) {
 					listPreguntaUsuario.get(i).setPreUsu(usuario);
-					pregUsuDao.crear(listPreguntaUsuario.get(i));
-					pregUsuDao = new GmGesPreguntaUsuarioDao();
+					if (listPreguntaUsuario.get(i).getInsId() > 0)
+						pregUsuDao.actualizar(listPreguntaUsuario.get(i));
+					else
+						pregUsuDao.crear(listPreguntaUsuario.get(i));
+					pregUsuDao.newManager();
 				}
 			}
 			Messagebox.show("Usuario ingresado con éxito", "Informe",
 					Messagebox.OK, Messagebox.INFORMATION,
 					new EventListener<Event>() {
-				@Override
-				public void onEvent(Event e) throws Exception {
-					Events.postEvent(new Event(Events.ON_CLOSE,
-							winNuevoUsu));
-				}
-			});
-			
+						@Override
+						public void onEvent(Event e) throws Exception {
+							Events.postEvent(new Event(Events.ON_CLOSE,
+									winNuevoUsu));
+						}
+					});
+
 		} else {
 			for (GmSegRolUsuario rolUsuBorrar : listaRolUsuarioBorrar) {
 				// usuario.getUsuRolUsuId().add(rolUsuBorrar);
-				gmSegRolUsuarioDao = new GmSegRolUsuarioDao();
-				gmSegRolUsuarioDao.actualizar(rolUsuBorrar);
+				gmSegRolUsuarioDao.newManager();
+				if (rolUsuBorrar.getRolUsuId() > 0)
+					gmSegRolUsuarioDao.actualizar(rolUsuBorrar);
+				else
+					gmSegRolUsuarioDao.crear(rolUsuBorrar);
 			}
-			for(int i=0;i<listPreguntaUsuarioElim.size();i++){
+			for (int i = 0; i < listPreguntaUsuarioElim.size(); i++) {
 				listPreguntaUsuarioElim.get(i).setEstado("INA");
-				pregUsuDao.actualizar(listPreguntaUsuario.get(i));
-				pregUsuDao = new GmGesPreguntaUsuarioDao();
+				pregUsuDao.newManager();
+				if (listPreguntaUsuarioElim.get(i).getInsId() > 0)
+					pregUsuDao.actualizar(listPreguntaUsuarioElim.get(i));
+				else
+					pregUsuDao.crear(listPreguntaUsuario.get(i));
+
 			}
 			if (listPreguntaUsuario.size() < 3) {
 				Messagebox.show("Debe escoger al menos tres preguntas ",
@@ -379,8 +392,12 @@ public class IngresoUsuarioController extends BaseController {
 			} else {
 				for (int i = 0; i < listPreguntaUsuario.size(); i++) {
 					listPreguntaUsuario.get(i).setPreUsu(usuario);
-					pregUsuDao.crear(listPreguntaUsuario.get(i));
-					pregUsuDao = new GmGesPreguntaUsuarioDao();
+					pregUsuDao.newManager();
+					if (listPreguntaUsuario.get(i).getInsId() > 0)
+						pregUsuDao.actualizar(listPreguntaUsuario.get(i));
+					else
+						pregUsuDao.crear(listPreguntaUsuario.get(i));
+
 				}
 			}
 			usuario.setFechaModificacion(new Date());
@@ -734,7 +751,7 @@ public class IngresoUsuarioController extends BaseController {
 		BindUtils.postNotifyChange(null, null, IngresoUsuarioController.this,
 				"listparSol");
 	}
-	
+
 	@Command
 	public void ingresaPregunta() {
 
@@ -757,26 +774,26 @@ public class IngresoUsuarioController extends BaseController {
 		if (!b) {
 			pregUsuSel.setPreFreUsu(pregFreSel);
 			listPreguntaUsuario.add(pregUsuSel);
-		} else{
+		} else {
 			cmbdesc.setErrorMessage("No se puede Ingresar 2 veces la misma pregunta");
 			return;
 		}
-		pregUsuSel= new GmGesPreguntasUsuario();
+		pregUsuSel = new GmGesPreguntasUsuario();
 		pregFreSel = new GmGesPreguntaFrecuente();
-		BindUtils.postNotifyChange(null, null,
-				IngresoUsuarioController.this, "listPreguntaUsuario");
-		BindUtils.postNotifyChange(null, null,
-				IngresoUsuarioController.this, "pregUsuSel");
-		BindUtils.postNotifyChange(null, null,
-				IngresoUsuarioController.this, "pregFreSel");
+		BindUtils.postNotifyChange(null, null, IngresoUsuarioController.this,
+				"listPreguntaUsuario");
+		BindUtils.postNotifyChange(null, null, IngresoUsuarioController.this,
+				"pregUsuSel");
+		BindUtils.postNotifyChange(null, null, IngresoUsuarioController.this,
+				"pregFreSel");
 	}
 
 	@Command
 	public void elim(@BindingParam("obj") GmGesPreguntasUsuario edif) {
 		listPreguntaUsuario.remove(edif);
 		listPreguntaUsuarioElim.add(edif);
-		BindUtils.postNotifyChange(null, null,
-				IngresoUsuarioController.this, "listPreguntaUsuario");
+		BindUtils.postNotifyChange(null, null, IngresoUsuarioController.this,
+				"listPreguntaUsuario");
 	}
 
 }

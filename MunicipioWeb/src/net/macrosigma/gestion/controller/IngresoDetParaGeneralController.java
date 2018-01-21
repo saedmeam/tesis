@@ -53,7 +53,7 @@ public class IngresoDetParaGeneralController extends BaseController {
 
 	@Command
 	public void createUsuario() {
-
+		paraDao.newManager();
 		if (txtnom.getText().isEmpty()) {
 			txtnom.setErrorMessage("campo obligatorio");
 			return;

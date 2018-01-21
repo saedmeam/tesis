@@ -49,15 +49,17 @@ public class ProcSolicitudesController extends BaseController {
 	@Wire
 	Textbox txtobs;
 	GmGesSolicitudDao intDao = new GmGesSolicitudDao();
+	GmGesProcesoSolicitudDao procSolDao = new GmGesProcesoSolicitudDao();
+	GmGesDepartamentoDao depDao = new GmGesDepartamentoDao();
 	GmSegUsuario usu = (GmSegUsuario) Sessions.getCurrent().getAttribute(
 			"usuario");
 
 	GmGesSolicitud sol = new GmGesSolicitud();
 	GmGesProcesoSolicitud procSol = new GmGesProcesoSolicitud();
-	GmGesProcesoSolicitudDao procSolDao = new GmGesProcesoSolicitudDao();
+
 	List<GmGesDepartamento> listdep = new ArrayList<GmGesDepartamento>();
 	GmGesDepartamento depSel = new GmGesDepartamento();
-	GmGesDepartamentoDao depDao = new GmGesDepartamentoDao();
+
 	List<GmSegUsuario> listUsu = new ArrayList<GmSegUsuario>();
 	GmSegUsuario usuSel = new GmSegUsuario();
 
@@ -169,7 +171,8 @@ public class ProcSolicitudesController extends BaseController {
 	@Command
 	public void createUsuario() {
 		// campos para validar los si estan vacio
-
+		intDao.newManager();
+		procSolDao.newManager();
 		procSol.setProcSolSolid(sol);
 		if (usuSel.getUsuId() != null) {
 			procSol.setProcSolUsuAct(usuSel);

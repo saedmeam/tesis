@@ -56,7 +56,7 @@ public class IngresoParametroController extends BaseController {
 
 	@Command
 	public void createUsuario() {
-
+		paraDao.newManager();
 		// campos para validar los si estan vacio
 
 		if (intanio.intValue() == 0) {

@@ -90,7 +90,8 @@ public class MantDepartamentoController extends BaseController {
 					window.addEventListener(Events.ON_CLOSE,
 							new EventListener<Event>() {
 								@Override
-								public void onEvent(Event arg0) throws Exception {
+								public void onEvent(Event arg0)
+										throws Exception {
 									window = null;
 									buscar();
 									BindUtils.postNotifyChange(null, null,
@@ -128,9 +129,9 @@ public class MantDepartamentoController extends BaseController {
 
 	@NotifyChange("listaInte")
 	public void buscar() {
+		intDao.newManager();
 		listaInte = intDao.getPreFreAct();
-		BindUtils.postNotifyChange(null, null,
-				MantDepartamentoController.this,
+		BindUtils.postNotifyChange(null, null, MantDepartamentoController.this,
 				"listaInte");
 	}
 
@@ -146,7 +147,7 @@ public class MantDepartamentoController extends BaseController {
 	@NotifyChange("listaInte")
 	@Command
 	public void getPorRubro() {
-
+		intDao.newManager();
 		if (bndanio.getText().isEmpty()) {
 			buscar();
 		} else {
@@ -161,6 +162,7 @@ public class MantDepartamentoController extends BaseController {
 	// eliminar
 	@Command
 	public void eliminar() {
+		intDao.newManager();
 		// @BindingParam("objeto") GmParInteres interes) {
 		if (intereselect != null)
 			if (intereselect.getDepId() != null) {

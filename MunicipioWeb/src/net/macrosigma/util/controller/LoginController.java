@@ -30,12 +30,14 @@ import org.zkoss.zul.Window;
 public class LoginController extends BaseController {
 
 	GmSegUsuarioDao usuarioDao = new GmSegUsuarioDao();
-	GmSegUsuario usuario = new GmSegUsuario();
 	GmParPolitSeguridadDao polSegDao = new GmParPolitSeguridadDao();
+	GmHistorialAccesoDao historialAccesoDao = new GmHistorialAccesoDao();
+	GmSegUsuario usuario = new GmSegUsuario();
+	
 	GmParPolitSeguridadBean polSeg = polSegDao.getPolSegAct();
 
 	GmHistorialAcceso historialAcceso = new GmHistorialAcceso();
-	GmHistorialAccesoDao historialAccesoDao = new GmHistorialAccesoDao();
+	
 
 	@SuppressWarnings("deprecation")
 	Auditoria aud = new Auditoria();
@@ -50,7 +52,8 @@ public class LoginController extends BaseController {
 	@SuppressWarnings("static-access")
 	@Command
 	public void doLogin(@BindingParam("objeto") int log) {
-
+		usuarioDao.newManager();
+		historialAccesoDao.newManager();
 		if (usu.getText().isEmpty()) {
 			Messagebox.show("Por favor Ingrese un usuario ", "Aviso",
 					Messagebox.OK, Messagebox.EXCLAMATION);

@@ -51,11 +51,12 @@ public class IngDepartamentoController extends BaseController {
 	GmGesDepartamento usuario = new GmGesDepartamento();
 	GmGesDepartamento usuarioModificar = new GmGesDepartamento();
 	GmGesDepartamentoDao usuarioDao = new GmGesDepartamentoDao();
-	List<GmParParametros> listaRoles = new ArrayList<GmParParametros>();
 	GmParParametroDao rolDao = new GmParParametroDao();
+	GmGesDepartamentoCarreraDao gmSegRolUsuarioDao = new GmGesDepartamentoCarreraDao();
+	List<GmParParametros> listaRoles = new ArrayList<GmParParametros>();
+
 	List<GmGesDepartamentoCarrera> listaRolUsuarioGuardar = new ArrayList<GmGesDepartamentoCarrera>();
 	List<GmGesDepartamentoCarrera> listaRolUsuarioBorrar = new ArrayList<GmGesDepartamentoCarrera>();
-	GmGesDepartamentoCarreraDao gmSegRolUsuarioDao = new GmGesDepartamentoCarreraDao();
 
 	public GmGesDepartamento getUsuario() {
 		return usuario;
@@ -120,6 +121,9 @@ public class IngDepartamentoController extends BaseController {
 
 	@Command
 	public void crearUsuario() {
+		usuarioDao.newManager();
+		rolDao.newManager();
+		gmSegRolUsuarioDao.newManager();
 		if (usuario.getDepNomDep() == null) {
 			txtdepartamento.setErrorMessage("Por favor ingrese Nombres");
 			return;
@@ -148,24 +152,24 @@ public class IngDepartamentoController extends BaseController {
 					});
 			for (GmGesDepartamentoCarrera rolUsuBorrar : listaRolUsuarioGuardar) {
 				rolUsuBorrar.setDepCarreraDepId(usuario);
-				gmSegRolUsuarioDao.crear(rolUsuBorrar);
-				gmSegRolUsuarioDao = new GmGesDepartamentoCarreraDao();
+				if (rolUsuBorrar.getInsId() > 0)
+					gmSegRolUsuarioDao.actualizar(rolUsuBorrar);
+				else
+					gmSegRolUsuarioDao.crear(rolUsuBorrar);
+				gmSegRolUsuarioDao.newManager();
 			}
 		} else {
 
 			usuario.setFechaModificacion(new Date());
 			usuarioDao.actualizar(usuario);
 
-			for (GmGesDepartamentoCarrera rolUsuBorrar : listaRolUsuarioBorrar) {
-				rolUsuBorrar.setDepCarreraDepId(usuario);
-				rolUsuBorrar.setEstado("INA");
-				gmSegRolUsuarioDao.actualizar(rolUsuBorrar);
-				gmSegRolUsuarioDao = new GmGesDepartamentoCarreraDao();
-			}
 			for (GmGesDepartamentoCarrera rolUsuBorrar : listaRolUsuarioGuardar) {
 				rolUsuBorrar.setDepCarreraDepId(usuario);
-				gmSegRolUsuarioDao.actualizar(rolUsuBorrar);
-				gmSegRolUsuarioDao = new GmGesDepartamentoCarreraDao();
+				if (rolUsuBorrar.getInsId() > 0)
+					gmSegRolUsuarioDao.actualizar(rolUsuBorrar);
+				else
+					gmSegRolUsuarioDao.crear(rolUsuBorrar);
+				gmSegRolUsuarioDao.newManager();
 			}
 			Messagebox.show("Departamento modificado con éxito", "Informe",
 					Messagebox.OK, Messagebox.INFORMATION,

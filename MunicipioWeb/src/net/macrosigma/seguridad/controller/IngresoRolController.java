@@ -67,7 +67,7 @@ public class IngresoRolController extends BaseController {
 
 	@Command
 	public void createUsuario() {
-
+		rolDao.newManager();
 		// campos para validar los si estan vacio
 
 		if (txtnombre.getText().isEmpty()) {

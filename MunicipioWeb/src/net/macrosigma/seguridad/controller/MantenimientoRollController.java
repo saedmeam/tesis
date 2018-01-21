@@ -56,13 +56,17 @@ public class MantenimientoRollController extends BaseController {
 	// llenar tabla
 	List<GmSegRol> listaRol = new ArrayList<GmSegRol>();
 	GmSegRolDao rolDao = new GmSegRolDao();
-	List<GmSegMenu> listModulos = new ArrayList<GmSegMenu>();
 	GmSegMenuDao menuDao = new GmSegMenuDao();
-	List<GmSegRolMenu> listaRolMenuGuardar = new ArrayList<>();
 	GmSegRolMenuDao gmSegRolMenuDao = new GmSegRolMenuDao();
+	GmSegRolMenuAccionDao rolMenuAccionDao = new GmSegRolMenuAccionDao();
+	GmSegAccionesDao accionesDao = new GmSegAccionesDao();
+	List<GmSegMenu> listModulos = new ArrayList<GmSegMenu>();
+	
+	List<GmSegRolMenu> listaRolMenuGuardar = new ArrayList<>();
+	
 	GmSegRol rolSeleccionado = new GmSegRol();
 	List<GmSegRolMenuAccion> listaRolMenuAccionGuardar = new ArrayList<>();
-	GmSegRolMenuAccionDao rolMenuAccionDao = new GmSegRolMenuAccionDao();
+	
 	GmSegRolMenu rolMenuSeleccionado = new GmSegRolMenu();
 	GmSegMenu menuAntes = new GmSegMenu();
 
@@ -70,7 +74,7 @@ public class MantenimientoRollController extends BaseController {
 	GmSegRol rolselect = null;
 
 	List<GmSegAcciones> listaAcciones = new ArrayList<GmSegAcciones>();
-	GmSegAccionesDao accionesDao = new GmSegAccionesDao();
+	
 
 	@SuppressWarnings("static-access")
 	public List<GmSegMenu> getListModulos() {
@@ -199,6 +203,10 @@ public class MantenimientoRollController extends BaseController {
 
 	@Command
 	public void modulos() {
+		
+		gmSegRolMenuDao.newManager();
+		rolMenuAccionDao.newManager();
+		
 		rolSeleccionado = (GmSegRol) lbxRoles.getSelectedItem().getValue();
 		listaRolMenuGuardar = gmSegRolMenuDao.getPorRol(rolSeleccionado);
 		listaRolMenuAccionGuardar = rolMenuAccionDao.getTodosActivos();
@@ -215,6 +223,9 @@ public class MantenimientoRollController extends BaseController {
 
 	@Command
 	public void guardarRolMenu() {
+		
+		gmSegRolMenuDao.newManager();
+		
 		for (GmSegRolMenu rolmenu : listaRolMenuGuardar) {
 			rolmenu.setUsuario(((GmSegUsuario) Sessions.getCurrent()
 					.getAttribute("usuario")).getUsuUsuario());
@@ -225,26 +236,6 @@ public class MantenimientoRollController extends BaseController {
 				gmSegRolMenuDao.actualizar(rolmenu);
 			} else {
 				gmSegRolMenuDao.crear(rolmenu);
-			}
-		}
-
-		for (GmSegRolMenuAccion rmaGuardar : listaRolMenuAccionGuardar) {
-			rmaGuardar.setUsuario(((GmSegUsuario) Sessions.getCurrent()
-					.getAttribute("usuario")).getUsuUsuario());
-			rmaGuardar.setFechaModificacion(new Date());
-			GmSegRolMenuAccion rmaComp = rolMenuAccionDao.getPorRolMenuyAccion(
-					rmaGuardar.getRolMenu().getRol(), rmaGuardar.getRolMenu()
-							.getMenu(), rmaGuardar.getAccion());
-			GmSegRolMenu rmExtraerInsert = gmSegRolMenuDao.getPorRolyMenu(
-					rmaGuardar.getRolMenu().getRol(), rmaGuardar.getRolMenu()
-							.getMenu());
-			if (rmExtraerInsert != null) {
-				rmaGuardar.setRolMenu(rmExtraerInsert);
-			}
-			if (rmaComp != null) {
-				rolMenuAccionDao.actualizar(rmaGuardar);
-			} else {
-				rolMenuAccionDao.crear(rmaGuardar);
 			}
 		}
 		Messagebox.show("Registros Procesados exitosamente", "Informe",

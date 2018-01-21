@@ -44,6 +44,7 @@ public class MenuController extends BaseController {
 
 	@AfterCompose
 	public void init(@ContextParam(ContextType.VIEW) Component view) {
+		menuDao.newManager();
 		Selectors.wireComponents(view, this, false);
 		idmenu = (GmSegMenu) Sessions.getCurrent().getAttribute("IdMenu");
 		llenarNavbar(idmenu);

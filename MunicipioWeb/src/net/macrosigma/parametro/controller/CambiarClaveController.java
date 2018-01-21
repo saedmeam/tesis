@@ -104,6 +104,7 @@ public class CambiarClaveController extends BaseController {
 			claveActual.setErrorMessage("La clave ingresada no es correcta.");
 			return;
 		}
+		usuarioDao.newManager();
 		usuario.setUsuClave(Encriptacion.toMD5(nuevaClave.getText()));
 		usuario.setUsuFechaCambioClave(new Date());
 		usuarioDao.actualizar(usuario);

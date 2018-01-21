@@ -92,6 +92,7 @@ public class MantenimientoOpcionesController extends BaseController {
 
 	@Command
 	public void modificar() {
+		opcionDao.newManager();
 		Sessions.getCurrent().setAttribute("opcionModificar",
 				opcionSeleccionada);
 		Sessions.getCurrent().setAttribute("opcion", 1);
@@ -128,6 +129,7 @@ public class MantenimientoOpcionesController extends BaseController {
 
 	@Command
 	public void eliminar(@BindingParam("objeto") final GmSegMenu objeto) {
+		opcionDao.newManager();
 		Messagebox.show(
 				"Esta seguro que sesea eliminar la opción * "
 						+ objeto.getMenNombre() + " *", "Informe",
@@ -152,6 +154,7 @@ public class MantenimientoOpcionesController extends BaseController {
 	@Command
 	@NotifyChange("listOpciones")
 	public void buscarOpcion() {
+		opcionDao.newManager();
 		if (!txtbusqueda.getText().isEmpty()) {
 			buscar(txtbusqueda.getText());
 		} else {

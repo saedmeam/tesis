@@ -64,6 +64,7 @@ public class PantallaPrincipalController extends BaseController {
 	public void init(@ContextParam(ContextType.VIEW) Component view) {
 		Selectors.wireComponents(view, this, false);
 		Sessions.getCurrent().removeAttribute("IdMenu");
+		menuDao.newManager();
 		listaMenu = menuDao.getMenuPorUsuario(usu);
 		llenarMenu();
 		cargaMensaje();

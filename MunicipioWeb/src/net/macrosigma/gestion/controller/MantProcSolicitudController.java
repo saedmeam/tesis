@@ -36,6 +36,7 @@ public class MantProcSolicitudController extends BaseController {
 	// llenar tabla
 	List<GmGesSolicitud> listaInte = new ArrayList<GmGesSolicitud>();
 	GmGesSolicitudDao intDao = new GmGesSolicitudDao();
+	GmParParametroDao parDao = new GmParParametroDao();
 	GmGesSolicitud intereselect = new GmGesSolicitud();
 	@Wire
 	Bandbox bndanio;
@@ -43,7 +44,7 @@ public class MantProcSolicitudController extends BaseController {
 	GmSegUsuario usu = (GmSegUsuario) Sessions.getCurrent().getAttribute(
 			"usuario");
 
-	GmParParametroDao parDao = new GmParParametroDao();
+	
 	List<GmParParametros> listparSol = new ArrayList<GmParParametros>();
 	GmParParametros parSolSel = new GmParParametros();
 
@@ -115,6 +116,7 @@ public class MantProcSolicitudController extends BaseController {
 
 	@Command
 	public void modificar() {
+		intDao.newManager();
 		// @BindingParam("objeto") GmParInteres interes) {
 		if (intereselect != null)
 			if (intereselect.getSolId() != null) {
@@ -172,6 +174,7 @@ public class MantProcSolicitudController extends BaseController {
 
 	@NotifyChange("listaInte")
 	public void buscar() {
+		intDao.newManager();
 		listaInte = intDao.getPreFreAct();
 
 	}
@@ -180,6 +183,7 @@ public class MantProcSolicitudController extends BaseController {
 	@NotifyChange("listaInte")
 	@Command
 	public void InteresPorAño() {
+		intDao.newManager();
 		if (bndanio.getText().isEmpty()) {
 			buscar();
 		} else {
@@ -193,6 +197,7 @@ public class MantProcSolicitudController extends BaseController {
 	// eliminar
 	@Command
 	public void eliminar() {
+		intDao.newManager();
 		// @BindingParam("objeto") GmParInteres interes) {
 		if (intereselect != null)
 			if (intereselect.getSolId() != null) {

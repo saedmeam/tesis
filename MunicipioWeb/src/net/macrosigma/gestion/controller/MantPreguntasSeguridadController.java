@@ -64,7 +64,8 @@ public class MantPreguntasSeguridadController extends BaseController {
 							window = null;
 							buscar();
 							BindUtils.postNotifyChange(null, null,
-									MantPreguntasSeguridadController.this, "listaInte");
+									MantPreguntasSeguridadController.this,
+									"listaInte");
 						}
 					});
 		}
@@ -72,6 +73,7 @@ public class MantPreguntasSeguridadController extends BaseController {
 
 	@Command
 	public void modificar() {
+		intDao.newManager();
 		// @BindingParam("objeto") GmParInteres interes) {
 		if (intereselect != null)
 			if (intereselect.getInsId() != null) {
@@ -89,11 +91,16 @@ public class MantPreguntasSeguridadController extends BaseController {
 					window.addEventListener(Events.ON_CLOSE,
 							new EventListener<Event>() {
 								@Override
-								public void onEvent(Event arg0) throws Exception {
+								public void onEvent(Event arg0)
+										throws Exception {
 									window = null;
 									buscar();
-									BindUtils.postNotifyChange(null, null,
-											MantPreguntasSeguridadController.this, "listaInte");
+									BindUtils
+											.postNotifyChange(
+													null,
+													null,
+													MantPreguntasSeguridadController.this,
+													"listaInte");
 								}
 							});
 				}
@@ -126,6 +133,7 @@ public class MantPreguntasSeguridadController extends BaseController {
 
 	@NotifyChange("listaInte")
 	public void buscar() {
+		intDao.newManager();
 		listaInte = intDao.getPreFreAct();
 
 	}
@@ -141,6 +149,7 @@ public class MantPreguntasSeguridadController extends BaseController {
 	@NotifyChange("listaInte")
 	@Command
 	public void InteresPorAño() {
+		intDao.newManager();
 		if (bndanio.getText().isEmpty()) {
 			buscar();
 		} else {
@@ -155,6 +164,7 @@ public class MantPreguntasSeguridadController extends BaseController {
 	// eliminar
 	@Command
 	public void eliminar() {
+		intDao.newManager();
 		// @BindingParam("objeto") GmParInteres interes) {
 		if (intereselect != null) {
 			if (intereselect.getInsId() != null) {

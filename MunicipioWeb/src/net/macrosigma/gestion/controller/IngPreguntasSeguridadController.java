@@ -64,7 +64,7 @@ public class IngPreguntasSeguridadController extends BaseController {
 	@Command
 	public void createUsuario() {
 		// campos para validar los si estan vacio
-
+		intDao.newManager();
 		if (txtpreg.getValue() == null) {
 			txtpreg.setErrorMessage("campo obligatorio");
 			return;

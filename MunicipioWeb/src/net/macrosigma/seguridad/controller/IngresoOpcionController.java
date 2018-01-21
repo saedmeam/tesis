@@ -87,6 +87,7 @@ public class IngresoOpcionController extends BaseController {
 
 	@Command
 	public void crearOpcion() {
+		opcionDao.newManager();
 		if (txtnombreOpcion.getText().equals("")) {
 			txtnombreOpcion
 					.setErrorMessage("Debe ingresar un nombre de opción");

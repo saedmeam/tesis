@@ -65,9 +65,12 @@ public class MantDepartamentoTipSolicitudController extends BaseController {
 						public void onEvent(Event arg0) throws Exception {
 							window = null;
 							buscar();
-							BindUtils.postNotifyChange(null, null,
-									MantDepartamentoTipSolicitudController.this,
-									"listaInte");
+							BindUtils
+									.postNotifyChange(
+											null,
+											null,
+											MantDepartamentoTipSolicitudController.this,
+											"listaInte");
 						}
 					});
 		}
@@ -75,6 +78,7 @@ public class MantDepartamentoTipSolicitudController extends BaseController {
 
 	@Command
 	public void modificar() {
+		intDao.newManager();
 		// @BindingParam("objeto") GmParInteres interes) {
 		if (intereselect != null)
 			if (intereselect.getInsId() != null) {
@@ -95,9 +99,12 @@ public class MantDepartamentoTipSolicitudController extends BaseController {
 										throws Exception {
 									window = null;
 									buscar();
-									BindUtils.postNotifyChange(null, null,
-											MantDepartamentoTipSolicitudController.this,
-											"listaInte");
+									BindUtils
+											.postNotifyChange(
+													null,
+													null,
+													MantDepartamentoTipSolicitudController.this,
+													"listaInte");
 								}
 							});
 				}
@@ -131,6 +138,7 @@ public class MantDepartamentoTipSolicitudController extends BaseController {
 	@SuppressWarnings("static-access")
 	@NotifyChange("listaInte")
 	public void buscar() {
+		intDao.newManager();
 		listaInte = intDao.getDepTipSolAct();
 
 	}
@@ -146,7 +154,7 @@ public class MantDepartamentoTipSolicitudController extends BaseController {
 	@NotifyChange("listaInte")
 	@Command
 	public void getPorRubro() {
-
+		intDao.newManager();
 		if (bndanio.getText().isEmpty()) {
 			buscar();
 		} else {

@@ -46,7 +46,7 @@ public class ReporteSolicitudController extends BaseController {
 	@Wire("#iframerep")
 	Iframe iframerep;
 	@Wire
-	Combobox cmbususol,cmbusuasig;
+	Combobox cmbususol, cmbusuasig;
 
 	GmParParametros parCarreraSel = new GmParParametros();
 	GmParParametros parSolSel = new GmParParametros();
@@ -166,14 +166,14 @@ public class ReporteSolicitudController extends BaseController {
 
 		dtbfecdesd.setValue(null);
 		dtbfechast.setValue(null);
-		BindUtils.postNotifyChange(null, null,
-				ReporteSolicitudController.this, "usuSolSel");
-		BindUtils.postNotifyChange(null, null,
-				ReporteSolicitudController.this, "usuAsigSel");
-		BindUtils.postNotifyChange(null, null,
-				ReporteSolicitudController.this, "parSolSel");
-		BindUtils.postNotifyChange(null, null,
-				ReporteSolicitudController.this, "parCarreraSel");
+		BindUtils.postNotifyChange(null, null, ReporteSolicitudController.this,
+				"usuSolSel");
+		BindUtils.postNotifyChange(null, null, ReporteSolicitudController.this,
+				"usuAsigSel");
+		BindUtils.postNotifyChange(null, null, ReporteSolicitudController.this,
+				"parSolSel");
+		BindUtils.postNotifyChange(null, null, ReporteSolicitudController.this,
+				"parCarreraSel");
 	}
 
 	@Command
@@ -208,19 +208,25 @@ public class ReporteSolicitudController extends BaseController {
 			paramRpt.put("pnidcarrera", parCarreraSel.getPar_id());
 		else
 			paramRpt.put("pnidcarrera", 0L);
-		
+
 		if (parSolSel.getPar_id() != null)
 			paramRpt.put("pnidtipsol", parSolSel.getPar_id());
 		else
 			paramRpt.put("pnidtipsol", 0L);
-		
+
 		if (usuAsigSel.getUsuId() != null)
-			paramRpt.put("pnidusuasig", Long.parseLong(cmbusuasig.getSelectedItem().getValue().toString()));
+			paramRpt.put(
+					"pnidusuasig",
+					Long.parseLong(cmbusuasig.getSelectedItem().getValue()
+							.toString()));
 		else
 			paramRpt.put("pnidusuasig", 0L);
-		
+
 		if (usuSolSel.getUsuId() != null)
-			paramRpt.put("pnidsolsel", Long.parseLong(cmbususol.getSelectedItem().getValue().toString()));
+			paramRpt.put(
+					"pnidsolsel",
+					Long.parseLong(cmbususol.getSelectedItem().getValue()
+							.toString()));
 		else
 			paramRpt.put("pnidsolsel", 0L);
 		DateFormat df = new SimpleDateFormat("ddMMyyyy");
@@ -265,8 +271,8 @@ public class ReporteSolicitudController extends BaseController {
 
 	@SuppressWarnings("static-access")
 	public void cargaCombo() {
-		// usuDao.newManager();
-		// parDao.newManager();
+		usuDao.newManager();
+		parDao.newManager();
 		listparCarrera = parDao.getParametroByDesPad("CARRERAS");
 		listparSol = parDao.getParametroByDesPad("TIPOS DE SOLICITUD");
 		listUsuSol = usuDao.getUsuarioEstudiante();

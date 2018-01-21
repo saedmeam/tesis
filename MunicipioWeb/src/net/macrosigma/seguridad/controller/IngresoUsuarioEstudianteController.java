@@ -185,6 +185,7 @@ public class IngresoUsuarioEstudianteController extends BaseController {
 	@SuppressWarnings("static-access")
 	@Command
 	public void crearUsuario() {
+		usuarioDao.newManager();
 		if (usuario.getUsuNombres() == null) {
 			txtnombre.setErrorMessage("Por favor ingrese Nombres");
 			return;
@@ -267,8 +268,11 @@ public class IngresoUsuarioEstudianteController extends BaseController {
 		} else {
 			for (int i = 0; i < listPreguntaUsuario.size(); i++) {
 				listPreguntaUsuario.get(i).setPreUsu(usuario);
-				pregUsuDao.crear(listPreguntaUsuario.get(i));
-				pregUsuDao = new GmGesPreguntaUsuarioDao();
+				if (listPreguntaUsuario.get(i).getInsId() > 0)
+					pregUsuDao.actualizar(listPreguntaUsuario.get(i));
+				else
+					pregUsuDao.crear(listPreguntaUsuario.get(i));
+				pregUsuDao.newManager();
 			}
 		}
 		Messagebox.show(

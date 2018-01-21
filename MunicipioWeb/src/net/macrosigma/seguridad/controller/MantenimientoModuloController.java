@@ -90,6 +90,7 @@ public class MantenimientoModuloController extends BaseController {
 
 	@Command
 	public void modificar() {
+		moduloDao.newManager();
 		if (moduloSelecionado != null) {
 			Sessions.getCurrent().setAttribute("opcion", 1);
 			Sessions.getCurrent().setAttribute("modulo", moduloSelecionado);
@@ -129,6 +130,7 @@ public class MantenimientoModuloController extends BaseController {
 
 	@Command
 	public void eliminar(@BindingParam("objeto") final GmSegMenu objeto) {
+		moduloDao.newManager();
 		Messagebox.show(
 				"Esta seguro que sesea eliminar el módulo * "
 						+ objeto.getMenNombre() + " *", "Informe",

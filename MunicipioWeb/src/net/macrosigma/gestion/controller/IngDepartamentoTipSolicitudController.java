@@ -44,6 +44,7 @@ public class IngDepartamentoTipSolicitudController extends BaseController {
 	GmGesDepartamentoTipSolicitud usuario = new GmGesDepartamentoTipSolicitud();
 	GmGesDepartamentoTipSolicitud usuarioModificar = new GmGesDepartamentoTipSolicitud();
 	GmGesDepartamentoTipSolicitudDao usuarioDao = new GmGesDepartamentoTipSolicitudDao();
+	GmGesDepartamentoDao rolDao = new GmGesDepartamentoDao();
 	GmParParametroDao parDao = new GmParParametroDao();
 	List<GmParParametros> listparSol = new ArrayList<GmParParametros>();
 	GmParParametros parSolSel = new GmParParametros();
@@ -54,7 +55,6 @@ public class IngDepartamentoTipSolicitudController extends BaseController {
 
 	List<GmGesDepartamento> listRol = new ArrayList<GmGesDepartamento>();
 	GmGesDepartamento rolSel = new GmGesDepartamento();
-	GmGesDepartamentoDao rolDao = new GmGesDepartamentoDao();
 
 	public List<GmParParametros> getListparCarrera() {
 		return listparCarrera;
@@ -195,6 +195,8 @@ public class IngDepartamentoTipSolicitudController extends BaseController {
 
 	@Command
 	public void crearUsuario() {
+		usuarioDao.newManager();
+
 		if (depSel == null) {
 			cmbdep.setErrorMessage("Por favor seleccione algún departamento");
 			return;

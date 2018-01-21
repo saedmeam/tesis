@@ -81,12 +81,12 @@ public class PoliticaSeguridadController extends BaseController {
 			polSegBean.setPolSegPerSim("S");
 		else
 			polSegBean.setPolSegPerSim("N");
-
-		polSegDao.crear(polSegBean);
-		Messagebox.show(
-				"Política Guardada",
-				"Informe", Messagebox.OK, Messagebox.ERROR,
-				new EventListener<Event>() {
+		if (polSegBean.getPolSegId() > 0)
+			polSegDao.actualizar(polSegBean);
+		else
+			polSegDao.crear(polSegBean);
+		Messagebox.show("Política Guardada", "Informe", Messagebox.OK,
+				Messagebox.ERROR, new EventListener<Event>() {
 					@Override
 					public void onEvent(Event e) throws Exception {
 

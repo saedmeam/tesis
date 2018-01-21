@@ -108,6 +108,7 @@ public class MantenimientoUsuarioController extends BaseController {
 
 	@SuppressWarnings("static-access")
 	public void buscar(String nombre) {
+		usuarioDao.newManager();
 		listaUsuario = usuarioDao.getUsuarioPorNombre(nombre);
 		BindUtils.postNotifyChange(null, null,
 				MantenimientoUsuarioController.this, "listaUsuario");
@@ -116,6 +117,7 @@ public class MantenimientoUsuarioController extends BaseController {
 	@Command
 	@NotifyChange("listaUsuario")
 	public void buscarUsuario() {
+		usuarioDao.newManager();
 		if (!txtbusqueda.getText().isEmpty()) {
 			buscar(txtbusqueda.getText());
 		} else {

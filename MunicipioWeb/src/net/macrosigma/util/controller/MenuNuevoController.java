@@ -81,6 +81,7 @@ public class MenuNuevoController extends BaseController {
 	@AfterCompose
 	public void init(@ContextParam(ContextType.VIEW) Component view) {
 		Selectors.wireComponents(view, this, false);
+		menuDao.newManager();
 		idmenu = (GmSegMenu) Sessions.getCurrent().getAttribute("IdMenu");
 
 		SimpleDateFormat formateador = new SimpleDateFormat(
@@ -331,7 +332,8 @@ public class MenuNuevoController extends BaseController {
 														.getTarget();
 												GmSegMenu opcion = (GmSegMenu) button
 														.getAttribute("opcion");
-												incCont.setSrc(opcion.getMenRuta());
+												incCont.setSrc(opcion
+														.getMenRuta());
 											}
 										});
 								vl.appendChild(button);

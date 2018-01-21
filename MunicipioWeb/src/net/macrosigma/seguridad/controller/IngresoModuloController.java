@@ -69,7 +69,7 @@ public class IngresoModuloController extends BaseController {
 
 	@Command
 	public void crearModulo() {
-
+		menuDao.newManager();
 		// campos para validar los si estan vacio
 
 		if (txtnombre.getText().isEmpty()) {

@@ -48,17 +48,18 @@ public class IngProcSolicitudesController extends BaseController {
 	Listbox lbxreqsol;
 
 	GmGesSolicitudDao intDao = new GmGesSolicitudDao();
+	GmParParametroDao parDao = new GmParParametroDao();
+	GmGesProcesoSolicitudDao procSolDao = new GmGesProcesoSolicitudDao();
+	GmGesSolicitudRequisitoDocumentoDao reqSolDao = new GmGesSolicitudRequisitoDocumentoDao();
 	GmSegUsuario usu = (GmSegUsuario) Sessions.getCurrent().getAttribute(
 			"usuario");
 	List<GmParParametros> listparCarrera = new ArrayList<GmParParametros>();
 	GmParParametros parCarreraSel = new GmParParametros();
-	GmParParametroDao parDao = new GmParParametroDao();
 	List<GmParParametros> listparSol = new ArrayList<GmParParametros>();
 	GmParParametros parSolSel = new GmParParametros();
 	List<GmGesSolicitudRequisitoDocumento> listparReqSol = new ArrayList<GmGesSolicitudRequisitoDocumento>();
 	GmGesSolicitud sol = new GmGesSolicitud();
 	List<GmGesProcesoSolicitud> listProcSol = new ArrayList<GmGesProcesoSolicitud>();
-	GmGesProcesoSolicitudDao procSolDao = new GmGesProcesoSolicitudDao();
 
 	Long cont = 0L;
 
@@ -202,7 +203,8 @@ public class IngProcSolicitudesController extends BaseController {
 	@Command
 	public void createUsuario() {
 		// campos para validar los si estan vacio
-
+		intDao.newManager();
+		procSolDao.newManager();
 		if (cmbdesc.getValue() == null) {
 			cmbdesc.setErrorMessage("campo obligatorio");
 			return;
@@ -246,8 +248,11 @@ public class IngProcSolicitudesController extends BaseController {
 			intDao.crear(sol);
 		for (int i = 0; i < listparReqSol.size(); i++) {
 			listparReqSol.get(i).setSolReqDoc(sol);
-			GmGesSolicitudRequisitoDocumentoDao reqSolDao = new GmGesSolicitudRequisitoDocumentoDao();
-			reqSolDao.crear(listparReqSol.get(i));
+			reqSolDao.newManager();
+			if (listparReqSol.get(i).getInsId() > 0)
+				reqSolDao.actualizar(listparReqSol.get(i));
+			else
+				reqSolDao.crear(listparReqSol.get(i));
 		}
 		limpiar();
 		if (tipop == "M")

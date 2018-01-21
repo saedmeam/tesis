@@ -35,7 +35,7 @@ public class ManteParamGeneralController extends BaseController {
 
 	@Wire
 	Window winmantparamgen;
-Window window;
+	Window window;
 	List<GmParParametros> listaPara = new ArrayList<GmParParametros>();
 	GmParParametros Paraselect = new GmParParametros();
 	GmParParametroDao paraDao = new GmParParametroDao();
@@ -162,15 +162,17 @@ Window window;
 							window = null;
 							listaPara();
 							BindUtils.postNotifyChange(null, null,
-									ManteParamGeneralController.this, "listaPara");
+									ManteParamGeneralController.this,
+									"listaPara");
 						}
 					});
 		}
-		
+
 	}
 
 	@Command
 	public void modificar() {
+		paraDao.newManager();
 		if (Paraselect == null) {
 			Messagebox.show("Debe selccionar un registro a modificar");
 			return;
@@ -193,7 +195,8 @@ Window window;
 							window = null;
 							listaPara();
 							BindUtils.postNotifyChange(null, null,
-									ManteParamGeneralController.this, "listaPara");
+									ManteParamGeneralController.this,
+									"listaPara");
 						}
 					});
 		}
@@ -201,6 +204,7 @@ Window window;
 
 	@Command
 	public void eliminar() {
+		paraDao.newManager();
 		if (Paraselect == null) {
 			Messagebox.show("Debe selccionar un registro a eliminar");
 			return;
@@ -229,7 +233,7 @@ Window window;
 							"Información", Messagebox.OK, Messagebox.ERROR);
 			return;
 		}
-		
+
 		Paraselect.setEstado("INA");
 		try {
 			paraDao.actualizar(Paraselect);
@@ -258,12 +262,13 @@ Window window;
 	@Command
 	public void agregardet() {
 		if (Paraselect.getParDes() == null || Paraselect.getParDes() == "") {
-			
-			Messagebox.show("Debe selccionar un registro a modificar", "Informe", Messagebox.OK,
-					Messagebox.ERROR, new EventListener<Event>() {
+
+			Messagebox.show("Debe selccionar un registro a modificar",
+					"Informe", Messagebox.OK, Messagebox.ERROR,
+					new EventListener<Event>() {
 						@Override
 						public void onEvent(Event e) throws Exception {
-							
+
 						}
 					});
 			return;
@@ -289,7 +294,8 @@ Window window;
 							window = null;
 							listaPara();
 							BindUtils.postNotifyChange(null, null,
-									ManteParamGeneralController.this, "listaPara");
+									ManteParamGeneralController.this,
+									"listaPara");
 						}
 					});
 		}
@@ -340,7 +346,7 @@ Window window;
 	@SuppressWarnings("static-access")
 	@NotifyChange("listaPara")
 	public void buscar() {
-		paraDao = new GmParParametroDao();
+		paraDao.newManager();
 		listaPara = paraDao.getParametroComp();
 	}
 
@@ -352,7 +358,7 @@ Window window;
 		if (txtbusqueda.getText().isEmpty()) {
 			buscar();
 		} else {
-			paraDao = new GmParParametroDao();
+			paraDao.newManager();
 			listaPara = paraDao.getParametroByDes(txtbusqueda.getText());
 		}
 		listdetpara();

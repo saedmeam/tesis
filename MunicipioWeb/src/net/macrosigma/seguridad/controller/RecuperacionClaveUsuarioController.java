@@ -46,7 +46,7 @@ import org.zkoss.zul.Window;
 public class RecuperacionClaveUsuarioController extends BaseController {
 
 	@Wire
-	Window winNuevoUsu, window,winRecClaUsu;
+	Window winNuevoUsu, window, winRecClaUsu;
 	@Wire
 	Listbox lbxRolesAgregados, lbxAgregarRoles, lbxdet;
 	@Wire
@@ -79,19 +79,22 @@ public class RecuperacionClaveUsuarioController extends BaseController {
 	GmSegUsuario usuarioModificar = new GmSegUsuario();
 	GmSegUsuarioDao usuarioDao = new GmSegUsuarioDao();
 	GmParPolitSeguridadDao polSegDao = new GmParPolitSeguridadDao();
+	GmSegRolUsuarioDao gmSegRolUsuarioDao = new GmSegRolUsuarioDao();
+	GmGesPreguntaFrecuenteDao pregFreDao = new GmGesPreguntaFrecuenteDao();
+	GmGesPreguntaUsuarioDao pregUsuDao = new GmGesPreguntaUsuarioDao();
+	GmSegRolDao rolDao = new GmSegRolDao();
 	GmParPolitSeguridadBean polSeg = polSegDao.getPolSegAct();
 	List<GmSegRol> listaRoles = new ArrayList<GmSegRol>();
-	GmSegRolDao rolDao = new GmSegRolDao();
+
 	List<GmSegRolUsuario> listaRolUsuarioGuardar = new ArrayList<GmSegRolUsuario>();
 	List<GmSegRolUsuario> listaRolUsuarioBorrar = new ArrayList<GmSegRolUsuario>();
-	GmSegRolUsuarioDao gmSegRolUsuarioDao = new GmSegRolUsuarioDao();
+
 	List<GmGesPreguntaFrecuente> listpardes = new ArrayList<GmGesPreguntaFrecuente>();
 	GmGesPreguntaFrecuente pregFreSel = new GmGesPreguntaFrecuente();
-	GmGesPreguntaFrecuenteDao pregFreDao = new GmGesPreguntaFrecuenteDao();
+
 	List<GmGesPreguntasUsuario> listPreguntaUsuario = new ArrayList<GmGesPreguntasUsuario>();
 	GmGesPreguntasUsuario pregUsuSel = new GmGesPreguntasUsuario();
 	GmGesPreguntasUsuario pregUsuElim = new GmGesPreguntasUsuario();
-	GmGesPreguntaUsuarioDao pregUsuDao = new GmGesPreguntaUsuarioDao();
 
 	public GmGesPreguntasUsuario getPregUsuElim() {
 		return pregUsuElim;
@@ -182,6 +185,9 @@ public class RecuperacionClaveUsuarioController extends BaseController {
 	@SuppressWarnings("static-access")
 	@Command
 	public void crearUsuario() {
+		usuarioDao.newManager();
+		pregUsuDao.newManager();
+
 		if (usuario.getUsuNombres() == null) {
 			txtnombre.setErrorMessage("Por favor ingrese Nombres");
 			return;
@@ -270,9 +276,10 @@ public class RecuperacionClaveUsuarioController extends BaseController {
 					@Override
 					public void onEvent(Event e) throws Exception {
 						if ("onOK".equals(e.getName())) {
-							Events.postEvent(new Event(Events.ON_CLOSE, winRecClaUsu));
+							Events.postEvent(new Event(Events.ON_CLOSE,
+									winRecClaUsu));
 						}
-						
+
 					}
 				});
 	}
@@ -426,6 +433,8 @@ public class RecuperacionClaveUsuarioController extends BaseController {
 	@SuppressWarnings("static-access")
 	@Command
 	public void validarUsuario() {
+		usuarioDao.newManager();
+
 		if (!txtusuario.getText().isEmpty())
 			txtusuario.setText(quitarSignos(txtusuario.getText()));
 		GmSegUsuario contUsu = usuarioDao.getUsuarioPorUsuario(txtusuario
@@ -440,10 +449,8 @@ public class RecuperacionClaveUsuarioController extends BaseController {
 			}
 
 		} else {
-			Messagebox.show(
-					"El Usuario no existe",
-					"Informe", Messagebox.OK, Messagebox.EXCLAMATION,
-					new EventListener<Event>() {
+			Messagebox.show("El Usuario no existe", "Informe", Messagebox.OK,
+					Messagebox.EXCLAMATION, new EventListener<Event>() {
 						@Override
 						public void onEvent(Event e) throws Exception {
 
@@ -473,8 +480,7 @@ public class RecuperacionClaveUsuarioController extends BaseController {
 					b = false;
 					Messagebox
 							.show("La respuesta a la pregunta de seguridad es incorrecta.",
-									"Error", Messagebox.OK,
-									Messagebox.ERROR);
+									"Error", Messagebox.OK, Messagebox.ERROR);
 
 					pregUsuSel.setResPreg("");
 				}

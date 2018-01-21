@@ -5,7 +5,6 @@ import java.util.List;
 
 import net.macrosigma.gestion.dao.GmGesProcesoSolicitudDao;
 import net.macrosigma.gestion.dao.GmGesSolicitudDao;
-import net.macrosigma.gestion.dao.GmGesSolicitudRequisitoDocumentoDao;
 import net.macrosigma.gestion.ent.GmGesProcesoSolicitud;
 import net.macrosigma.gestion.ent.GmGesSolicitud;
 import net.macrosigma.gestion.ent.GmGesSolicitudRequisitoDocumento;
@@ -19,13 +18,8 @@ import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
-import org.zkoss.zhtml.Messagebox;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Button;
@@ -191,82 +185,6 @@ public class VerDetProcSolicitudesController extends BaseController {
 		return returnString;
 	}
 
-	@Command
-	public void createUsuario() {
-		// campos para validar los si estan vacio
-
-		if (cmbdesc.getValue() == null) {
-			cmbdesc.setErrorMessage("campo obligatorio");
-			return;
-		}
-
-		if (cmbtiposolicitud.getValue() == null) {
-			cmbtiposolicitud.setErrorMessage("campo obligatorio");
-			return;
-		}
-
-		String reqfal = null;
-		boolean b = false;
-		for (int i = 0; i < listparReqSol.size(); i++) {
-			if (listparReqSol.get(i).getNombreImagen() == null) {
-				reqfal = "Debe Ingresar todos los requisitos, falta. "
-						+ listparReqSol.get(i).getSolReqTipSol().getParDes();
-				b = true;
-				break;
-
-			}
-		}
-		if (b) {
-			Messagebox.show(reqfal, "Informe", Messagebox.OK,
-					Messagebox.EXCLAMATION, new EventListener<Event>() {
-						@Override
-						public void onEvent(Event e) throws Exception {
-
-						}
-					});
-			return;
-		}
-		sol.setSolCarrera(parCarreraSel);
-		sol.setSolTipoSolicitud(parSolSel);
-		sol.setSolUsu(usu);
-		sol.setUsuario(usu.getUsuario());
-		sol.setEstado("ACT");
-		sol.setSolEstado("ING");
-		if (tipop == "M")
-			intDao.actualizar(sol);
-		else
-			intDao.crear(sol);
-		for (int i = 0; i < listparReqSol.size(); i++) {
-			listparReqSol.get(i).setSolReqDoc(sol);
-			GmGesSolicitudRequisitoDocumentoDao reqSolDao = new GmGesSolicitudRequisitoDocumentoDao();
-			reqSolDao.crear(listparReqSol.get(i));
-		}
-		limpiar();
-		if (tipop == "M")
-			Messagebox.show("Solicitud Modificada", "Informe", Messagebox.OK,
-					Messagebox.INFORMATION, new EventListener<Event>() {
-						@Override
-						public void onEvent(Event e) throws Exception {
-
-						}
-					});
-		else
-			Messagebox.show("Solicitud Ingresada", "Informe", Messagebox.OK,
-					Messagebox.INFORMATION, new EventListener<Event>() {
-						@Override
-						public void onEvent(Event e) throws Exception {
-
-						}
-					});
-
-		BindUtils.postNotifyChange(null, null,
-				VerDetProcSolicitudesController.this, "sol");
-
-		BindUtils.postNotifyChange(null, null,
-				VerDetProcSolicitudesController.this, "listparReqSol");
-
-	}
-
 	public void limpiar() {
 		listparReqSol = new ArrayList<>();
 		sol = new GmGesSolicitud();
@@ -277,39 +195,4 @@ public class VerDetProcSolicitudesController extends BaseController {
 				VerDetProcSolicitudesController.this, "listparReqSol");
 	}
 
-	@Command
-	public void agregarDet() {
-		if (!sol.getSolUsuAsig().getUsuId().equals(usu.getUsuId())) {
-			Messagebox
-					.show("La modificación de la solicitud sólo la puede realizar el usuario responsable actual",
-							"Error", Messagebox.OK, Messagebox.ERROR);
-			return;
-		} else {
-			if (!sol.getSolEstado().equals("APR")
-					|| !sol.getSolEstado().equals("REC")) {
-				if (window == null) {
-					window = (Window) Executions.createComponents(
-							"/catastroadm/cat_003_B.zul", null, null);
-					window.doModal();
-					window.addEventListener(Events.ON_CLOSE,
-							new EventListener<Event>() {
-								@Override
-								public void onEvent(Event arg0)
-										throws Exception {
-									window = null;
-									listProcSol = procSolDao
-											.getProcSolBySol(sol);
-									BindUtils.postNotifyChange(null, null,
-											VerDetProcSolicitudesController.this,
-											"listProcSol");
-								}
-							});
-				}
-			} else {
-				Messagebox
-						.show("No puede agregar más detalle si la solicitud esta Aprobada o Rechazada ",
-								"Error", Messagebox.OK, Messagebox.ERROR);
-			}
-		}
-	}
 }
