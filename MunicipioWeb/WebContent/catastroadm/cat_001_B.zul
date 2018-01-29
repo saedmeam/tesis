@@ -106,7 +106,7 @@
 												<listitem>
 													<listcell>
 														<datebox
-															disabled="false" value="@load(each.fechaIngreso)" />
+															disabled="true" value="@load(each.fechaIngreso)" />
 													</listcell>
 													<listcell
 														label="@load(each.procSolTipProceso.equals('ASIG')?'ASIGNADO A':'CAMBIO DE ESTADO')" />

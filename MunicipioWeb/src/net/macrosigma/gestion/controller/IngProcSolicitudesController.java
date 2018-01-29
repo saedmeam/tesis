@@ -249,7 +249,7 @@ public class IngProcSolicitudesController extends BaseController {
 		for (int i = 0; i < listparReqSol.size(); i++) {
 			listparReqSol.get(i).setSolReqDoc(sol);
 			reqSolDao.newManager();
-			if (listparReqSol.get(i).getInsId() > 0)
+			if (listparReqSol.get(i).getInsId() != null)
 				reqSolDao.actualizar(listparReqSol.get(i));
 			else
 				reqSolDao.crear(listparReqSol.get(i));
@@ -322,6 +322,16 @@ public class IngProcSolicitudesController extends BaseController {
 										window = null;
 										listProcSol = procSolDao
 												.getProcSolBySol(sol);
+										if (listProcSol.get(0)
+												.getProcSolEstado()
+												.equals("TER")
+												|| listProcSol.get(0)
+														.getProcSolEstado()
+														.equals("APR")
+												|| listProcSol.get(0)
+														.getProcSolEstado()
+														.equals("REC"))
+											btnagrega.setVisible(false);
 										BindUtils
 												.postNotifyChange(
 														null,

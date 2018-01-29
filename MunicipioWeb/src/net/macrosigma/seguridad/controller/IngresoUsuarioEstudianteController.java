@@ -268,7 +268,7 @@ public class IngresoUsuarioEstudianteController extends BaseController {
 		} else {
 			for (int i = 0; i < listPreguntaUsuario.size(); i++) {
 				listPreguntaUsuario.get(i).setPreUsu(usuario);
-				if (listPreguntaUsuario.get(i).getInsId() > 0)
+				if (listPreguntaUsuario.get(i).getInsId()!=null)
 					pregUsuDao.actualizar(listPreguntaUsuario.get(i));
 				else
 					pregUsuDao.crear(listPreguntaUsuario.get(i));

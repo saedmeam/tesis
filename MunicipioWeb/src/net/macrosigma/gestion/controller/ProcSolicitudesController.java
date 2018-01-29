@@ -3,6 +3,8 @@ package net.macrosigma.gestion.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.macrosigma.general.MailUtil;
+import net.macrosigma.general.ent.GmGesCorreo;
 import net.macrosigma.gestion.dao.GmGesDepartamentoDao;
 import net.macrosigma.gestion.dao.GmGesProcesoSolicitudDao;
 import net.macrosigma.gestion.dao.GmGesSolicitudDao;
@@ -45,7 +47,7 @@ public class ProcSolicitudesController extends BaseController {
 	@Wire
 	Groupbox gpbasig, gpbestado;
 	@Wire
-	Radio rdbasig, rdbcam, rdbobs, rdbrec, rdbter;
+	Radio rdbasig, rdbcam, rdbobs, rdbrec, rdbter, rdbpro;
 	@Wire
 	Textbox txtobs;
 	GmGesSolicitudDao intDao = new GmGesSolicitudDao();
@@ -171,6 +173,11 @@ public class ProcSolicitudesController extends BaseController {
 	@Command
 	public void createUsuario() {
 		// campos para validar los si estan vacio
+
+		boolean resultado = false;
+		GmGesCorreo correo = new GmGesCorreo();
+		correo.setDe("Santiago Eduardo Merino Ampuero <saedmeam@gmail.com>");
+		String contenido = "";
 		intDao.newManager();
 		procSolDao.newManager();
 		procSol.setProcSolSolid(sol);
@@ -187,15 +194,24 @@ public class ProcSolicitudesController extends BaseController {
 		if (rdbobs.isSelected()) {
 			procSol.setProcSolEstado("OBS");
 			sol.setSolEstado("OBS");
+			contenido = "Su solicitud "+sol.getSolTipoSolicitud().getParDes()+" ha sido observada con la observación "+procSol.getProcSolObs()+" porfavor corrija su solicitud.";
 		}
 		if (rdbrec.isSelected()) {
 			procSol.setProcSolEstado("REC");
 			sol.setSolEstado("REC");
+			contenido = "Su solicitud "+sol.getSolTipoSolicitud().getParDes()+" ha sido rechazada con la observación "+procSol.getProcSolObs()+".";
 		}
 		if (rdbter.isSelected()) {
 			procSol.setProcSolEstado("APR");
 			sol.setSolEstado("APR");
+			contenido = "Su solicitud "+sol.getSolTipoSolicitud().getParDes()+" ha sido aprobada con la observación "+procSol.getProcSolObs()+", porfavor acerquese a retirar su documento.";
 		}
+		if (rdbpro.isSelected()) {
+			procSol.setProcSolEstado("PRO");
+			sol.setSolEstado("PRO");
+			contenido = "Su solicitud "+sol.getSolTipoSolicitud().getParDes()+" esta siendo Procesada con la observación "+procSol.getProcSolObs()+".";
+		}
+
 		if (rdbasig.isSelected()) {
 			if (usuSel == usu) {
 				Messagebox.show("No se puede asignar a usted mismo.",
@@ -211,6 +227,7 @@ public class ProcSolicitudesController extends BaseController {
 			procSol.setProcSolTipProceso("ASIG");
 			sol.setSolEstado("PRO");
 			sol.setSolUsuAsig(usuSel);
+			contenido = "Su solicitud "+sol.getSolTipoSolicitud().getParDes()+" esta siendo Procesada con la observación "+procSol.getProcSolObs()+".";
 
 		}
 		if (txtobs.getText() == null || txtobs.getText().equals("")) {
@@ -254,7 +271,10 @@ public class ProcSolicitudesController extends BaseController {
 
 						}
 					});
-
+		correo.setPara(usu.getUsuEmail());
+		correo.setTitulo("Solicitud Modificada");
+		correo.setContenido(contenido);
+		resultado = MailUtil.getInstance().EnviarMail(correo);
 		BindUtils.postNotifyChange(null, null, ProcSolicitudesController.this,
 				"sol");
 

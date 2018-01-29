@@ -165,11 +165,12 @@ public class IngDepartamentoTipSolicitudController extends BaseController {
 	public void getUsuarioXRol() {
 		listdep = new ArrayList<>();
 		if (rolSel != null) {
-			for (int i = 0; i < rolSel.getUsuDepId().size(); i++) {
-				if (rolSel.getUsuDepId().get(i).getUsuCarrId().getPar_id() == parCarreraSel
-						.getPar_id())
-					listdep.add(rolSel.getUsuDepId().get(i));
-			}
+			if (rolSel.getUsuDepId() != null)
+				for (int i = 0; i < rolSel.getUsuDepId().size(); i++) {
+					if (rolSel.getUsuDepId().get(i).getUsuCarrId().getPar_id() == parCarreraSel
+							.getPar_id())
+						listdep.add(rolSel.getUsuDepId().get(i));
+				}
 		}
 
 		BindUtils.postNotifyChange(null, null,

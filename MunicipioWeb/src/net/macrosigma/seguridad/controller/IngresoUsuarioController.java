@@ -350,7 +350,7 @@ public class IngresoUsuarioController extends BaseController {
 			} else {
 				for (int i = 0; i < listPreguntaUsuario.size(); i++) {
 					listPreguntaUsuario.get(i).setPreUsu(usuario);
-					if (listPreguntaUsuario.get(i).getInsId() > 0)
+					if (listPreguntaUsuario.get(i).getInsId() != null)
 						pregUsuDao.actualizar(listPreguntaUsuario.get(i));
 					else
 						pregUsuDao.crear(listPreguntaUsuario.get(i));
@@ -371,7 +371,7 @@ public class IngresoUsuarioController extends BaseController {
 			for (GmSegRolUsuario rolUsuBorrar : listaRolUsuarioBorrar) {
 				// usuario.getUsuRolUsuId().add(rolUsuBorrar);
 				gmSegRolUsuarioDao.newManager();
-				if (rolUsuBorrar.getRolUsuId() > 0)
+				if (rolUsuBorrar.getRolUsuId() != null)
 					gmSegRolUsuarioDao.actualizar(rolUsuBorrar);
 				else
 					gmSegRolUsuarioDao.crear(rolUsuBorrar);
@@ -379,7 +379,7 @@ public class IngresoUsuarioController extends BaseController {
 			for (int i = 0; i < listPreguntaUsuarioElim.size(); i++) {
 				listPreguntaUsuarioElim.get(i).setEstado("INA");
 				pregUsuDao.newManager();
-				if (listPreguntaUsuarioElim.get(i).getInsId() > 0)
+				if (listPreguntaUsuarioElim.get(i).getInsId() != null)
 					pregUsuDao.actualizar(listPreguntaUsuarioElim.get(i));
 				else
 					pregUsuDao.crear(listPreguntaUsuario.get(i));
@@ -393,7 +393,7 @@ public class IngresoUsuarioController extends BaseController {
 				for (int i = 0; i < listPreguntaUsuario.size(); i++) {
 					listPreguntaUsuario.get(i).setPreUsu(usuario);
 					pregUsuDao.newManager();
-					if (listPreguntaUsuario.get(i).getInsId() > 0)
+					if (listPreguntaUsuario.get(i).getInsId() != null)
 						pregUsuDao.actualizar(listPreguntaUsuario.get(i));
 					else
 						pregUsuDao.crear(listPreguntaUsuario.get(i));
@@ -742,10 +742,11 @@ public class IngresoUsuarioController extends BaseController {
 	public void cargalistado() {
 		listparSol = new ArrayList<>();
 		if (parCarreraSel != null) {
-			for (int i = 0; i < parCarreraSel.getDepCarreraId().size(); i++) {
-				listparSol.add(parCarreraSel.getDepCarreraId().get(i)
-						.getDepCarreraDepId());
-			}
+			if (parCarreraSel.getDepCarreraId() != null)
+				for (int i = 0; i < parCarreraSel.getDepCarreraId().size(); i++) {
+					listparSol.add(parCarreraSel.getDepCarreraId().get(i)
+							.getDepCarreraDepId());
+				}
 
 		}
 		BindUtils.postNotifyChange(null, null, IngresoUsuarioController.this,
@@ -765,7 +766,8 @@ public class IngresoUsuarioController extends BaseController {
 		}
 		boolean b = false;
 		for (int i = 0; i < listPreguntaUsuario.size(); i++) {
-			if (listPreguntaUsuario.get(i).getPreFreUsu() == pregFreSel) {
+			if (listPreguntaUsuario.get(i).getPreFreUsu().getInsId() == pregFreSel
+					.getInsId()) {
 				b = true;
 				break;
 			}
@@ -775,7 +777,8 @@ public class IngresoUsuarioController extends BaseController {
 			pregUsuSel.setPreFreUsu(pregFreSel);
 			listPreguntaUsuario.add(pregUsuSel);
 		} else {
-			cmbdesc.setErrorMessage("No se puede Ingresar 2 veces la misma pregunta");
+			org.zkoss.zul.Messagebox
+					.show("No se puede Ingresar 2 veces la misma pregunta");
 			return;
 		}
 		pregUsuSel = new GmGesPreguntasUsuario();

@@ -81,7 +81,7 @@ public class PoliticaSeguridadController extends BaseController {
 			polSegBean.setPolSegPerSim("S");
 		else
 			polSegBean.setPolSegPerSim("N");
-		if (polSegBean.getPolSegId() > 0)
+		if (polSegBean.getPolSegId() !=null)
 			polSegDao.actualizar(polSegBean);
 		else
 			polSegDao.crear(polSegBean);

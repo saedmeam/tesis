@@ -2,7 +2,7 @@
 <?init class="net.macrosigma.general.Validador"?>
 <?link href="/css/main.css" rel="stylesheet" type="text/css"?>
 <zk>
-	<window title="Mantenimiento_Modulo [mod_002]" border="normal" id="winManMod"
+	<window title="Mantenimiento_Módulo [mod_002]" border="normal" id="winManMod"
 		height="100%" apply="org.zkoss.bind.BindComposer" contentStyle="overflow:auto"
 		viewModel="@id('vm') @init('net.macrosigma.seguridad.controller.MantenimientoModuloController')" onOK="@command('buscarModulo')">
 		<toolbar>
@@ -24,7 +24,7 @@
 				<rows>
 					<row>
 						<label style="color:black">
-							Búsqueda por Modulo:
+							Búsqueda por Módulo:
 						</label>
 						<bandbox id="txtbusqueda"
 							onOpen="@command('buscarModulo')" instant="true" 
@@ -39,7 +39,7 @@
 		<listbox mold="paging" pageSize="6" sclass="tablas" selectedItem="@bind(vm.moduloSelecionado)"
 			model="@load(vm.listaMod)" emptyMessage="no existen datos">
 			<listhead>
-				<listheader width="12%" label="Modulo" align="center" />
+				<listheader width="12%" label="Módulo" align="center" />
 				<listheader width="25%" label="Nombre" />
 				<listheader width="25%" label="Descripción" />
 				<listheader width="12%" label="Estado" align="center" />

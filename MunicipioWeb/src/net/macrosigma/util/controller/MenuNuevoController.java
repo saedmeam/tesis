@@ -81,6 +81,7 @@ public class MenuNuevoController extends BaseController {
 	@AfterCompose
 	public void init(@ContextParam(ContextType.VIEW) Component view) {
 		Selectors.wireComponents(view, this, false);
+		
 		menuDao.newManager();
 		idmenu = (GmSegMenu) Sessions.getCurrent().getAttribute("IdMenu");
 

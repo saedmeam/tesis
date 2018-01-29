@@ -96,22 +96,24 @@ public class RequisitosTramiteController extends BaseController {
 		Treerow row = new Treerow();
 		Treecell cell = new Treecell();
 		for (int i = 0; i < hij.size(); i++) {
-			item = new Treeitem();
-			row = new Treerow();
-			cell = new Treecell();
-			row = new Treerow();
-			cell = new Treecell();
-			Label lbl = new Label();
-			lbl.setId(hij.get(i).getPar_id() + "");
-			lbl.setValue(hij.get(i).getParDes());
-			cell = new Treecell();
-			cell.appendChild(lbl);
-			row.appendChild(cell);
-			item.appendChild(row);
-			children.appendChild(item);
-			if (hij.get(i).getCarIdHij() != null) {
-				if (hij.get(i).getCarIdHij().size() > 0) {
-					cargahijos(item, hij.get(i).getCarIdHij());
+			if (hij.get(i).getEstado().equals("ACT")) {
+				item = new Treeitem();
+				row = new Treerow();
+				cell = new Treecell();
+				row = new Treerow();
+				cell = new Treecell();
+				Label lbl = new Label();
+				lbl.setId(hij.get(i).getPar_id() + "");
+				lbl.setValue(hij.get(i).getParDes());
+				cell = new Treecell();
+				cell.appendChild(lbl);
+				row.appendChild(cell);
+				item.appendChild(row);
+				children.appendChild(item);
+				if (hij.get(i).getCarIdHij() != null) {
+					if (hij.get(i).getCarIdHij().size() > 0) {
+						cargahijos(item, hij.get(i).getCarIdHij());
+					}
 				}
 			}
 

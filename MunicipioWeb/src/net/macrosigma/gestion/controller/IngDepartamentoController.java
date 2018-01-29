@@ -152,7 +152,7 @@ public class IngDepartamentoController extends BaseController {
 					});
 			for (GmGesDepartamentoCarrera rolUsuBorrar : listaRolUsuarioGuardar) {
 				rolUsuBorrar.setDepCarreraDepId(usuario);
-				if (rolUsuBorrar.getInsId() > 0)
+				if (rolUsuBorrar.getInsId() != null)
 					gmSegRolUsuarioDao.actualizar(rolUsuBorrar);
 				else
 					gmSegRolUsuarioDao.crear(rolUsuBorrar);
@@ -165,7 +165,7 @@ public class IngDepartamentoController extends BaseController {
 
 			for (GmGesDepartamentoCarrera rolUsuBorrar : listaRolUsuarioGuardar) {
 				rolUsuBorrar.setDepCarreraDepId(usuario);
-				if (rolUsuBorrar.getInsId() > 0)
+				if (rolUsuBorrar.getInsId() != null)
 					gmSegRolUsuarioDao.actualizar(rolUsuBorrar);
 				else
 					gmSegRolUsuarioDao.crear(rolUsuBorrar);

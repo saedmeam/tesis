@@ -97,6 +97,16 @@ public class IngresoDetParaGeneralController extends BaseController {
 							}
 						});
 			}
+			else{
+				Messagebox.show("Este parámetro ya ha sido ingresado", "Informe",
+						Messagebox.OK, Messagebox.INFORMATION,
+						new EventListener<Event>() {
+							@Override
+							public void onEvent(Event e) throws Exception {
+								
+							}
+						});
+			}
 		}
 		limpiar();
 

@@ -30,7 +30,7 @@
 				<rows>
 					<row>
 						<label style="color:black">
-							Busqueda por Descripción:
+							Busqueda por Parámetro Padre:
 						</label>
 						<bandbox id="txtbusqueda" instant="true"
 						onChange="self.setValue(self.getValue().toUpperCase());"

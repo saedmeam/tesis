@@ -20,7 +20,7 @@
 				<rows>
 					<row>
 						<label style="color:black">
-							Longuitud Máximo de Usuario:
+							Longitud Máximo de Usuario:
 						</label>
 						<intbox id="intlongmaxusu" width="50%"
 							value="@bind(vm.polSegBean.polSegLonMaxUsu)"
@@ -28,7 +28,7 @@
 					</row>
 					<row>
 						<label style="color:black">
-							Número de Intentos Fallido De Clave:
+							Número de Intentos Fallido de Clave:
 						</label>
 						<intbox id="intnumintfallclave" width="50%"
 							value="@bind(vm.polSegBean.polSegNumIntFalliCla)"
@@ -48,13 +48,13 @@
 				<rows>
 					<row>
 						<label style="color:black">
-							Longuitud Mínimo de Contraseña:
+							Longitud Mínimo de Contraseña:
 						</label>
 						<intbox id="intlongmincont" width="50%"
 							value="@bind(vm.polSegBean.polSegLongMinCon)"
 							onFocus='nombrerol.open(intlongmincont,"end_before")' />
 						<label style="color:black">
-							Longuitud Máximo de Contraseña:
+							Longitud Máximo de Contraseña:
 						</label>
 						<intbox id="intlongmaxcont" width="50%"
 							value="@bind(vm.polSegBean.polSegLongMaxCon)"
@@ -69,7 +69,7 @@
 							onFocus='recordar.open(intdrecordatorio,"end_before")'>
 						</intbox>
 						<label style="color:black">
-							Dias de Vigencia de Constraseña:
+							Días de Vigencia de Constraseña:
 						</label>
 						<intbox id="intdias" width="50%"
 							value="@bind(vm.polSegBean.polSegVigCon)"

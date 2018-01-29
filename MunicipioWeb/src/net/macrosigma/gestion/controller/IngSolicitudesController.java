@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.macrosigma.general.MailUtil;
+import net.macrosigma.general.ent.GmGesCorreo;
 import net.macrosigma.gestion.dao.GeneralUtilsDao;
 import net.macrosigma.gestion.dao.GmGesDepartamentoTipSolicitudDao;
 import net.macrosigma.gestion.dao.GmGesSolicitudDao;
@@ -196,6 +198,15 @@ public class IngSolicitudesController extends BaseController {
 	@SuppressWarnings("static-access")
 	@Command
 	public void createUsuario() {
+		boolean resultado = false;
+		GmGesCorreo correo = new GmGesCorreo();
+		// correo.setDe("Santiago Eduardo Merino Ampuero <saedmeam@gmail.com>");
+		// correo.setPara(usu.getUsuEmail());
+		// correo.setTitulo("Solicitud Modificada");
+		// correo.setContenido("Usted ha creado una solicitud de "
+		// + parSolSel.getParDes() + " para la carrera "
+		// + parCarreraSel.getParDes());
+		// resultado = MailUtil.getInstance().EnviarMail(correo);
 		intDao.newManager();
 		// campos para validar los si estan vacio
 
@@ -240,23 +251,27 @@ public class IngSolicitudesController extends BaseController {
 		deptipsoldao.newManager();
 		ldepsol = deptipsoldao.getDepTipSolXCarrTipSolAct(parSolSel,
 				parCarreraSel);
-		if (ldepsol.size() > 0)
-			sol.setSolUsuAsig(ldepsol.get(0).getDepDepUsuId());
-		else {
-			Messagebox
-					.show("Esta solicitud no tiene responsable, favor comuniquese con el administrador",
-							"Informe", Messagebox.OK, Messagebox.ERROR);
-			return;
+		if (sol.getSolUsuAsig() == null) {
+			if (ldepsol.size() > 0)
+				sol.setSolUsuAsig(ldepsol.get(0).getDepDepUsuId());
+			else {
+				Messagebox
+						.show("Esta solicitud no tiene responsable, favor comuniquese con el administrador",
+								"Informe", Messagebox.OK, Messagebox.ERROR);
+				return;
+			}
 		}
 		if (tipop == "M") {
 			intDao.actualizar(sol);
 			for (int i = 0; i < listparReqSol.size(); i++) {
 				listparReqSol.get(i).setSolReqDoc(sol);
 				reqSolDao.newManager();
-				if (listparReqSol.get(i).getInsId() > 0)
+				if (listparReqSol.get(i).getInsId() != null) {
 					reqSolDao.actualizar(listparReqSol.get(i));
-				else
+
+				} else {
 					reqSolDao.crear(listparReqSol.get(i));
+				}
 			}
 			limpiar();
 			Messagebox.show("Solicitud Procesada", "Informe", Messagebox.OK,
@@ -267,7 +282,13 @@ public class IngSolicitudesController extends BaseController {
 									winingsol));
 						}
 					});
+			correo.setTitulo("Solicitud Modificada");
+			correo.setContenido("Usted ha creado una solicitud de "
+					+ parSolSel.getParDes() + " para la carrera "
+					+ parCarreraSel.getParDes());
+			resultado = MailUtil.getInstance().EnviarMail(correo);
 		} else {
+
 			List<GmGesSolicitud> lsol = new ArrayList<>();
 			lsol = intDao.getSolbyTipSolValEst(usu, parSolSel);
 			if (lsol.size() > 0) {
@@ -276,7 +297,7 @@ public class IngSolicitudesController extends BaseController {
 								"Informe", Messagebox.OK, Messagebox.ERROR);
 				return;
 			} else {
-
+				sol.setSolEstado("ING");
 				intDao.crear(sol);
 				for (int i = 0; i < listparReqSol.size(); i++) {
 					listparReqSol.get(i).setSolReqDoc(sol);
@@ -291,8 +312,15 @@ public class IngSolicitudesController extends BaseController {
 							public void onEvent(Event e) throws Exception {
 								Events.postEvent(new Event(Events.ON_CLOSE,
 										winingsol));
+
 							}
 						});
+				correo.setTitulo("Solicitud Ingresada");
+				correo.setContenido("Usted ha modificado una solicitud de "
+						+ parSolSel.getParDes() + " para la carrera "
+						+ parCarreraSel.getParDes());
+
+				resultado = MailUtil.getInstance().EnviarMail(correo);
 			}
 
 		}

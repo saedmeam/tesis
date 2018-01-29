@@ -108,6 +108,8 @@
 													id="rdbrec" />
 												<radio label="Aprobado"
 													id="rdbter" />
+													<radio
+													label="Procesando" id="rdbpro" />
 											</radiogroup>
 										</cell>
 

@@ -151,6 +151,7 @@ public class MantDepartamentoTipSolicitudController extends BaseController {
 		this.listaInte = listaInte;
 	}
 
+	@SuppressWarnings("static-access")
 	@NotifyChange("listaInte")
 	@Command
 	public void getPorRubro() {
@@ -159,8 +160,8 @@ public class MantDepartamentoTipSolicitudController extends BaseController {
 			buscar();
 		} else {
 			if (bndanio.getText() != null) {
-				// listaInte = intDao.getValPrebyPre(bndanio.getText()
-				// .toUpperCase());
+				 listaInte = intDao.getDepTipSolXCarrUsuSolAct(bndanio.getText()
+				 .toUpperCase());
 			} else
 				buscar();
 		}
