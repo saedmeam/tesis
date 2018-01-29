@@ -71,7 +71,7 @@ public class GmParParametroDao extends GenericDao<GmParParametros, Long> {
 	@SuppressWarnings("unchecked")
 	public static List<GmParParametros> getParametroByDes(String grupo) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("select o from GmParParametros o where o.parDes like '%'||:grupo||'%' and o.carIdPad is null and o.estado = 'ACT' order by o.parDes");
+		sql.append("select o from GmParParametros o where upper(o.parDes) like '%'||:grupo||'%' and o.carIdPad is null and o.estado = 'ACT' order by o.parDes");
 		Query query = em.createQuery(sql.toString());
 		query.setParameter("grupo", grupo);
 		List<GmParParametros> result = query.getResultList();
@@ -81,7 +81,7 @@ public class GmParParametroDao extends GenericDao<GmParParametros, Long> {
 	@SuppressWarnings("unchecked")
 	public boolean valParametroByDes(String grupo) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("select o from GmParParametros o where o.parDes like '%'||:grupo||'%' and o.estado = 'ACT order by o.parDes");
+		sql.append("select o from GmParParametros o where upper(o.parDes) like '%'||:grupo||'%' and o.estado = 'ACT' order by o.parDes");
 		Query query = em.createQuery(sql.toString());
 		query.setParameter("grupo", grupo);
 		List<GmParParametros> result = query.getResultList();

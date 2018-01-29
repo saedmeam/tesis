@@ -43,7 +43,7 @@ public class GmGesPreguntaFrecuenteDao extends
 	public static List<GmGesPreguntaFrecuente> getValPrebyPre(String claCat) {
 		StringBuilder sql = new StringBuilder();
 		String select = "";
-		select = "select o from GmGesPreguntasFrecuentes o where (o.desPregunta = :claCat or :claCat =null)";
+		select = "select o from GmGesPreguntaFrecuente o where (o.desPregunta like '%'||:claCat||'%' or :claCat =null)";
 		select += "and o.estado = 'ACT'";
 		sql.append(select);
 		Query query = em.createQuery(sql.toString());

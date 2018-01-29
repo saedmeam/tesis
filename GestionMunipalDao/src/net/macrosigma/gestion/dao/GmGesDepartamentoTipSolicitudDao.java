@@ -40,37 +40,54 @@ public class GmGesDepartamentoTipSolicitudDao extends
 		super.eliminar(pers);
 	}
 
-	 @SuppressWarnings("unchecked")
-	 public static List<GmGesDepartamentoTipSolicitud> getDepTipSolAct() {
-	 StringBuilder sql = new StringBuilder();
-	 String select = "";
-	 select =
-	 "select o from GmGesDepartamentoTipSolicitud o where ";
-	 select += " o.estado = 'ACT'";
-	 sql.append(select);
-	 Query query = em.createQuery(sql.toString());
-//	 query.setParameter("claCat", claCat);
-	
-	 List<GmGesDepartamentoTipSolicitud> result = query.getResultList();
-	 return result;
-	 }
-	 
-	 @SuppressWarnings("unchecked")
-	 public static List<GmGesDepartamentoTipSolicitud> getDepTipSolXCarrTipSolAct(GmParParametros tipSol,GmParParametros carr) {
-	 StringBuilder sql = new StringBuilder();
-	 String select = "";
-	 select =
-	 "select o from GmGesDepartamentoTipSolicitud o where ";
-	 select += " (o.depTipSolTipSolId = :tipSol or :tipSol =null) and ";
-	 select += " (o.depTipSolCarreraId = :carr or :carr =null) and ";
-	 select += " o.estado = 'ACT' ";
-	 sql.append(select);
-	 Query query = em.createQuery(sql.toString());
-	 query.setParameter("tipSol", tipSol);
-	 query.setParameter("carr", carr);
-	
-	 List<GmGesDepartamentoTipSolicitud> result = query.getResultList();
-	 return result;
-	 }
+	@SuppressWarnings("unchecked")
+	public static List<GmGesDepartamentoTipSolicitud> getDepTipSolAct() {
+		StringBuilder sql = new StringBuilder();
+		String select = "";
+		select = "select o from GmGesDepartamentoTipSolicitud o where ";
+		select += " o.estado = 'ACT'";
+		sql.append(select);
+		Query query = em.createQuery(sql.toString());
+		// query.setParameter("claCat", claCat);
+
+		List<GmGesDepartamentoTipSolicitud> result = query.getResultList();
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static List<GmGesDepartamentoTipSolicitud> getDepTipSolXCarrTipSolAct(
+			GmParParametros tipSol, GmParParametros carr) {
+		StringBuilder sql = new StringBuilder();
+		String select = "";
+		select = "select o from GmGesDepartamentoTipSolicitud o where ";
+		select += " (o.depTipSolTipSolId = :tipSol or :tipSol =null) and ";
+		select += " (o.depTipSolCarreraId = :carr or :carr =null) and ";
+		select += " o.estado = 'ACT' ";
+		sql.append(select);
+		Query query = em.createQuery(sql.toString());
+		query.setParameter("tipSol", tipSol);
+		query.setParameter("carr", carr);
+
+		List<GmGesDepartamentoTipSolicitud> result = query.getResultList();
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static List<GmGesDepartamentoTipSolicitud> getDepTipSolXCarrUsuSolAct(
+			String tipSol) {
+		StringBuilder sql = new StringBuilder();
+		String select = "";
+		select = "select o from GmGesDepartamentoTipSolicitud o where ";
+		select += "( (o.depTipSolCarreraId.parDes like '%'||:tipSol||'%' or :tipSol =null) or ";
+		select += " (o.depDepUsuId.usuUsuario like '%'||:tipSol||'%' or :tipSol =null) or ";
+		select += " (o.depTipSolTipSolId.parDes like '%'||:tipSol||'%' or :tipSol =null) ) ";
+		select += " and o.estado = 'ACT' ";
+		sql.append(select);
+		Query query = em.createQuery(sql.toString());
+		query.setParameter("tipSol", tipSol);
+
+		List<GmGesDepartamentoTipSolicitud> result = query.getResultList();
+		return result;
+	}
 
 }
