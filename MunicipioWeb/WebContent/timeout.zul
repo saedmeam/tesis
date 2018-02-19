@@ -1,0 +1,15 @@
+<div align="center">
+<window width="400px" title="Session Timeout" border="normal">
+	<vbox align="center">
+	<label value="Usted ha superado el tiempo de inactividad en la aplicación. Favor ingrese nuevamente.">
+	</label>
+	
+    <button label="Iniciar" onClick="onClick()"/>
+	</vbox>
+	<zscript>
+		void onClick(){
+			Executions.sendRedirect("Login.zul");
+		}
+	</zscript>
+</window>
+</div>

@@ -1,0 +1,177 @@
+<?page title="Ingreso_Usuario" contentType="text/html;charset=UTF-8"?>
+<?init class="net.macrosigma.general.Validador"?>
+<zk>
+	<window title="Contenido Solicitud [cat_005_A]" border="none"
+		id="winNuevoUsu" contentStyle="overflow:auto" height="100%"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('net.macrosigma.gestion.controller.IngContenidoSolicitudController')">
+		<toolbar>
+			<toolbarbutton id="tbbguardar" label="Guardar"
+				onClick="@command('crearUsuario')" image="/img/save3.png" />
+			<image src="img/fondo4.png" height="22px"></image>
+		</toolbar>
+		<separator height="10px"></separator>
+		<div align="center">
+			<html>
+				<FONT FACE="Segoe UI" SIZE="6" COLOR="293B65">
+					Contenido Solicitud
+				</FONT>
+				<br></br>
+			</html>
+		</div>
+		<grid>
+			<rows>
+				<row>
+					<cell colspan="4">
+						<div
+							sclass="form-group clearfix border-top-bottom">
+						</div>
+					</cell>
+				</row>
+				<row>
+					<cell>Solicitud:</cell>
+					<cell>
+						<combobox id="cmbtiposolicitud"
+							model="@load(vm.listparSol)"
+							onFocus='solicitud.open(cmbtiposolicitud,"end_before")'
+							width="98%" readonly="true" value="@load(vm.parSolSel.parDes)"
+							selectedItem="@bind(vm.parSolSel)">
+							<template name="model">
+								<comboitem value="@load(each.par_id)"
+									label="@load(each.parDes)" />
+							</template>
+						</combobox>
+					</cell>
+					<cell>Ruta Reporte:</cell>
+					<textbox value="@bind(vm.cont.conTipSolNomRep)"
+						width="98%" />
+				</row>
+				<row>
+					<cell>Contenido</cell>
+					<cell colspan="3">
+						<textbox multiline="true"
+							value="@bind(vm.cont.conTipSolContenido)" width="98%" />
+					</cell>
+				</row>
+				<row>
+					<separator height="1px"></separator>
+				</row>
+				<row>
+					<cell colspan="4">
+						<div
+							sclass="form-group clearfix border-top-bottom">
+						</div>
+					</cell>
+				</row>
+			</rows>
+		</grid>
+		<popup id="rol" width="170px" sclass="popinform">
+			<html>
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ seleccione el departamento ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="solicitud" width="170px" sclass="popinform">
+			<html>
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ seleccione la solicitud ]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="dep" width="170px" sclass="popinform">
+			<html>
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ seleccione el usuario]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+		<popup id="carrera" width="170px" sclass="popinform">
+			<html>
+
+
+
+
+
+
+
+
+
+
+				
+				<![CDATA[ seleccione la carrera]]>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			</html>
+		</popup>
+	</window>
+</zk>
