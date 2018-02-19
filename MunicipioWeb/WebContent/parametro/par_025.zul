@@ -69,7 +69,7 @@
 							onFocus='recordar.open(intdrecordatorio,"end_before")'>
 						</intbox>
 						<label style="color:black">
-							Días de Vigencia de Constraseña:
+							Días de Vigencia de Contraseña:
 						</label>
 						<intbox id="intdias" width="50%"
 							value="@bind(vm.polSegBean.polSegVigCon)"

@@ -2,16 +2,18 @@
 <?init class="net.macrosigma.general.Validador"?>
 <?link href="/css/main.css" rel="stylesheet" type="text/css"?>
 <zk>
-	<window title="Mantenimiento_Módulo [mod_002]" border="normal" id="winManMod"
-		height="100%" apply="org.zkoss.bind.BindComposer" contentStyle="overflow:auto"
-		viewModel="@id('vm') @init('net.macrosigma.seguridad.controller.MantenimientoModuloController')" onOK="@command('buscarModulo')">
+	<window title="Mantenimiento_Módulo [mod_002]" border="normal"
+		id="winManMod" height="100%" apply="org.zkoss.bind.BindComposer"
+		contentStyle="overflow:auto"
+		viewModel="@id('vm') @init('net.macrosigma.seguridad.controller.MantenimientoModuloController')"
+		onOK="@command('buscarModulo')">
 		<toolbar>
 			<toolbarbutton id="tbbnuevo" label="Nuevo"
 				onClick="@command('nuevo')" image="/img/new.png" />
-				<image src="img/fondo4.png" height="22px"></image>
+			<image src="img/fondo4.png" height="22px"></image>
 			<toolbarbutton id="tbbmod" label="Modificar"
-				image="/img/editar.png" onClick="@command('modificar')"/>
-				<image src="img/fondo4.png" height="22px"></image>
+				image="/img/editar.png" onClick="@command('modificar')" />
+			<image src="img/fondo4.png" height="22px"></image>
 		</toolbar>
 		<groupbox closable="false">
 			<caption label="Criterio Búsqueda" />
@@ -26,24 +28,29 @@
 						<label style="color:black">
 							Búsqueda por Módulo:
 						</label>
-						<bandbox id="txtbusqueda"
-							onOpen="@command('buscarModulo')" instant="true" 
-							onChange="self.setValue(self.getValue().toUpperCase());"
-							onBlur="@command('buscarModulo')"/>
+						<textbox id="txtbusqueda" instant="true" width="98%"
+							onChange="self.setValue(self.getValue().toUpperCase());" />
+						<combobox id="cmbest" readonly="true">
+							<comboitem label="ACTIVO" value="ACT"
+								onCreate="cmbest.setSelectedIndex(0)" />
+							<comboitem label="INACTIVO" value="INA" />
+						</combobox>
+						<button label="Buscar" image="/img/buscar.png"
+							onClick="@command('buscarModulo')" />
 					</row>
 				</rows>
 			</grid>
 		</groupbox>
 		<separator height="5px"></separator>
 		<!-- paginar  -->
-		<listbox mold="paging" pageSize="6" sclass="tablas" selectedItem="@bind(vm.moduloSelecionado)"
-			model="@load(vm.listaMod)" emptyMessage="no existen datos">
+		<listbox mold="paging" pageSize="6" sclass="tablas"
+			selectedItem="@bind(vm.moduloSelecionado)" model="@load(vm.listaMod)"
+			emptyMessage="no existen datos">
 			<listhead>
 				<listheader width="12%" label="Módulo" align="center" />
 				<listheader width="25%" label="Nombre" />
 				<listheader width="25%" label="Descripción" />
 				<listheader width="12%" label="Estado" align="center" />
-				<listheader width="26%" label="Ruta Logo" />
 			</listhead>
 			<template name="model">
 				<listitem>
@@ -51,7 +58,6 @@
 					<listcell label="@load(each.menNombre)"></listcell>
 					<listcell label="@load(each.menDescripcionMenu)"></listcell>
 					<listcell label="@load(each.estado)"></listcell>
-					<listcell label="@load(each.menIcono)"></listcell>
 				</listitem>
 			</template>
 		</listbox>

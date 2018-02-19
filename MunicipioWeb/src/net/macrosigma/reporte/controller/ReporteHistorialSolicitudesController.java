@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.macrosigma.db.Conexion;
-import net.macrosigma.gestion.dao.GmGesPreguntaFrecuenteDao;
-import net.macrosigma.gestion.ent.GmGesPreguntaFrecuente;
 import net.macrosigma.parametro.dao.GmParParametroDao;
 import net.macrosigma.parametro.ent.GmParParametros;
 import net.macrosigma.seguridad.dao.GmSegUsuarioDao;
@@ -22,10 +20,9 @@ import net.macrosigma.util.controller.BaseController;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
@@ -38,7 +35,6 @@ import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Datebox;
-import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Iframe;
 
 public class ReporteHistorialSolicitudesController extends BaseController {
@@ -58,24 +54,6 @@ public class ReporteHistorialSolicitudesController extends BaseController {
 	List<GmSegUsuario> listUsuSol = new ArrayList<GmSegUsuario>();
 	@Wire
 	Datebox dtbfecdesd, dtbfechast;
-	// Date fecDesd = new Date();
-	// Date fecHast = new Date();
-
-	// public Date getFecDesd() {
-	// return fecDesd;
-	// }
-	//
-	// public void setFecDesd(Date fecDesd) {
-	// this.fecDesd = fecDesd;
-	// }
-	//
-	// public Date getFecHast() {
-	// return fecHast;
-	// }
-	//
-	// public void setFecHast(Date fecHast) {
-	// this.fecHast = fecHast;
-	// }
 
 	GmSegUsuarioDao usuDao = new GmSegUsuarioDao();
 	GmParParametroDao parDao = new GmParParametroDao();
@@ -160,13 +138,11 @@ public class ReporteHistorialSolicitudesController extends BaseController {
 
 	@Command
 	public void imprimirexcel() {
-		ByteArrayOutputStream baos = getReport();
+		ByteArrayOutputStream baos = getReportXls();
 
-		AMedia amedia = new AMedia("solicitudhistorial.xlsx", "xlsx", null,
+		AMedia amedia = new AMedia("solicitudhistorial.xls", "xls", null,
 				baos.toByteArray());
 		iframerep.setContent(amedia);
-
-		// getReportExcel();
 	}
 
 	GmSegUsuario usu = (GmSegUsuario) Sessions.getCurrent().getAttribute(
@@ -262,29 +238,86 @@ public class ReporteHistorialSolicitudesController extends BaseController {
 		listUsuAsig = usuDao.getUsuarioACT();
 	}
 
-	public void getReportExcel() {
-		org.apache.poi.ss.usermodel.Workbook workbook = new HSSFWorkbook();
-		Sheet listSheet = workbook.createSheet("preguntas");
-		List<GmGesPreguntaFrecuente> lprefre = new ArrayList<>();
-		lprefre = new GmGesPreguntaFrecuenteDao().getPreFreAct();
-		int rowIndex = 0;
-		for (GmGesPreguntaFrecuente kp : lprefre) {
-			Row row = listSheet.createRow(rowIndex++);
-			int cellIndex = 0;
-			row.createCell(cellIndex++).setCellValue(kp.getInsId());
-			row.createCell(cellIndex++).setCellValue(kp.getDesPregunta());
-		}
+	public ByteArrayOutputStream getReportXls() {
+		ByteArrayOutputStream printStream = null;
 
-		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			workbook.write(baos);
-			AMedia amedia = new AMedia("solicitud.xls", "xls",
-					"application/file", baos.toByteArray());
-			Filedownload.save(amedia);
-			baos.close();
-		} catch (Exception e) {
-			e.printStackTrace();
+		Map<String, Object> paramRpt = new HashMap<String, Object>();
+		paramRpt.put("SUBREPORT_DIR", path + File.separator);
+		paramRpt.put("pv_img", img + File.separator + "ug.jpg");
+		paramRpt.put("pv_usuario", usu.getUsuario());
+		// paramRpt.put("id", 1);
+		if (parCarreraSel.getPar_id() != null)
+			paramRpt.put("pnidcarrera", parCarreraSel.getPar_id());
+		else
+			paramRpt.put("pnidcarrera", 0L);
+
+		if (parSolSel.getPar_id() != null)
+			paramRpt.put("pnidtipsol", parSolSel.getPar_id());
+		else
+			paramRpt.put("pnidtipsol", 0L);
+
+		if (usuAsigSel.getUsuId() != null)
+			paramRpt.put(
+					"pnidusuasig",
+					Long.parseLong(cmbusuasig.getSelectedItem().getValue()
+							.toString()));
+		else
+			paramRpt.put("pnidusuasig", 0L);
+
+		if (usuSolSel.getUsuId() != null)
+			paramRpt.put(
+					"pnidsolsel",
+					Long.parseLong(cmbususol.getSelectedItem().getValue()
+							.toString()));
+		else
+			paramRpt.put("pnidsolsel", 0L);
+		DateFormat df = new SimpleDateFormat("ddMMyyyy");
+		if (dtbfecdesd.getValue() != null) {
+			String reportDate = df.format(dtbfecdesd.getValue());
+			paramRpt.put("pdfecdesd", reportDate);
+		} else {
+			paramRpt.put("pdfecdesd", null);
 		}
+		if (dtbfechast.getValue() != null) {
+			String reportDate = df.format(dtbfechast.getValue());
+			paramRpt.put("pdfechast", reportDate);
+		} else
+			paramRpt.put("pdfechast", null);
+		// dtbfecdesd, dtbfechast
+		Connection cn = new Conexion().getConexion();
+		try {
+
+			JasperPrint jprint = JasperFillManager.fillReport(path
+					+ "/solicitudhistorial.jasper", paramRpt, cn);
+			printStream = new ByteArrayOutputStream();
+
+			JRXlsExporter xlsExporter = new JRXlsExporter();
+			xlsExporter.setParameter(JRXlsExporterParameter.JASPER_PRINT,
+					jprint);
+			xlsExporter.setParameter(JRXlsExporterParameter.OUTPUT_STREAM,
+					printStream);
+			xlsExporter.setParameter(
+					JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+			xlsExporter.setParameter(
+					JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND,
+					Boolean.FALSE);
+			xlsExporter.setParameter(
+					JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,
+					Boolean.TRUE);
+			xlsExporter.exportReport();
+
+		} catch (Exception e) {
+			System.err.println("Error:No fue posible elaborar el reporte :"
+					+ e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				cn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return printStream;
 	}
 
 	@Command

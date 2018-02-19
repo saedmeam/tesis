@@ -22,8 +22,9 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zul.Bandbox;
+import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Label;
+import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Tree;
 import org.zkoss.zul.Treecell;
 import org.zkoss.zul.Treechildren;
@@ -46,7 +47,9 @@ public class ManteParamGeneralController extends BaseController {
 	Tree trlistpara;
 
 	@Wire
-	Bandbox txtbusqueda;
+	Textbox txtbusqueda;
+	@Wire
+	Combobox cmbest;
 
 	public List<GmParParametros> getlistaPara() {
 		return listaPara;
@@ -354,14 +357,37 @@ public class ManteParamGeneralController extends BaseController {
 	@NotifyChange("listaPara")
 	@Command
 	public void listaPara() {
+		List<GmParParametros> lpar = new ArrayList<>();
+		listaPara = new ArrayList<>();
 		txtbusqueda.setText(txtbusqueda.getText().toUpperCase());
-		if (txtbusqueda.getText().isEmpty()) {
+		if (txtbusqueda.getText().isEmpty() && cmbest.getSelectedIndex() == -1) {
 			buscar();
 		} else {
 			paraDao.newManager();
-			listaPara = paraDao.getParametroByDes(txtbusqueda.getText());
+			lpar = paraDao.getParametroByDes(txtbusqueda.getText(), cmbest
+					.getSelectedItem().getValue().toString());
+		}
+		for (int i = 0; i < lpar.size(); i++) {
+			boolean b = false;
+			GmParParametros par = new GmParParametros();
+			par = getPadXParam(lpar.get(i));
+			for (int j = 0; j < listaPara.size(); j++) {
+				if (par.getPar_id() == listaPara.get(j).getPar_id())
+					b = true;
+			}
+			if (!b)
+				listaPara.add(par);
 		}
 		listdetpara();
+	}
+
+	public GmParParametros getPadXParam(GmParParametros par) {
+		GmParParametros parPad = new GmParParametros();
+		if (par.getCarIdPad() != null)
+			parPad = getPadXParam(par.getCarIdPad());
+		else
+			parPad = par;
+		return parPad;
 	}
 
 }

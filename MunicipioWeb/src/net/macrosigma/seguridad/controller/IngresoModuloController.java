@@ -83,10 +83,10 @@ public class IngresoModuloController extends BaseController {
 
 		}
 		
-		if(txtRutaIcono.getText().isEmpty()){
-			txtRutaIcono.setErrorMessage("Debe Ingresar la ruta del Ícono");
-			return;
-		}
+//		if(txtRutaIcono.getText().isEmpty()){
+//			txtRutaIcono.setErrorMessage("Debe Ingresar la ruta del Ícono");
+//			return;
+//		}
 		
 		if(inbNumroModulo.getText().equals("0") || inbNumroModulo.getText().isEmpty()){
 			inbNumroModulo.setText("");

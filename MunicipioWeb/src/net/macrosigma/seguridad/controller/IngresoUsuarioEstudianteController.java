@@ -10,9 +10,12 @@ import net.macrosigma.general.ValidaString;
 import net.macrosigma.gestion.dao.GmGesDepartamentoDao;
 import net.macrosigma.gestion.dao.GmGesPreguntaFrecuenteDao;
 import net.macrosigma.gestion.dao.GmGesPreguntaUsuarioDao;
+import net.macrosigma.gestion.ent.GmGesDepartamento;
 import net.macrosigma.gestion.ent.GmGesPreguntaFrecuente;
 import net.macrosigma.gestion.ent.GmGesPreguntasUsuario;
+import net.macrosigma.parametro.dao.GmParParametroDao;
 import net.macrosigma.parametro.dao.GmParPolitSeguridadDao;
+import net.macrosigma.parametro.ent.GmParParametros;
 import net.macrosigma.parametro.ent.GmParPolitSeguridadBean;
 import net.macrosigma.seguridad.dao.GmSegRolDao;
 import net.macrosigma.seguridad.dao.GmSegRolUsuarioDao;
@@ -85,6 +88,44 @@ public class IngresoUsuarioEstudianteController extends BaseController {
 	GmGesPreguntasUsuario pregUsuSel = new GmGesPreguntasUsuario();
 	GmGesPreguntasUsuario pregUsuElim = new GmGesPreguntasUsuario();
 	GmGesPreguntaUsuarioDao pregUsuDao = new GmGesPreguntaUsuarioDao();
+	List<GmParParametros> listparCarrera = new ArrayList<GmParParametros>();
+	GmParParametros parCarreraSel = new GmParParametros();
+	GmParParametroDao parDao = new GmParParametroDao();
+
+	List<GmGesDepartamento> listparSol = new ArrayList<GmGesDepartamento>();
+	GmGesDepartamento parSolSel = new GmGesDepartamento();
+
+	public List<GmParParametros> getListparCarrera() {
+		return listparCarrera;
+	}
+
+	public void setListparCarrera(List<GmParParametros> listparCarrera) {
+		this.listparCarrera = listparCarrera;
+	}
+
+	public GmParParametros getParCarreraSel() {
+		return parCarreraSel;
+	}
+
+	public void setParCarreraSel(GmParParametros parCarreraSel) {
+		this.parCarreraSel = parCarreraSel;
+	}
+
+	public List<GmGesDepartamento> getListparSol() {
+		return listparSol;
+	}
+
+	public void setListparSol(List<GmGesDepartamento> listparSol) {
+		this.listparSol = listparSol;
+	}
+
+	public GmGesDepartamento getParSolSel() {
+		return parSolSel;
+	}
+
+	public void setParSolSel(GmGesDepartamento parSolSel) {
+		this.parSolSel = parSolSel;
+	}
 
 	public GmSegRol getRolSel() {
 		return rolSel;
@@ -146,11 +187,13 @@ public class IngresoUsuarioEstudianteController extends BaseController {
 
 	}
 
+	@SuppressWarnings("static-access")
 	public void cargarRoles() {
 
 		listpardes = pregFreDao.getPreFreAct();
 		listaRoles = rolDao.getPorRol("ESTUDIANTE");
 		rolSel = listaRoles.get(0);
+		listparCarrera = parDao.getParametroByDesPad("CARRERAS");
 	}
 
 	public List<GmSegRol> getListaRoles() {
@@ -268,9 +311,6 @@ public class IngresoUsuarioEstudianteController extends BaseController {
 		} else {
 			for (int i = 0; i < listPreguntaUsuario.size(); i++) {
 				listPreguntaUsuario.get(i).setPreUsu(usuario);
-				if (listPreguntaUsuario.get(i).getInsId()!=null)
-					pregUsuDao.actualizar(listPreguntaUsuario.get(i));
-				else
 					pregUsuDao.crear(listPreguntaUsuario.get(i));
 				pregUsuDao.newManager();
 			}
@@ -591,5 +631,20 @@ public class IngresoUsuarioEstudianteController extends BaseController {
 				IngresoUsuarioEstudianteController.this,
 				"listaRolUsuarioGuardar");
 
+	}
+
+	@Command
+	public void cargalistado() {
+		listparSol = new ArrayList<>();
+		if (parCarreraSel != null) {
+			if (parCarreraSel.getDepCarreraId() != null)
+				for (int i = 0; i < parCarreraSel.getDepCarreraId().size(); i++) {
+					listparSol.add(parCarreraSel.getDepCarreraId().get(i)
+							.getDepCarreraDepId());
+				}
+
+		}
+		BindUtils.postNotifyChange(null, null,
+				IngresoUsuarioEstudianteController.this, "listparSol");
 	}
 }

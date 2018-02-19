@@ -12,25 +12,75 @@
 			<toolbarbutton id="tbbedit" label="Modificar"
 				image="/img/editar.png" onClick="@command('modificar')" />
 			<image src="img/fondo4.png" height="22px"></image>
+			<toolbarbutton id="tbblim" label="Limpiar"
+				onClick="@command('limpiar')" />
+			<image src="img/fondo4.png" height="22px"></image>
 		</toolbar>
 		<groupbox closable="false">
 			<caption label="Criterio Búsqueda" />
 			<grid>
-				<columns>
-					<column width="24%" />
-					<column width="14%" />
-					<column width="24%" />
-
-				</columns>
 				<rows>
 					<row>
-						<label style="color:black">
-							Búsqueda por Usuario:
-						</label>
-						<bandbox id="txtbusqueda"
-							onOpen="@command('buscarUsuario')" instant="true"
-							onChange="self.setValue(self.getValue().toUpperCase());"
-							onBlur="@command('buscarUsuario')" />
+						<label>Usuario</label>
+						<textbox id="txtbusqueda" width="98%"
+							instant="true"
+							onChange="self.setValue(self.getValue().toUpperCase());" />
+						<label>Nombres</label>
+						<textbox id="txtnom" width="98%" instant="true"
+							onChange="self.setValue(self.getValue().toUpperCase());" />
+					</row>
+					<row>
+						<label>Carrera</label>
+						<cell>
+							<combobox id="cmbdesc"
+								model="@load(vm.listparCarrera)" width="98%" readonly="true"
+								value="@load(vm.parCarreraSel.parDes)"
+								selectedItem="@bind(vm.parCarreraSel)">
+								<template name="model">
+									<comboitem
+										value="@load(each.par_id)" label="@load(each.parDes)" />
+								</template>
+							</combobox>
+						</cell>
+						<label>Departamento</label>
+						<cell>
+							<combobox id="cmbdpto"
+								model="@load(vm.listparSol)" width="98%" readonly="true"
+								value="@load(vm.parSolSel.depNomDep)">
+								<template name="model">
+									<comboitem value="@load(each.depId)"
+										label="@load(each.depNomDep)" />
+								</template>
+							</combobox>
+						</cell>
+					</row>
+					<row>
+						<label>Rol</label>
+						<cell>
+							<combobox id="cmbrol"
+								model="@load(vm.listaRoles)" width="98%" readonly="true"
+								value="@load(vm.rolSel.rolDescripcion)"
+								selectedItem="@bind(vm.rolSel)">
+								<template name="model">
+									<comboitem value="@load(each.rolId)"
+										label="@load(each.rolDescripcion)" />
+								</template>
+							</combobox>
+						</cell>
+						<cell>Estado:</cell>
+						<cell>
+							<combobox id="cmbtestado" width="98%"
+								readonly="true" onCreate="cmbtestado.setSelectedIndex(0)">
+								<comboitem label="ACTIVO" value="ACT" />
+								<comboitem label="INACTIVO" value="INA" />
+								<comboitem label="BLOQUEADO"
+									value="BLO" />
+							</combobox>
+						</cell>
+					</row>
+					<row>
+						<button label="Buscar" image="/img/buscar.png"
+							onClick="@command('buscarUsuario')" />
 
 					</row>
 				</rows>

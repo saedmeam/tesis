@@ -23,7 +23,8 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zul.Bandbox;
+import org.zkoss.zul.Combobox;
+import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
 public class MantenimientoModuloController extends BaseController {
@@ -33,7 +34,10 @@ public class MantenimientoModuloController extends BaseController {
 	Window window;
 
 	@Wire
-	Bandbox txtbusqueda;
+	Textbox txtbusqueda;
+
+	@Wire
+	Combobox cmbest;
 
 	// llenar tabla
 	List<GmSegMenu> listaMod = new ArrayList<GmSegMenu>();
@@ -49,17 +53,22 @@ public class MantenimientoModuloController extends BaseController {
 	}
 
 	@SuppressWarnings("static-access")
-	public void buscar(String nombre) {
-		listaMod = moduloDao.getModuloPorNombre(nombre);
+	public void buscar(String nombre, String estado) {
+		listaMod = moduloDao.getModuloPorNombre(nombre, estado);
 	}
 
 	@Command
 	@NotifyChange("listaMod")
 	public void buscarModulo() {
-		if (!txtbusqueda.getText().isEmpty()) {
-			buscar(txtbusqueda.getText());
+		if (!txtbusqueda.getText().isEmpty() && cmbest.getSelectedIndex() != -1) {
+			buscar(txtbusqueda.getText(), cmbest.getSelectedItem().getValue()
+					.toString());
 		} else {
-			buscar(null);
+			if (cmbest.getSelectedIndex() == -1)
+				buscar(null, "ACT");
+			else {
+				buscar(null, cmbest.getSelectedItem().getValue().toString());
+			}
 		}
 	}
 
@@ -79,7 +88,7 @@ public class MantenimientoModuloController extends BaseController {
 						@Override
 						public void onEvent(Event arg0) throws Exception {
 							window = null;
-							buscar(null);
+							buscar(null, "ACT");
 							BindUtils.postNotifyChange(null, null,
 									MantenimientoModuloController.this,
 									"listaMod");
@@ -107,7 +116,7 @@ public class MantenimientoModuloController extends BaseController {
 							@Override
 							public void onEvent(Event arg0) throws Exception {
 								window = null;
-								buscar(null);
+								buscar(null, "ACT");
 								BindUtils.postNotifyChange(null, null,
 										MantenimientoModuloController.this,
 										"listaMod");
@@ -115,9 +124,8 @@ public class MantenimientoModuloController extends BaseController {
 						});
 			}
 		} else {
-			
-			Messagebox.show(
-					"Debe Seleccionar el registro que desea modificar",
+
+			Messagebox.show("Debe Seleccionar el registro que desea modificar",
 					"Informe", Messagebox.OK, Messagebox.EXCLAMATION,
 					new EventListener<Event>() {
 						@Override
@@ -143,7 +151,7 @@ public class MantenimientoModuloController extends BaseController {
 							Messagebox.show("Módulo eliminado exitosamente",
 									"Informe", Messagebox.OK,
 									Messagebox.INFORMATION);
-							buscar(null);
+							buscar(null, "ACT");
 							BindUtils.postNotifyChange(null, null,
 									MantenimientoModuloController.this,
 									"listaMod");
@@ -156,7 +164,7 @@ public class MantenimientoModuloController extends BaseController {
 	@AfterCompose
 	public void init(@ContextParam(ContextType.VIEW) Component view) {
 		Selectors.wireComponents(view, this, false);
-		buscar(null);
+		buscar(null, "ACT");
 	}
 
 	public List<GmSegMenu> getListaMod() {

@@ -1,13 +1,14 @@
 <?page title="Ingreso_Modulo" contentType="text/html;charset=UTF-8"?>
 <?init class="net.macrosigma.general.Validador"?>
 <zk>
-	<window title="Ingreso_Modulo[mod_001]" border="none" contentStyle="overflow:auto"
-		height="100%" apply="org.zkoss.bind.BindComposer" id="winMod"
+	<window title="Ingreso_Modulo[mod_001]" border="none"
+		contentStyle="overflow:auto" height="100%"
+		apply="org.zkoss.bind.BindComposer" id="winMod"
 		viewModel="@id('vm') @init('net.macrosigma.seguridad.controller.IngresoModuloController')">
 		<toolbar>
 			<toolbarbutton id="tbbguardar" label="Guardar"
 				onClick="@command('crearModulo')" image="/img/save3.png" />
-				<image src="img/fondo4.png" height="22px"></image>
+			<image src="img/fondo4.png" height="22px"></image>
 		</toolbar>
 		<separator height="10px"></separator>
 		<div align="center">
@@ -42,15 +43,17 @@
 				<row>
 					<cell>Nombre:</cell>
 					<cell>
-						<textbox id="txtnombre" width="95%" instant="true"
-						onChange="self.setValue(self.getValue().toUpperCase());"
+						<textbox id="txtnombre" width="95%"
+							instant="true"
+							onChange="self.setValue(self.getValue().toUpperCase());"
 							onFocus='nombrerol.open(txtnombre,"end_before")'
 							value="@bind(vm.modulo.menNombre)" />
 					</cell>
 					<cell>Descripción:</cell>
 					<cell>
-						<textbox id="txtdescripcion" width="95%" instant="true"
-						onChange="self.setValue(self.getValue().toUpperCase());"
+						<textbox id="txtdescripcion" width="95%"
+							instant="true"
+							onChange="self.setValue(self.getValue().toUpperCase());"
 							onFocus='descripcion.open(txtdescripcion,"end_before")'
 							value="@bind(vm.modulo.menDescripcionMenu)" />
 					</cell>
@@ -59,11 +62,7 @@
 					<separator height="1px"></separator>
 				</row>
 				<row>
-					<cell>Ruta de Icono:</cell>
-					<cell>
-						<textbox id="txtRutaIcono" width="95%"
-							onFocus='ruta.open(txtRutaIcono,"end_before")'
-							value="@bind(vm.modulo.menIcono)" />
+
 					</cell>
 					<cell>Número de Módulo:</cell>
 					<cell>
@@ -71,22 +70,26 @@
 							onFocus='numero.open(inbNumroModulo,"end_before")'
 							value="@bind(vm.modulo.menOrden)" />
 					</cell>
-				</row>
-				<row>
-					<separator height="1px"></separator>
-				</row>
-				<row>
 					<cell>Estado:</cell>
 					<cell>
 						<combobox id="cmbtestado" width="95%"
 							onFocus='estado.open(cmbtestado,"end_before")' readonly="true"
 							onCreate="cmbtestado.setSelectedIndex(0)"
-							
 							selectedItem="@bind(vm.modulo.estado)">
 							<comboitem value="ACT" label="ACTIVO" />
 							<comboitem value="INA" label="INACTIVO" />
 						</combobox>
 					</cell>
+				</row>
+				<row>
+					<separator height="1px"></separator>
+				</row>
+				<row>
+					<cell visible="false">Ruta de Icono:</cell>
+					<cell visible="false">
+						<textbox id="txtRutaIcono" width="95%"
+							onFocus='ruta.open(txtRutaIcono,"end_before")'
+							value="@bind(vm.modulo.menIcono)" />
 				</row>
 				<row>
 					<separator height="1px"></separator>
@@ -100,22 +103,24 @@
 				</row>
 			</rows>
 		</grid>
-		<popup id="nombrerol" width="150px"
-			sclass="popinform">
+		<popup id="nombrerol" width="150px" sclass="popinform">
 			<html>
+
 
 				
 				<![CDATA[ Ingresar el Nombre del Módulo]]>
 				
+				
 									
 			</html>
 		</popup>
-		<popup id="descripcion" width="150px"
-			sclass="popinform">
+		<popup id="descripcion" width="150px" sclass="popinform">
 			<html>
+
 
 				
 				<![CDATA[ Ingresar la Descripción ]]>
+				
 				
 									
 			</html>
@@ -123,8 +128,10 @@
 		<popup id="ruta" width="150px" sclass="popinform">
 			<html>
 
+
 				
-				<![CDATA[ ingresar la Ruta 	]]>
+				<![CDATA[ ingresar la Ruta ]]>
+				
 				
 									
 			</html>
@@ -132,8 +139,10 @@
 		<popup id="numero" width="150px" sclass="popinform">
 			<html>
 
+
 				
 				<![CDATA[ Ingresar el Número del Módulo ]]>
+				
 				
 									
 			</html>
@@ -141,8 +150,10 @@
 		<popup id="estado" width="150px" sclass="popinform">
 			<html>
 
+
 				
 				<![CDATA[ Seleccionar el Estado ]]>
+				
 				
 							
 			</html>

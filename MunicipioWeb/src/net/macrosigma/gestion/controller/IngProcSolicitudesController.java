@@ -320,18 +320,20 @@ public class IngProcSolicitudesController extends BaseController {
 									public void onEvent(Event arg0)
 											throws Exception {
 										window = null;
+
 										listProcSol = procSolDao
 												.getProcSolBySol(sol);
-										if (listProcSol.get(0)
-												.getProcSolEstado()
-												.equals("TER")
-												|| listProcSol.get(0)
-														.getProcSolEstado()
-														.equals("APR")
-												|| listProcSol.get(0)
-														.getProcSolEstado()
-														.equals("REC"))
-											btnagrega.setVisible(false);
+										if (listProcSol.size() > 0)
+											if (listProcSol.get(0)
+													.getProcSolEstado()
+													.equals("TER")
+													|| listProcSol.get(0)
+															.getProcSolEstado()
+															.equals("APR")
+													|| listProcSol.get(0)
+															.getProcSolEstado()
+															.equals("REC"))
+												btnagrega.setVisible(false);
 										BindUtils
 												.postNotifyChange(
 														null,

@@ -76,7 +76,7 @@
 				<row>
 					<label value="Identificacion" />
 					<textbox readonly="true"
-						value="@load(vm.usu.usuario)" />
+						value="@load(vm.usu.usuUsuario)" />
 				</row>
 				<row>
 					<cell colspan="4">

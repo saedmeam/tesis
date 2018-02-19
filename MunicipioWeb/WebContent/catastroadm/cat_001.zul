@@ -18,20 +18,71 @@
 			<toolbarbutton id="tbverdet" label="Ver Detalle"
 				image="/img/new.png" onClick="@command('verdet')" />
 			<image src="img/fondo4.png" height="22px"></image>
+			<toolbarbutton id="tblim" label="Limpiar"
+				image="/img/new.png" onClick="@command('limpiar')" />
+			<image src="img/fondo4.png" height="22px"></image>
 		</toolbar>
 		<groupbox closable="false">
 			<caption label="Criterio Búsqueda" />
 			<grid>
-				<columns>
-					<column width="15%" />
-					<column width="25%" />
-					<column width="15%" />
-					<column width="25%" />
-					<column width="20%" />
-				</columns>
 				<rows>
 					<row>
-
+						<label>Identificación</label>
+						<textbox id="txtid" width="98%" instant="true"
+							onChange="self.setValue(self.getValue().toUpperCase());" />
+						<label>Responsable</label>
+						<textbox id="txtres" width="98%" instant="true"
+							onChange="self.setValue(self.getValue().toUpperCase());" />
+						<label>Carrera</label>
+						<cell>
+							<combobox id="cmbcarr"
+								model="@load(vm.listparCarrera)" width="98%" readonly="true"
+								value="@load(vm.parCarreraSel.parDes)"
+								selectedItem="@bind(vm.parCarreraSel)">
+								<template name="model">
+									<comboitem
+										value="@load(each.par_id)" label="@load(each.parDes)" />
+								</template>
+							</combobox>
+						</cell>
+					</row>
+					<row>
+						<label>Tipo de Solicitud</label>
+						<cell>
+							<combobox id="cmbtipsol"
+								model="@load(vm.listparSol)" width="98%" readonly="true"
+								value="@load(vm.parSolSel.parDes)">
+								<template name="model">
+									<comboitem
+										value="@load(each.par_id)" label="@load(each.parDes)" />
+								</template>
+							</combobox>
+						</cell>
+						<cell>Estado:</cell>
+						<cell>
+							<combobox id="cmbtestado" width="98%"
+								readonly="true">
+								<comboitem label="INGRESADO"
+									value="ING" />
+								<comboitem label="OBSERVADO"
+									value="OBS" />
+								<comboitem label="PROCESANDO"
+									value="PRO" />
+								<comboitem label="APROBADO" value="APR" />
+								<comboitem label="RECHAZADO"
+									value="REC" />
+							</combobox>
+						</cell>
+					</row>
+					<row>
+						<cell>Fecha desde</cell>
+						<cell>
+							<datebox id="dtbfecdes" readonly="true" />
+						</cell>
+						<cell>Fecha Hasta</cell>
+						<cell>
+							<datebox id="dtbfechas" readonly="true" />
+						</cell>
 						<button label="Buscar"
 							onClick="@command('InteresPorAño')" />
 
@@ -47,6 +98,7 @@
 			<listhead>
 				<listheader label="Carrera" />
 				<listheader label="Solicitud" />
+				<listheader label="Fecha" />
 				<listheader label="Nombres" />
 				<listheader label="Apellidos" />
 				<listheader label="Identificación" />
@@ -58,11 +110,16 @@
 					<listcell label="@load(each.solCarrera.parDes)" />
 					<listcell
 						label="@load(each.solTipoSolicitud.parDes)" />
+					<listcell>
+						<datebox disabled="true"
+							value="@load(each.fechaIngreso)">
+						</datebox>
+					</listcell>
+
 					<listcell label="@load(each.solUsu.usuNombres)" />
 					<listcell label="@load(each.solUsu.usuApellidos)" />
-					<listcell label="@load(each.solUsu.usuario)" />
-					<listcell
-						label="@load(each.solTipoSolicitud.depTipSolUsuId.depDepUsuId.usuNomComp)" />
+					<listcell label="@load(each.solUsu.usuUsuario)" />
+					<listcell label="@load(each.solUsuAsig.usuNomComp)" />
 					<listcell
 						label="@load(each.solEstado.equals('ING')?'INGRESADO': each.solEstado.equals('OBS')?'OBSERVADO':each.solEstado.equals('PRO')?'PROCESANDO':each.solEstado.equals('APR')?'APROBADO':'RECHAZADO')" />
 				</listitem>

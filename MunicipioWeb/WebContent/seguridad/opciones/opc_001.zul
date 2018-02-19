@@ -100,24 +100,23 @@
 							<comboitem label="INACTIVO" value="INA" />
 						</combobox>
 					</cell>
-					<cell>Ruta de ícono:</cell>
-					<cell>
-						<textbox id="txtRutaIcono" width="90%"
-							onFocus='icono.open(txtRutaIcono,"end_before")'
-							value="@bind(vm.opcion.menIcono)" />
-					</cell>
-				</row>
-				<row>
-					<separator height="1px"></separator>
-				</row>
-				<row>
-					<cell></cell>
 					<cell>Número de opción:</cell>
 					<cell>
 						<intbox id="inbNumroModulo" width="50%"
 							onFocus='opcion.open(inbNumroModulo,"end_before")'
 							value="@bind(vm.opcion.menOrden)" />
 					</cell>
+				</row>
+				<row>
+					<separator height="1px"></separator>
+				</row>
+				<row><cell visible="false">Ruta de ícono:</cell>
+					<cell>
+						<textbox visible="false" id="txtRutaIcono" width="90%"
+							onFocus='icono.open(txtRutaIcono,"end_before")'
+							value="@bind(vm.opcion.menIcono)" />
+					</cell>
+					
 
 				</row>
 

@@ -186,7 +186,7 @@ public class IngDepartamentoTipSolicitudController extends BaseController {
 			Sessions.getCurrent().removeAttribute("usuarioModificar");
 			usuario = usuarioModificar;
 			depSel = usuario.getDepDepUsuId();
-			parSolSel = usuario.getDepTipSolCarreraId();
+			parSolSel = usuario.getDepTipSolTipSolId();
 			parCarreraSel = usuario.getDepTipSolCarreraId();
 			rolSel = usuario.getDepDepUsuId().getUsuDepId();
 			BindUtils.postNotifyChange(null, null,

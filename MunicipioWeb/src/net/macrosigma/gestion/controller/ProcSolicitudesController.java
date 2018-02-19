@@ -177,7 +177,10 @@ public class ProcSolicitudesController extends BaseController {
 		boolean resultado = false;
 		GmGesCorreo correo = new GmGesCorreo();
 		correo.setDe("Santiago Eduardo Merino Ampuero <saedmeam@gmail.com>");
+		GmGesCorreo correoUsr = new GmGesCorreo();
+		correoUsr.setDe("Santiago Eduardo Merino Ampuero <saedmeam@gmail.com>");
 		String contenido = "";
+		String contenidoUsr = "";
 		intDao.newManager();
 		procSolDao.newManager();
 		procSol.setProcSolSolid(sol);
@@ -194,22 +197,50 @@ public class ProcSolicitudesController extends BaseController {
 		if (rdbobs.isSelected()) {
 			procSol.setProcSolEstado("OBS");
 			sol.setSolEstado("OBS");
-			contenido = "Su solicitud "+sol.getSolTipoSolicitud().getParDes()+" ha sido observada con la observación "+procSol.getProcSolObs()+" porfavor corrija su solicitud.";
+			contenido = "Su solicitud " + sol.getSolTipoSolicitud().getParDes()
+					+ " ha sido observada con la observación "
+					+ procSol.getProcSolObs()
+					+ " porfavor corrija su solicitud.";
+			contenidoUsr = "La solicitud "
+					+ sol.getSolTipoSolicitud().getParDes()
+					+ " ha sido observada con la observación "
+					+ procSol.getProcSolObs()
+					+ " porfavor corrija su solicitud.";
 		}
 		if (rdbrec.isSelected()) {
 			procSol.setProcSolEstado("REC");
 			sol.setSolEstado("REC");
-			contenido = "Su solicitud "+sol.getSolTipoSolicitud().getParDes()+" ha sido rechazada con la observación "+procSol.getProcSolObs()+".";
+			contenido = "Su solicitud " + sol.getSolTipoSolicitud().getParDes()
+					+ " ha sido rechazada con la observación "
+					+ procSol.getProcSolObs() + ".";
+			contenidoUsr = "La solicitud "
+					+ sol.getSolTipoSolicitud().getParDes()
+					+ " ha sido rechazada con la observación "
+					+ procSol.getProcSolObs() + ".";
 		}
 		if (rdbter.isSelected()) {
 			procSol.setProcSolEstado("APR");
 			sol.setSolEstado("APR");
-			contenido = "Su solicitud "+sol.getSolTipoSolicitud().getParDes()+" ha sido aprobada con la observación "+procSol.getProcSolObs()+", porfavor acerquese a retirar su documento.";
+			contenido = "Su solicitud " + sol.getSolTipoSolicitud().getParDes()
+					+ " ha sido aprobada con la observación "
+					+ procSol.getProcSolObs()
+					+ ", porfavor acerquese a retirar su documento.";
+			contenidoUsr = "La solicitud "
+					+ sol.getSolTipoSolicitud().getParDes()
+					+ " ha sido aprobada con la observación "
+					+ procSol.getProcSolObs()
+					+ ", porfavor acerquese a retirar su documento.";
 		}
 		if (rdbpro.isSelected()) {
 			procSol.setProcSolEstado("PRO");
 			sol.setSolEstado("PRO");
-			contenido = "Su solicitud "+sol.getSolTipoSolicitud().getParDes()+" esta siendo Procesada con la observación "+procSol.getProcSolObs()+".";
+			contenido = "Su solicitud " + sol.getSolTipoSolicitud().getParDes()
+					+ " esta siendo Procesada con la observación "
+					+ procSol.getProcSolObs() + ".";
+			contenidoUsr = "La solicitud "
+					+ sol.getSolTipoSolicitud().getParDes()
+					+ " esta siendo Procesada con la observación "
+					+ procSol.getProcSolObs() + ".";
 		}
 
 		if (rdbasig.isSelected()) {
@@ -227,7 +258,12 @@ public class ProcSolicitudesController extends BaseController {
 			procSol.setProcSolTipProceso("ASIG");
 			sol.setSolEstado("PRO");
 			sol.setSolUsuAsig(usuSel);
-			contenido = "Su solicitud "+sol.getSolTipoSolicitud().getParDes()+" esta siendo Procesada con la observación "+procSol.getProcSolObs()+".";
+			contenido = "Su solicitud " + sol.getSolTipoSolicitud().getParDes()
+					+ " esta siendo Procesada con la observación "
+					+ procSol.getProcSolObs() + ".";
+			contenido = "La solicitud " + sol.getSolTipoSolicitud().getParDes()
+					+ " a sido asignada a usted por el usuario"
+					+ procSol.getProcSolUsuAnt().getUsuNomComp() + ".";
 
 		}
 		if (txtobs.getText() == null || txtobs.getText().equals("")) {
@@ -275,6 +311,11 @@ public class ProcSolicitudesController extends BaseController {
 		correo.setTitulo("Solicitud Modificada");
 		correo.setContenido(contenido);
 		resultado = MailUtil.getInstance().EnviarMail(correo);
+
+		correoUsr.setPara(procSol.getProcSolUsuAct().getUsuEmail());
+		correoUsr.setTitulo("Solicitud Modificada");
+		correoUsr.setContenido(contenidoUsr);
+		resultado = MailUtil.getInstance().EnviarMail(correoUsr);
 		BindUtils.postNotifyChange(null, null, ProcSolicitudesController.this,
 				"sol");
 

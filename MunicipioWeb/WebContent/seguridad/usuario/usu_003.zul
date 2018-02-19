@@ -96,18 +96,36 @@
 				</row>
 				<row>
 					<cell></cell>
-					<cell>Seleccionar Rol:</cell>
+					<label>Carrera</label>
 					<cell>
-					<combobox id="lbxRolesAgregados" model="@load(vm.listaRoles)"
-						onFocus='rol.open(lbxRolesAgregados,"end_before")' width="90%"
-						readonly="true" value="@load(vm.rolSel.rolNombre)"
-						selectedItem="@bind(vm.pregFreSel)">
-						<template name="model">
-							<comboitem value="@load(each.rolId)"
-								label="@load(each.rolNombre)" />
-						</template>
-					</combobox>
+						<combobox id="cmbcarr"
+							model="@load(vm.listparCarrera)"
+							onFocus='carrera.open(cmbdesc,"end_before")' width="98%"
+							readonly="true" value="@load(vm.parCarreraSel.parDes)"
+							selectedItem="@bind(vm.parCarreraSel)"
+							onSelect="@command('cargalistado')">
+							<template name="model">
+								<comboitem value="@load(each.par_id)"
+									label="@load(each.parDes)" />
+							</template>
+						</combobox>
 					</cell>
+					<label>Departamento</label>
+					<cell colspan="2">
+						<combobox id="cmbdpto"
+							model="@load(vm.listparSol)"
+							onFocus='departamento.open(cmbdpto,"end_before")' width="98%"
+							readonly="true" value="@load(vm.parSolSel.depNomDep)"
+							selectedItem="@bind(vm.parSolSel)">
+							<template name="model">
+								<comboitem value="@load(each.depId)"
+									label="@load(each.depNomDep)" />
+							</template>
+						</combobox>
+					</cell>
+				</row>
+				<row>
+					<separator height="1px"></separator>
 				</row>
 				<row>
 					<separator height="1px"></separator>
@@ -196,6 +214,20 @@
 						</div>
 					</cell>
 				</row>
+				<row>
+					
+					<cell visible="false">
+					<combobox id="lbxRolesAgregados" model="@load(vm.listaRoles)"
+						onFocus='rol.open(lbxRolesAgregados,"end_before")' width="90%"
+						readonly="true" value="@load(vm.rolSel.rolNombre)"
+						selectedItem="@bind(vm.pregFreSel)">
+						<template name="model">
+							<comboitem value="@load(each.rolId)"
+								label="@load(each.rolNombre)" />
+						</template>
+					</combobox>
+					</cell>
+				</row>
 			</rows>
 		</grid>
 		<popup id="nombre" width="150px" sclass="popinform">
@@ -250,6 +282,11 @@
 			sclass="popinform">
 			<html>
 				<![CDATA[ Ingresar la Clave ]]>
+			</html>
+		</popup>
+		<popup id="carrera" width="150px" sclass="popinform">
+			<html>
+				<![CDATA[ Seleccione la Carrera ]]>
 			</html>
 		</popup>
 		<popup id="confirmarcontrasena" width="150px"

@@ -1,5 +1,6 @@
 package net.macrosigma.general;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -21,14 +22,14 @@ public class MailUtil {
 	private MailUtil() {
 		try (
 				InputStream inputStream = this.getClass().getClassLoader()
-				.getResourceAsStream("net/macrosigma/general/mail.properties")) {
+				.getResourceAsStream("net"+File.separator+"macrosigma"+File.separator+"general"+File.separator+"mail.properties")) {
 
 			final Properties configProperties = new Properties();
 
 			configProperties.load(inputStream);
 			final String username = configProperties.getProperty("user");
 			final String pass = configProperties.getProperty("password");
-			mailSession = Session.getDefaultInstance(configProperties,
+			mailSession = Session.getInstance(configProperties,
 					new javax.mail.Authenticator() {
 						protected PasswordAuthentication getPasswordAuthentication() {
 							return new PasswordAuthentication(username, pass);
@@ -81,7 +82,12 @@ public class MailUtil {
 			message.setSubject(GmGesCorreo.getTitulo());
 			message.setText(GmGesCorreo.getContenido());
 
-			Transport.send(message);
+			
+			Transport transport = mailSession.getTransport("smtps");
+            transport.connect();
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
+//			Transport.send(message);
 
 			return true;
 

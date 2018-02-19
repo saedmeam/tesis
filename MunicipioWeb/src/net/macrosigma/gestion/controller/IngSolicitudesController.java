@@ -200,15 +200,11 @@ public class IngSolicitudesController extends BaseController {
 	public void createUsuario() {
 		boolean resultado = false;
 		GmGesCorreo correo = new GmGesCorreo();
-		// correo.setDe("Santiago Eduardo Merino Ampuero <saedmeam@gmail.com>");
-		// correo.setPara(usu.getUsuEmail());
-		// correo.setTitulo("Solicitud Modificada");
-		// correo.setContenido("Usted ha creado una solicitud de "
-		// + parSolSel.getParDes() + " para la carrera "
-		// + parCarreraSel.getParDes());
-		// resultado = MailUtil.getInstance().EnviarMail(correo);
+		correo.setDe("Santiago Eduardo Merino Ampuero <saedmeam@gmail.com>");
+		correo.setPara(usu.getUsuEmail());
+		correo.setTitulo("Solicitud Modificada");
+
 		intDao.newManager();
-		// campos para validar los si estan vacio
 
 		if (cmbdesc.getValue() == null) {
 			cmbdesc.setErrorMessage("campo obligatorio");
@@ -330,6 +326,15 @@ public class IngSolicitudesController extends BaseController {
 
 		BindUtils.postNotifyChange(null, null, IngSolicitudesController.this,
 				"listparReqSol");
+		correo = new GmGesCorreo();
+		correo.setDe("Santiago Eduardo Merino Ampuero <saedmeam@gmail.com>");
+		correo.setPara(sol.getSolUsuAsig().getUsuEmail());
+		correo.setTitulo("Solicitud Ingresada");
+		correo.setContenido("Le han asignado una solicitud de "
+				+ parSolSel.getParDes() + " para la carrera "
+				+ parCarreraSel.getParDes()+" del usuario "+usu.getUsuNomComp()+".");
+
+		resultado = MailUtil.getInstance().EnviarMail(correo);
 
 	}
 
