@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 
 public class Conexion {
 	private Connection conn;
@@ -40,12 +39,15 @@ public class Conexion {
 	// }
 
 	public void ConexionP() {
-		Properties props = new Properties();
+//		Properties props = new Properties();
+		String usuario = "";
+		String clave = "";
+		String url = "";
 		try {
 
-			String usuario = "snacionales";
-			String clave = "snacionales";
-			String url = "jdbc:postgresql://localhost:5432/db_sistema_gestion_municipal";
+//			usuario = "snacionales";
+//			clave = "snacionales";
+//			url = "jdbc:postgresql://localhost:5432/db_sistema_gestion_municipal";
 
 			/**
 			 * path conection Local
@@ -57,14 +59,9 @@ public class Conexion {
 			/**
 			 * path conection Publica
 			 */
-			// String usuario = "snacionales";
-			// String clave = "snacionales";
-			// String url = "jdbc:postgresql://186.68.21.18:5432/macrosn";
-
-			// String url = "jdbc:oracle:thin:@macrosigma-HP:1521:XE";
-			// Driver driver = (Driver)
-			// Class.forName("oracle.jdbc.driver.OracleDriver").newInstance();
-			// DriverManager.registerDriver(driver);
+			usuario = "snacionales";
+			clave = "snacionales";
+			url = "jdbc:postgresql://181.199.108.18:5432/db_sistema_gestion_municipal";
 
 			DriverManager.registerDriver((Driver) Class.forName("org.postgresql.Driver").newInstance());
 			conn = DriverManager.getConnection(url, usuario, clave);

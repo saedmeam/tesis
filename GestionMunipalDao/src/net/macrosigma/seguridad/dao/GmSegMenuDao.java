@@ -190,7 +190,7 @@ public class GmSegMenuDao extends GenericDao<GmSegMenu, Long> {
 		StringBuilder sql = new StringBuilder();
 		sql.append("select o from GmSegMenu o where o.padreMenu = null ");
 		if (nombre != null) {
-			sql.append("and o.menNombre like :nombre ");
+			sql.append("and (o.menNombre like :nombre or menDescripcionMenu like :nombre)");
 		}
 		sql.append("order by o.menOrden, o.menNombre ");
 		Query query = em.createQuery(sql.toString());
@@ -198,6 +198,25 @@ public class GmSegMenuDao extends GenericDao<GmSegMenu, Long> {
 			nombre = "%" + nombre.toUpperCase() + "%";
 			query.setParameter("nombre", nombre);
 		}
+		List<GmSegMenu> result = query.getResultList();
+		return result == null || result.isEmpty() ? null : result;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static List<GmSegMenu> getModuloPorNombre(String nombre,String estado) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select o from GmSegMenu o where o.padreMenu = null ");
+		if (nombre != null) {
+			sql.append("and (o.menNombre like :nombre or menDescripcionMenu like :nombre)");
+		}
+		sql.append("and (o.estado = :est )");
+		sql.append("order by o.menOrden, o.menNombre ");
+		Query query = em.createQuery(sql.toString());
+		if (nombre != null) {
+			nombre = "%" + nombre.toUpperCase() + "%";
+			query.setParameter("nombre", nombre);
+		}
+		query.setParameter("est", estado);
 		List<GmSegMenu> result = query.getResultList();
 		return result == null || result.isEmpty() ? null : result;
 	}

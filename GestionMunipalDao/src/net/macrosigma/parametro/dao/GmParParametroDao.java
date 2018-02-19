@@ -58,7 +58,7 @@ public class GmParParametroDao extends GenericDao<GmParParametros, Long> {
 		List<GmParParametros> result = query.getResultList();
 		return result == null || result.isEmpty() ? null : result;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public static List<GmParParametros> getParametroComp() {
 		StringBuilder sql = new StringBuilder();
@@ -71,13 +71,25 @@ public class GmParParametroDao extends GenericDao<GmParParametros, Long> {
 	@SuppressWarnings("unchecked")
 	public static List<GmParParametros> getParametroByDes(String grupo) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("select o from GmParParametros o where upper(o.parDes) like '%'||:grupo||'%' and o.carIdPad is null and o.estado = 'ACT' order by o.parDes");
+		sql.append("select o from GmParParametros o where (upper(o.parDes) like '%'||:grupo||'%' or upper(o.parValor) like '%'||:grupo||'%') and o.estado = 'ACT' order by o.parDes");
 		Query query = em.createQuery(sql.toString());
 		query.setParameter("grupo", grupo);
 		List<GmParParametros> result = query.getResultList();
 		return result == null || result.isEmpty() ? null : result;
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	public static List<GmParParametros> getParametroByDes(String grupo,
+			String estado) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select o from GmParParametros o where (upper(o.parDes) like '%'||:grupo||'%' or upper(o.parValor) like '%'||:grupo||'%') and o.estado = :est order by o.parDes");
+		Query query = em.createQuery(sql.toString());
+		query.setParameter("grupo", grupo);
+		query.setParameter("est", estado);
+		List<GmParParametros> result = query.getResultList();
+		return result == null || result.isEmpty() ? null : result;
+	}
+
 	@SuppressWarnings("unchecked")
 	public boolean valParametroByDes(String grupo) {
 		StringBuilder sql = new StringBuilder();
@@ -85,7 +97,7 @@ public class GmParParametroDao extends GenericDao<GmParParametros, Long> {
 		Query query = em.createQuery(sql.toString());
 		query.setParameter("grupo", grupo);
 		List<GmParParametros> result = query.getResultList();
-		
+
 		return result == null || result.isEmpty() ? false : true;
 	}
 

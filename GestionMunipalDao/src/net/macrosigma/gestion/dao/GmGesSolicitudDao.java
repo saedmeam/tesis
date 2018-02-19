@@ -1,5 +1,6 @@
 package net.macrosigma.gestion.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityTransaction;
@@ -56,7 +57,7 @@ public class GmGesSolicitudDao extends GenericDao<GmGesSolicitud, Long> {
 		List<GmGesSolicitud> result = query.getResultList();
 		return result;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public static List<GmGesSolicitud> getSolbyTipSolValEst(GmSegUsuario usu,
 			GmParParametros tipSol) {
@@ -66,12 +67,57 @@ public class GmGesSolicitudDao extends GenericDao<GmGesSolicitud, Long> {
 		select += "and (o.solUsu = :usu or :usu = null)";
 		select += "and o.estado = 'ACT'";
 		select += "and o.solEstado in ('ING','OBS','PRO')";
-		
+
 		sql.append(select);
 		Query query = em.createQuery(sql.toString());
 		query.setParameter("tipSol", tipSol);
 		query.setParameter("usu", usu);
 
+		List<GmGesSolicitud> result = query.getResultList();
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<GmGesSolicitud> getPreFreAct(GmSegUsuario usu, String id,
+			String res, String tipsol, String carr, String estado, Date fecdes,
+			Date fechas) {
+		StringBuilder sql = new StringBuilder();
+		String select = "";
+		select = "select o from GmGesSolicitud o where o.estado = 'ACT' ";
+		if (usu != null)
+			select += "and (o.solUsu = :usu or :usu = null)";
+		if (id != null)
+			select += " and o.solUsu.usuUsuario like '%'||:id||'%' ";
+		if (res != null)
+			select += " and concat(o.solUsuAsig.usuNombres,' ',o.solUsuAsig.usuApellidos ) like '%'||:res||'%' ";
+		if (tipsol != null)
+			select += " and o.solTipoSolicitud.par_id = :tipsol ";
+		if (carr != null)
+			select += " and o.solCarrera.par_id = :carr ";
+		if (estado != null)
+			select += " and o.solEstado= :estado ";
+		if (fecdes != null)
+			select += " and to_date(to_char(o.fechaIngreso,'ddmmyyyy'),'ddmmyyyy') >= :fecdes ";
+		if (fechas != null)
+			select += " and to_date(to_char(o.fechaIngreso,'ddmmyyyy'),'ddmmyyyy') <= :fechas ";
+		sql.append(select);
+		Query query = em.createQuery(sql.toString());
+		if (usu != null)
+			query.setParameter("usu", usu);
+		if (id != null)
+			query.setParameter("id", id);
+		if (res != null)
+			query.setParameter("res", res);
+		if (tipsol != null)
+			query.setParameter("tipsol", Long.parseLong(tipsol));
+		if (carr != null)
+			query.setParameter("carr", Long.parseLong(carr));
+		if (estado != null)
+			query.setParameter("estado", estado);
+		if (fecdes != null)
+			query.setParameter("fecdes", fecdes);
+		if (fechas != null)
+			query.setParameter("fechas", fechas);
 		List<GmGesSolicitud> result = query.getResultList();
 		return result;
 	}
@@ -88,7 +134,7 @@ public class GmGesSolicitudDao extends GenericDao<GmGesSolicitud, Long> {
 		List<GmGesSolicitud> result = query.getResultList();
 		return result;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<GmGesSolicitud> getPreFreAct() {
 		StringBuilder sql = new StringBuilder();

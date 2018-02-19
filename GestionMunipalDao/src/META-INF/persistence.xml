@@ -5,6 +5,7 @@
 	version="2.0">
 	<persistence-unit name="GestionMunipalDao">
 		<non-jta-data-source>java:jboss/municipio</non-jta-data-source>
+		<class>net.macrosigma.gestion.ent.GmGesContenidoTipSolicitud</class>
 		<class>net.macrosigma.gestion.ent.GmGesDepartamento</class>
 		<class>net.macrosigma.gestion.ent.GmGesDepartamentoCarrera</class>
 		<class>net.macrosigma.gestion.ent.GmGesDepartamentoTipSolicitud</class>
@@ -36,7 +37,7 @@
 			<property name="hibernate.show_sql" value="false" />
 			<property name="hibernate.format_sql" value="false" />
 			<property name="hibernate.use_sql_comments" value="false" />
-			<!-- <property name="hibernate.hbm2ddl.auto" value="update" /> --> 
+			<property name="hibernate.hbm2ddl.auto" value="update" />  
 		</properties>
 	</persistence-unit>
 </persistence>

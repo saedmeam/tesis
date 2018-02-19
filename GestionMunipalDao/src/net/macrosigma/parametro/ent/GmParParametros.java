@@ -18,6 +18,7 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Where;
 
+import net.macrosigma.gestion.ent.GmGesContenidoTipSolicitud;
 import net.macrosigma.gestion.ent.GmGesDepartamentoCarrera;
 import net.macrosigma.gestion.ent.GmGesDepartamentoTipSolicitud;
 import net.macrosigma.gestion.ent.GmGesSolicitud;
@@ -59,6 +60,10 @@ public class GmParParametros extends EntityBase {
 	@Where(clause = "aud_estado = 'ACT'")
 	private List<GmGesDepartamentoCarrera> depCarreraId;
 
+	@OneToMany(mappedBy = "contTipSolId")
+	@Where(clause = "aud_estado = 'ACT'")
+	private List<GmGesContenidoTipSolicitud> contTipSolId;
+
 	@OneToMany(mappedBy = "depTipSolCarreraId")
 	@Where(clause = "aud_estado = 'ACT'")
 	private List<GmGesDepartamentoTipSolicitud> depTipSolCarreraId;
@@ -66,7 +71,7 @@ public class GmParParametros extends EntityBase {
 	@OneToMany(mappedBy = "depTipSolTipSolId")
 	@Where(clause = "aud_estado = 'ACT'")
 	private List<GmGesDepartamentoTipSolicitud> depTipSolTipSolId;
-	
+
 	@Transient
 	private GmGesDepartamentoTipSolicitud depTipSolUsuId;
 
